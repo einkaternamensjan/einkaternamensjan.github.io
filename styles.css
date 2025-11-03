@@ -2,8 +2,8 @@
 html, body {
   margin: 0;
   min-height: 100vh;
-  background: #000;
-  color: #fff;
+  background: #1f2b21;  /* Darker earthy green */
+  color: #e8d7bf;       /* Sandy beige */
   font-family: "Times New Roman", Times, serif;
   text-align: center;
 }
@@ -20,14 +20,14 @@ header {
   justify-content: center;
   gap: 0.5rem;
   flex-wrap: nowrap;
-  max-width: 800px;
+  max-width: 20cm;  /* Limited to 20cm */
   margin: 0 auto;
 }
 
 header h1 {
   margin: 0;
   font-size: 2.5rem;
-  color: #fff;
+  color: #e8d7bf;  /* Sandy beige */
   text-shadow: 0 2px 4px rgba(0,0,0,0.7);
 }
 
@@ -45,7 +45,7 @@ header p a {
 /* === Navigation (Contents list) === */
 nav {
   margin: 2rem auto;
-  max-width: 800px;
+  max-width: 20cm;  /* Limited to 20cm */
   text-align: center;
 }
 
@@ -83,45 +83,14 @@ main img {
 
 /* Links */
 a, a:visited {
-  color: red;
+  color: #e8d7bf;  /* Sandy beige - same as text */
 }
 a:hover, a:focus {
-  color: #ff6666;
+  color: #f5e6d3;  /* Slightly lighter beige on hover */
   text-decoration: underline;
 }
 
 /* === Language switcher (top-right corner) === */
 .lang-switch {
   position: fixed;
-  top: 1rem;
-  right: 1rem;
-  display: inline-flex;
-  gap: 0.5rem;
-  background: rgba(255,255,255,0.06);
-  padding: 0.25rem;
-  border-radius: 6px;
-  z-index: 9999;
-}
-
-.lang-switch button {
-  background: transparent;
-  border: 1px solid rgba(255,255,255,0.12);
-  color: #fff;
-  padding: 0.35rem 0.6rem;
-  font-family: inherit;
-  cursor: pointer;
-  border-radius: 4px;
-}
-
-.lang-switch button[aria-pressed="true"] {
-  background: rgba(255,255,255,0.12);
-  border-color: rgba(255,255,255,0.22);
-}
-
-/* === Responsive behavior === */
-@media (max-width: 768px) {
-  main {
-    max-width: 90%;
-    text-align: left;
-  }
-}
+  top: 1
