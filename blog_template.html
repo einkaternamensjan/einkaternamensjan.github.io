@@ -474,7 +474,7 @@
       footnotes.forEach(function(footnote) {
         var li = document.createElement('li');
         li.id = 'fn-' + postId + '-' + footnote.number;
-        li.innerHTML = escapeHtml(footnote.text) + ' <a href="#fnref-' + postId + '-' + footnote.number + '" class="footnote-backref">↩</a>';
+        li.innerHTML = sanitizeUserHtml(footnote.text) + ' <a href="#fnref-' + postId + '-' + footnote.number + '" class="footnote-backref">↩</a>';
         ol.appendChild(li);
       });
       
@@ -830,7 +830,7 @@
         var date = new Date(comment.date);
         var dateStr = date.toLocaleDateString() + ' at ' + date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
         
-        li.innerHTML = '<div class="comment-header"><span class="comment-author">' + escapeHtml(comment.author) + '</span><span class="comment-date">' + dateStr + '</span></div><div class="comment-text">' + escapeHtml(comment.text) + '</div>';
+        li.innerHTML = '<div class="comment-header"><span class="comment-author">' + escapeHtml(comment.author) + '</span><span class="comment-date">' + dateStr + '</span></div><div class="comment-text">' + sanitizeUserHtml(comment.text) + '</div>';
         commentsList.appendChild(li);
       });
       
@@ -842,6 +842,51 @@
       var div = document.createElement('div');
       div.textContent = text;
       return div.innerHTML;
+    }
+
+    // Sanitize user-supplied content but allow <em> and <strong> (no attributes).
+    // Also convert simple markdown *italics* and **bold** into those tags.
+    function sanitizeUserHtml(input) {
+      if (!input) return '';
+      // Convert **bold** then *italics* (simple, non-nested handling)
+      var text = input.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+      text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
+
+      // Parse and rebuild allowing only EM and STRONG tags, stripping attributes
+      var container = document.createElement('div');
+      container.innerHTML = text;
+
+      function sanitizeNode(node) {
+        if (node.nodeType === Node.TEXT_NODE) {
+          var d = document.createElement('div');
+          d.textContent = node.textContent;
+          return d.innerHTML;
+        } else if (node.nodeType === Node.ELEMENT_NODE) {
+          var tag = node.tagName.toLowerCase();
+          if (tag === 'em' || tag === 'strong') {
+            var inner = '';
+            for (var i = 0; i < node.childNodes.length; i++) {
+              inner += sanitizeNode(node.childNodes[i]);
+            }
+            return '<' + tag + '>' + inner + '</' + tag + '>';
+          } else {
+            // For any other tag, omit the tag but sanitize children
+            var inner = '';
+            for (var i = 0; i < node.childNodes.length; i++) {
+              inner += sanitizeNode(node.childNodes[i]);
+            }
+            return inner;
+          }
+        } else {
+          return '';
+        }
+      }
+
+      var out = '';
+      for (var i = 0; i < container.childNodes.length; i++) {
+        out += sanitizeNode(container.childNodes[i]);
+      }
+      return out;
     }
 
     // Add footnote functionality

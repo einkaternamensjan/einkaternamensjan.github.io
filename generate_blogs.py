@@ -37,12 +37,17 @@ with TEMPLATE_FILE.open("r", encoding="utf-8", errors="replace") as fh:
 # Replace markdown with HTML tags
 def compile_markdown(markdown: str):
     out = markdown
+    # Unescape escaped underscores in URLs (e.g. \_ -> _)
+    out = out.replace("\\_", "_")
     out = re.sub(r"### (.+?)\n", r"<h4>\1</h4>\n", out)
     out = re.sub(r"## (.+?)\n", r"<h3>\1</h3>\n", out)
     out = re.sub(r"https://([^\s<]+)(\s)", r"<a href='https://\1'>https://\1</a>\2", out)
     # handle fenced code blocks before turning newlines into <br>
     out = re.sub(r"```hs\n(.*?)```", r"<pre><code class='language-haskell'>\1</code></pre>", out, flags=re.DOTALL)
     out = re.sub(r"```(.*?)```", lambda m: "<pre><code>{}</code></pre>".format(m.group(1)), out, flags=re.DOTALL)
+    # Bold and italic (Markdown) -> HTML (only * syntax to avoid interfering with URLs containing underscores)
+    out = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", out)
+    out = re.sub(r"\*(.+?)\*", r"<em>\1</em>", out)
     out = out.replace("\r\n", "\n").replace("\r", "\n")
     out = out.replace("\n", "<br>")
     return out
@@ -52,6 +57,11 @@ assert compile_markdown("```hello```") == "<pre><code>hello</code></pre>"
 # function replaces trailing newline with <br>, adjust expected strings accordingly
 assert compile_markdown("## Title\n") == "<h3>Title</h3><br>"
 assert compile_markdown("### Subtitle\n") == "<h4>Subtitle</h4><br>"
+# Italics and bold
+assert compile_markdown("This is *italics*\n") == "This is <em>italics</em><br>"
+assert compile_markdown("This is **bold**\n") == "This is <strong>bold</strong><br>"
+# Links with escaped underscores
+assert compile_markdown("See https://de.wikipedia.org/wiki/Die\\_schlesischen\\_Weber\n") == "See <a href='https://de.wikipedia.org/wiki/Die_schlesischen_Weber'>https://de.wikipedia.org/wiki/Die_schlesischen_Weber</a><br>"
 
 blogs_compiled = list(map(compile_markdown, blogs))
 
