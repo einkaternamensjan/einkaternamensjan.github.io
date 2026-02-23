@@ -96,12 +96,13 @@ wedged in the chest.
 
 THERE IS A MAN IN THE MOON.
 
-"Let it turn to ashes"
+"Let it turn to ash"
 "I implore you!"
 
 THERE IS NO MAN IN THE MOON.
 
-In vain.
+In
+vain.
 
 First Published 23.02.2026
 Written in German

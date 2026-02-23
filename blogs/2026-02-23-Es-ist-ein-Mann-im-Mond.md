@@ -72,7 +72,7 @@ vor meinen Augen.
 Es ist ein MANN im Mond
 
 Die Chance ist fort, 
-ein Rückkehr gibt es für uns nicht.
+eine Rückkehr gibt es für uns nicht.
 
 Es ist ein MANN im MOND.
 
@@ -87,7 +87,7 @@ Das Blut gerinnt.
 ES IST EIN MANN IM MOND.
 
 "Peitschet uns aus, o Ihr großen Andern!"
-"Erbarmet uns unserer NICHT"
+"Erbarmet euch unser NICHT"
 
 ES IST EIN MANN IM MOND.
 
@@ -96,7 +96,7 @@ verkeilt in der Brust.
 
 ES IST EIN MANN IM MOND.
 
-"Laßet es sich in Aschen verwandeln"
+"Laßet es sich in Asche verwandeln"
 "Ich bitte Euch an!"
 
 ES IST KEIN MANN IM MOND.
