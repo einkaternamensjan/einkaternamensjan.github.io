@@ -93,4 +93,39 @@ a:hover, a:focus {
 /* === Language switcher (top-right corner) === */
 .lang-switch {
   position: fixed;
-  top: 1
+  top: 1rem;
+  right: 1rem;
+  z-index: 1000;
+}
+
+/* Footnote bubble (interactive hover) */
+.footnote-bubble {
+  background: rgba(24,24,24,0.95);
+  color: #f5f1e6;
+  padding: 0.6rem 0.8rem;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+  max-width: 36ch;
+  font-size: 0.92rem;
+  line-height: 1.4;
+  pointer-events: auto;
+}
+
+.footnote-bubble a {
+  color: #9fc8ff;
+}
+
+.footnote-ref {
+  cursor: pointer;
+}
+
+@media (max-width: 640px) {
+  .footnote-bubble {
+    max-width: 80vw;
+    left: 8px !important;
+    right: 8px !important;
+    position: fixed !important;
+    top: auto !important;
+    bottom: 8px !important;
+  }
+}

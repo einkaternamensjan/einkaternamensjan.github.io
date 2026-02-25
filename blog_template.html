@@ -351,6 +351,8 @@
         
         // Add footnotes section
         renderFootnotes(article.id);
+        // Attach hover handlers for interactive footnotes
+        attachFootnoteHoverHandlers(article);
         
         // Add comment section if it doesn't exist
         if (!article.querySelector('.comment-section')) {
@@ -423,6 +425,8 @@
     function processFootnotes(article) {
       var articleId = article.id;
       var content = article.innerHTML;
+      // Normalize caret-style footnote markers [^1] -> [1]
+      content = content.replace(/\[\^(\d+)\]/g, '[$1]');
       
       // Look for footnote patterns like [1], [2], etc.
       var footnotePattern = /\[(\d+)\]/g;
@@ -487,6 +491,8 @@
       } else {
         article.appendChild(footnotesSection);
       }
+      // Ensure hover handlers are attached to any new .footnote-ref elements
+      attachFootnoteHoverHandlers(article);
     }
 
     function updateLanguageButtons() {
@@ -889,6 +895,111 @@
       return out;
     }
 
+    // Interactive footnote bubble helpers
+    var _currentFootnoteBubble = null;
+
+    function mmToPx(mm) {
+      var el = document.createElement('div');
+      el.style.position = 'absolute';
+      el.style.left = '-9999px';
+      el.style.width = mm + 'mm';
+      document.body.appendChild(el);
+      var px = el.getBoundingClientRect().width;
+      document.body.removeChild(el);
+      return px;
+    }
+
+    function attachFootnoteHoverHandlers(article) {
+      try {
+        var refs = article.querySelectorAll('.footnote-ref');
+        refs.forEach(function(ref) {
+          ref.addEventListener('mouseenter', onFootnoteRefEnter);
+          ref.addEventListener('mouseleave', onFootnoteRefLeave);
+          ref.addEventListener('focus', onFootnoteRefEnter);
+          ref.addEventListener('blur', onFootnoteRefLeave);
+        });
+      } catch (e) {
+        console.error('attachFootnoteHoverHandlers error', e);
+      }
+    }
+
+    function onFootnoteRefEnter(e) {
+      showFootnoteBubble(e.currentTarget);
+    }
+
+    function onFootnoteRefLeave(/* e */) {
+      hideFootnoteBubble();
+    }
+
+    function showFootnoteBubble(ref) {
+      hideFootnoteBubble();
+      if (!ref || !ref.id) return;
+      var m = ref.id.match(/^fnref-(.+)-(\d+)$/);
+      if (!m) return;
+      var postId = m[1];
+      var num = parseInt(m[2], 10);
+      var content = getFootnoteContent(postId, num);
+      if (!content) return;
+
+      var bubble = document.createElement('div');
+      bubble.className = 'footnote-bubble';
+      bubble.innerHTML = content;
+      document.body.appendChild(bubble);
+
+      // Position bubble 10mm to the right of the main column when possible
+      var rect = ref.getBoundingClientRect();
+      bubble.style.position = 'absolute';
+      bubble.style.zIndex = 99999;
+      bubble.style.pointerEvents = 'auto';
+      bubble.style.opacity = 0;
+      bubble.style.transition = 'opacity 0.12s ease';
+
+      requestAnimationFrame(function() {
+        var left = rect.right + 8 + window.scrollX;
+        try {
+          var main = document.querySelector('main');
+          if (main) {
+            var mainRect = main.getBoundingClientRect();
+            var tenMm = mmToPx(10);
+            left = mainRect.right + tenMm + window.scrollX;
+          }
+        } catch (e) {
+          // fallback to reference-right behavior
+        }
+        var top = rect.top + window.scrollY;
+        // prevent overflow to the right
+        if (left + bubble.offsetWidth + 10 > window.innerWidth + window.scrollX) {
+          left = rect.left - bubble.offsetWidth - 8 + window.scrollX;
+        }
+        // keep bubble within viewport vertically
+        if (top + bubble.offsetHeight > window.scrollY + window.innerHeight) {
+          top = Math.max(window.scrollY + 8, window.scrollY + window.innerHeight - bubble.offsetHeight - 8);
+        }
+        bubble.style.left = left + 'px';
+        bubble.style.top = top + 'px';
+        bubble.style.opacity = 1;
+      });
+
+      _currentFootnoteBubble = bubble;
+    }
+
+    function hideFootnoteBubble() {
+      if (_currentFootnoteBubble) {
+        _currentFootnoteBubble.remove();
+        _currentFootnoteBubble = null;
+      }
+    }
+
+    function getFootnoteContent(postId, number) {
+      // Prefer the rendered footnote <li> if present
+      var el = document.getElementById('fn-' + postId + '-' + number);
+      if (el) return el.innerHTML;
+      // Fallback to stored data
+      var arr = footnotesStore[postId] || [];
+      var f = arr.find(function(x) { return x.number === number; });
+      return f ? sanitizeUserHtml(f.text) : null;
+    }
+
     // Add footnote functionality
     window.addFootnote = function(postId, number, text) {
       if (!footnotesStore[postId]) {
@@ -916,6 +1027,9 @@
       
       saveFootnotesToStorage(footnotesStore);
       renderFootnotes(postId);
+      // After rendering, attach hover handlers for this article so bubbles work immediately
+      var article = document.getElementById(postId);
+      if (article) attachFootnoteHoverHandlers(article);
     };
   </script>
 </body>
