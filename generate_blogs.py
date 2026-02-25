@@ -1,4 +1,3 @@
-import os
 import re
 import json
 from pathlib import Path
@@ -13,7 +12,11 @@ if not BLOGS_DIR.exists():
     print(f"blogs folder not found: {BLOGS_DIR}")
     raise SystemExit(1)
 
-blog_paths = [p.name for p in BLOGS_DIR.iterdir() if p.suffix == ".md" and not p.name.startswith("_")]
+blog_paths = [
+    p.name
+    for p in BLOGS_DIR.iterdir()
+    if p.suffix == ".md" and not p.name.startswith("_")
+]
 
 # Start with the latest blog
 blog_paths = list(reversed(blog_paths))
@@ -44,6 +47,7 @@ if not TEMPLATE_FILE.exists():
 with TEMPLATE_FILE.open("r", encoding="utf-8", errors="replace") as fh:
     template = fh.read()
 
+
 # Replace markdown with HTML tags
 def compile_markdown(markdown: str):
     out = markdown
@@ -51,16 +55,29 @@ def compile_markdown(markdown: str):
     out = out.replace("\\_", "_")
     out = re.sub(r"### (.+?)\n", r"<h4>\1</h4>\n", out)
     out = re.sub(r"## (.+?)\n", r"<h3>\1</h3>\n", out)
-    out = re.sub(r"https://([^\s<]+)(\s)", r"<a href='https://\1'>https://\1</a>\2", out)
+    out = re.sub(
+        r"https://([^\s<]+)(\s)", r"<a href='https://\1'>https://\1</a>\2", out
+    )
     # handle fenced code blocks before turning newlines into <br>
-    out = re.sub(r"```hs\n(.*?)```", r"<pre><code class='language-haskell'>\1</code></pre>", out, flags=re.DOTALL)
-    out = re.sub(r"```(.*?)```", lambda m: "<pre><code>{}</code></pre>".format(m.group(1)), out, flags=re.DOTALL)
+    out = re.sub(
+        r"```hs\n(.*?)```",
+        r"<pre><code class='language-haskell'>\1</code></pre>",
+        out,
+        flags=re.DOTALL,
+    )
+    out = re.sub(
+        r"```(.*?)```",
+        lambda m: "<pre><code>{}</code></pre>".format(m.group(1)),
+        out,
+        flags=re.DOTALL,
+    )
     # Bold and italic (Markdown) -> HTML (only * syntax to avoid interfering with URLs containing underscores)
     out = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", out)
     out = re.sub(r"\*(.+?)\*", r"<em>\1</em>", out)
     out = out.replace("\r\n", "\n").replace("\r", "\n")
     out = out.replace("\n", "<br>")
     return out
+
 
 # Inline testing
 assert compile_markdown("```hello```") == "<pre><code>hello</code></pre>"
@@ -71,22 +88,27 @@ assert compile_markdown("### Subtitle\n") == "<h4>Subtitle</h4><br>"
 assert compile_markdown("This is *italics*\n") == "This is <em>italics</em><br>"
 assert compile_markdown("This is **bold**\n") == "This is <strong>bold</strong><br>"
 # Links with escaped underscores
-assert compile_markdown("See https://de.wikipedia.org/wiki/Die\\_schlesischen\\_Weber\n") == "See <a href='https://de.wikipedia.org/wiki/Die_schlesischen_Weber'>https://de.wikipedia.org/wiki/Die_schlesischen_Weber</a><br>"
+assert (
+    compile_markdown("See https://de.wikipedia.org/wiki/Die\\_schlesischen\\_Weber\n")
+    == "See <a href='https://de.wikipedia.org/wiki/Die_schlesischen_Weber'>https://de.wikipedia.org/wiki/Die_schlesischen_Weber</a><br>"
+)
 
 # Compile markdown content for each blog
 for entry in blogs_data:
     entry["compiled"] = compile_markdown(entry["raw"])
 
+
 # Create slug from filename for use as article ID
 def create_slug(filename):
     # Remove .md extension and convert to URL-friendly slug
-    slug = filename.replace('.md', '')
-    slug = re.sub(r'[^a-z0-9]+', '-', slug.lower())
-    slug = slug.strip('-')
+    slug = filename.replace(".md", "")
+    slug = re.sub(r"[^a-z0-9]+", "-", slug.lower())
+    slug = slug.strip("-")
     # Ensure slug doesn't start with a number
     if slug and slug[0].isdigit():
-        slug = 'post-' + slug
+        slug = "post-" + slug
     return slug
+
 
 # Create the contents page at the top of the blog which links to each blog on the page
 blog_contents = [f"<a href='#{create_slug(name)}'>- {name}</a>" for name in blog_paths]
@@ -107,7 +129,11 @@ for entry in blogs_data:
             text_js = json.dumps(fn["text"])
             calls.append(f'  window.addFootnote("{slug}", {fn["number"]}, {text_js});')
 
-        script_block = "<script>document.addEventListener('DOMContentLoaded', function() {\n" + "\n".join(calls) + "\n});</script>"
+        script_block = (
+            "<script>document.addEventListener('DOMContentLoaded', function() {\n"
+            + "\n".join(calls)
+            + "\n});</script>"
+        )
 
     article_html = f'<article id="{slug}">\n{blog}\n{script_block}\n</article>'
     blogs_with_articles.append(article_html)

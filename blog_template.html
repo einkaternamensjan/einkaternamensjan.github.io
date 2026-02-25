@@ -336,7 +336,7 @@
         var articleText = clone.textContent.trim();
         var detectedLang = detectLanguage(articleText);
         articleLanguages.set(article.id, detectedLang);
-        console.log('Article "' + article.id + '" detected language:', detectedLang);
+        // language detection result: detectedLang
         
         if (!commentsStore[article.id]) {
           commentsStore[article.id] = [];
@@ -416,7 +416,7 @@
         }
       });
       
-      console.log('Language detection scores - German:', germanScore, 'English:', englishScore);
+      // language detection scores computed
       
       // Return the language with higher score, default to English
       return germanScore > englishScore ? 'de' : 'en';
