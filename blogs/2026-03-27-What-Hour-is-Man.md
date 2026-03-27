@@ -1,0 +1,2 @@
+
+The unease of unknowing begets the indomitable desire for wisdom. This is not capable, however, of concealing the perceived emptiness of being. The paralysis that overcomes one cannot be conquered, but leads solely into obscurity. The human being, confronted by his own existence, finds his purpose merely in the transcendence of his existence. Time temporalizes itself in that moment of his being, and his task consists in reversing this. He must overcome the forces of time and place himself in their stead. He must *temporalize* himself.
