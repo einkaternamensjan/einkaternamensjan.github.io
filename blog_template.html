@@ -599,9 +599,7 @@
         var originalText = elem.textContent.trim();
         if (originalText.length > 0) {
           translateWithLibreTranslate(originalText, targetLang, sourceLang).then(function(translated) {
-            if (translated) {
-              elem.textContent = translated;
-            }
+            elem.textContent = translated || elem.textContent;
             translatedCount++;
             
             if (translatedCount === totalCount) {
@@ -657,7 +655,7 @@
 
       if (node.tagName === 'CODE' || node.tagName === 'PRE' || 
           node.tagName === 'SCRIPT' || node.tagName === 'STYLE' ||
-          node.tagName === 'A' || node.tagName === 'H1') {
+          node.tagName === 'A') {
         return;
       }
 
