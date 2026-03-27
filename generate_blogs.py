@@ -38,7 +38,18 @@ for blog_path in blog_paths:
     # Remove footnote definition lines from the content
     raw = re.sub(r"^\[\^\d+\]:.*(?:\n|$)", "", raw, flags=re.MULTILINE)
 
-    blogs_data.append({"name": blog_path, "raw": raw, "footnotes": footnotes})
+    # Extract title from filename: remove date prefix, .md, replace - with space, title case
+    title = blog_path
+    # Remove .md
+    title = title.replace('.md', '')
+    # Remove date prefix (YYYY-MM-DD-)
+    title = re.sub(r'^\d{4}-\d{2}-\d{2}-', '', title)
+    # Replace - with space
+    title = title.replace('-', ' ')
+    # Title case
+    title = title.title()
+
+    blogs_data.append({"name": blog_path, "raw": raw, "footnotes": footnotes, "title": title})
 
 if not TEMPLATE_FILE.exists():
     print(f"Template not found: {TEMPLATE_FILE}")
@@ -135,7 +146,7 @@ for entry in blogs_data:
             + "\n});</script>"
         )
 
-    article_html = f'<article id="{slug}">\n{blog}\n{script_block}\n</article>'
+    article_html = f'<article id="{slug}">\n<h1 class="post-title">{entry["title"]}</h1>\n{blog}\n{script_block}\n</article>'
     blogs_with_articles.append(article_html)
 
 blog_html = template.replace("###BLOGS###", "\n<hr>\n".join(blogs_with_articles))
