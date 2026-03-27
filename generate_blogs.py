@@ -38,10 +38,14 @@ for blog_path in blog_paths:
     # Remove footnote definition lines from the content
     raw = re.sub(r"^\[\^\d+\]:.*(?:\n|$)", "", raw, flags=re.MULTILINE)
 
-    # Extract title from the first line of the content
-    lines = raw.split('\n', 1)
-    title = lines[0].strip() if lines else ""
-    raw = lines[1] if len(lines) > 1 else ""
+    # Extract title from filename: remove .md, remove date prefix if present, replace - with space, title case
+    title = blog_path.replace('.md', '')
+    # Remove date prefix (YYYY-MM-DD-) if present
+    title = re.sub(r'^\d{4}-\d{2}-\d{2}-', '', title)
+    # Replace - with space
+    title = title.replace('-', ' ')
+    # Title case
+    title = title.title()
 
     blogs_data.append({"name": blog_path, "raw": raw, "footnotes": footnotes, "title": title})
 
