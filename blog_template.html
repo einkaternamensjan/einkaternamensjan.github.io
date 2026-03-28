@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Blog - einkaternamensjan</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="###STYLESHEET###">
   <style>
     /* Language toggle */
     .language-toggle {
@@ -237,7 +237,7 @@
 
   <header>
     <h1>Blog</h1>
-    <p><a href="index.html">Back to Home</a></p>
+    <p><a id="back-home-link" href="index.html">Back to Home</a></p>
   </header>
   <nav aria-label="Contents">
     <h2>Contents</h2>
@@ -370,10 +370,31 @@
       });
 
       updateLanguageButtons();
-      if (currentLang === 'de') {
-        translateAllArticles('de');
-      } else if (currentLang === 'en') {
-        translateAllArticles('en');
+
+      var backHomeLink = document.getElementById('back-home-link');
+      if (backHomeLink) {
+        var path = window.location.pathname;
+        if (path.includes('/posts/')) {
+          backHomeLink.href = '../blogs.html';
+          backHomeLink.textContent = 'Back to Blog Index';
+        } else if (path.endsWith('/blogs.html') || path.endsWith('/blogs/')) {
+          backHomeLink.href = 'index.html';
+          backHomeLink.textContent = 'Back to Home';
+        } else {
+          backHomeLink.href = 'index.html';
+          backHomeLink.textContent = 'Back to Home';
+        }
+      }
+
+      if (document.body.classList.contains('bilingual-mode')) {
+        var toggle = document.querySelector('.language-toggle');
+        if (toggle) toggle.style.display = 'none';
+      } else {
+        if (currentLang === 'de') {
+          translateAllArticles('de');
+        } else if (currentLang === 'en') {
+          translateAllArticles('en');
+        }
       }
     });
 
@@ -528,6 +549,9 @@
     }
 
     function translateAllArticles(targetLang) {
+      if (document.body.classList.contains('bilingual-mode')) {
+        return;
+      }
       var articles = document.querySelectorAll('main article');
       articles.forEach(function(article) {
         var sourceLang = articleLanguages.get(article.id) || 'en';

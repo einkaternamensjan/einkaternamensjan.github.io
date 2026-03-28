@@ -1,0 +1,1116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Blog - einkaternamensjan</title>
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    /* Language toggle */
+    .language-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      display: flex;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.1);
+      padding: 0.5rem;
+      border-radius: 6px;
+      backdrop-filter: blur(10px);
+    }
+
+    .language-toggle button {
+      padding: 0.5rem 1rem;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 4px;
+      color: inherit;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 0.9rem;
+    }
+
+    .language-toggle button:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    .language-toggle button.active {
+      background: rgba(255,255,255,0.3);
+      border-color: rgba(255,255,255,0.4);
+      font-weight: bold;
+    }
+
+    /* Footnotes styling */
+    .footnotes {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 2px solid rgba(255,255,255,0.2);
+    }
+
+    .footnotes h4 {
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+    }
+
+    .footnotes ol {
+      padding-left: 1.5rem;
+      line-height: 1.8;
+    }
+
+    .footnotes li {
+      margin-bottom: 0.75rem;
+    }
+
+    .footnote-ref {
+      color: #64a0ff;
+      text-decoration: none;
+      font-weight: bold;
+      vertical-align: super;
+      font-size: 0.8em;
+      padding: 0 0.2em;
+    }
+
+    .footnote-ref:hover {
+      text-decoration: underline;
+    }
+
+    .footnote-backref {
+      color: #64a0ff;
+      text-decoration: none;
+      margin-left: 0.5rem;
+      font-size: 0.9em;
+    }
+
+    .footnote-backref:hover {
+      text-decoration: underline;
+    }
+
+    /* Comment section styling */
+    .comment-section {
+      max-width: 20cm;
+      margin: 3rem auto 4rem;
+      padding: 1.5rem;
+      background: rgba(255,255,255,0.05);
+      border-radius: 6px;
+    }
+    
+    .comment-section h3 {
+      margin-top: 0;
+      margin-bottom: 1.5rem;
+      font-size: 1.5rem;
+    }
+
+    /* Comment form */
+    .comment-form {
+      margin-bottom: 2rem;
+      padding: 1rem;
+      background: rgba(255,255,255,0.03);
+      border-radius: 4px;
+    }
+
+    .comment-form input,
+    .comment-form textarea {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 4px;
+      color: inherit;
+      font-family: inherit;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+
+    .comment-form textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .comment-form button {
+      padding: 0.75rem 1.5rem;
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 4px;
+      color: inherit;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .comment-form button:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    .comment-form button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* Comments list */
+    .comments-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .comment {
+      padding: 1rem;
+      margin-bottom: 1rem;
+      background: rgba(255,255,255,0.03);
+      border-left: 3px solid rgba(255,255,255,0.3);
+      border-radius: 4px;
+    }
+
+    .comment-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    .comment-author {
+      font-weight: bold;
+    }
+
+    .comment-date {
+      font-style: italic;
+    }
+
+    .comment-text {
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    .no-comments {
+      text-align: center;
+      padding: 2rem;
+      opacity: 0.6;
+      font-style: italic;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 1rem;
+      opacity: 0.6;
+    }
+
+    /* Article spacing */
+    article {
+      margin-bottom: 4rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    article:last-of-type {
+      border-bottom: none;
+    }
+
+    /* Translation notice */
+    .translation-notice {
+      background: rgba(100, 150, 255, 0.15);
+      border-left: 3px solid rgba(100, 150, 255, 0.5);
+      padding: 0.75rem 1rem;
+      margin-bottom: 1rem;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+
+    .translation-error {
+      background: rgba(255, 100, 100, 0.15);
+      border-left: 3px solid rgba(255, 100, 100, 0.5);
+      padding: 0.75rem 1rem;
+      margin-bottom: 1rem;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body class="bilingual-mode">
+  <div class="language-toggle">
+    <button class="active" id="lang-en">English</button>
+    <button id="lang-de">Deutsch</button>
+  </div>
+
+  <header>
+    <h1>Blog</h1>
+    <p><a id="back-home-link" href="index.html">Back to Home</a></p>
+  </header>
+  <nav aria-label="Contents">
+    <h2>Contents</h2>
+    <a href='#post-2026-02-03-homeland-my-sorrow'>- EN: Homeland My Sorrow</a><br><a href='#post-2026-02-03-heimat-meiner-trauer'>- DE: Heimat Meiner Trauer</a>
+  </nav>
+  <main>
+    <div class='group-header'><h1>Homeland My Sorrow (2026-02-03)</h1><p class='group-subtitle'>Bilingual overview with side-by-side panes.</p></div><nav aria-label='Post languages'><span class='lang-chip'><a href='#post-2026-02-03-homeland-my-sorrow'>- EN</a></span><span class='lang-chip'><a href='#post-2026-02-03-heimat-meiner-trauer'>- DE</a></span></nav><div class='bilingual-layout'><article id='post-2026-02-03-homeland-my-sorrow' class='bilingual-column lang-en'><h2>English</h2><h1 class='post-title'>Homeland My Sorrow</h1><p class='post-date'>2026-02-03</p><p>We live in a time in which the concept of Heimat is very important to many people. They look around in this ever-changing, ever-faster-spinning world, and grasp for something solid, so that they are not swept away by the waves of time. But in this case, does this term or this understanding of Heimat not bring us more problems than it can solve? The suggestion that Heimat is something inherent, which dwells within all people, seems to me more fateful than helpful. Especially in a time in which nothing remains standing for long, or rather is allowed to remain standing, and is instead subjugated by the perpetual progress of the world.</p>
+<p>When one thinks of one's Heimat, some things might immediately come to mind. For some it is the farmhouse that stands somewhere in the countryside, in a hidden valley, far from civilization. For some it might also be a city in which they grew up. But if one thinks a bit longer about the concept of Heimat, it quickly becomes apparent that it is not all that easy to explain what Heimat actually is. Heimat can also be something totally abstract. For those who have been displaced, the concept of Heimat can simply be associated with people; it does not have to be based on any physical constructs.</p>
+<p>For Adorno, in his work "Minima Moralia", written in exile, we see that Heimat requires the mother tongue of the inhabitant in order to be any kind of Heimat at all. He writes: "<em>Every intellectual in emigration, without any exception, is damaged, and does well to recognize this himself [...] He lives in an environment that must remain incomprehensible to him, [...] he is constantly in error. [...] His language is expropriated and the historical dimension from which he drew his strength is cut off.[^1]</em>" When he writes that his environment <em>must</em> remain incomprehensible to him, the question arises quite openly: why? I believe the answer lies in a section of Hegel's famous work "Phenomenology of Spirit", namely in the fourth part of the book, "The Truth of Self-Certainty". Hegel writes here: "<em>Self-consciousness exists in and for itself when, and by the fact that, it so exists for another; that is, it exists only in being acknowledged.[^2]</em>" We can also apply this principle to the culture of a people or tribe, since culture here functions as a kind of <em>supra-self-consciousness</em> of the people. By doing this, we see that it only exists insofar as it is foreign to another, to an outsider. It <em>is</em> only as something acknowledged. If all the cultures of the world belonged to one giant amalgam, indistinguishable, then one could no longer acknowledge them at all, for there would be nothing here to acknowledge, only the whole itself. They need to exclude outsiders in order to preserve their existence. At this point, however, I do not want to spend too much time on this topic, because we will return to it at a later point in the text.</p>
+<p>Just over two years ago I emigrated, to a country that was almost completely, but not entirely, foreign to me. At the time I naturally left my country of origin without the intention of ever returning for the long term. At the time, however, I did not feel that the country I was leaving was a Heimat. Although I had spent my life up to that point there, I felt no emotional or spiritual connection. My family would certainly describe themselves as "compatriots" who belong to this country. However, we had no traditions of any kind. Life simply consisted of enduring the days that came relentlessly onward (they still do, in fact). However, this did not leave me lost and did not force me to simply hurl aimlessly through the world, but it left me without any fetters or any particularly strong desire to remain permanently in that country. Instead, it gave me the longing to find somewhere where I feel "at ease", what one might call a true "Heimat". I thought I had found this place, but with each new day that dawned, it slowly occurred to me: I had indeed found something else, insofar as I had the feeling of new freedom, but this feeling of belonging somewhere was still missing. I could choose new customs and habits here, allow myself free rein to select what I really want, only participate as I please. I also have a reasonable command of the language. Fluent, like one's mother tongue, it will probably never be, but to integrate myself sufficiently, it is quite adequate. In the worst case, if both of these camouflage techniques were to fail, I would always still have the excuse of being a "foreigner", insofar as I could simply admit that I do not originally come from this country and therefore am not obligated to those customs, that I am not even aware of them, a helpless fool condemned to wander unconsciously and lost through the world.</p>
+<p>This is essential not only for my existence as a foreigner, but also for the existence of the native. He may well come from the country, know his way around here better than anyone else, but without the foreigner's admission that there is a certain culture here, of which he himself can know nothing, to whose rules he must adhere, the existence of the native's identity would be endangered. He needs the foreigner, as the master needs the bondsman, without whom his position as master could not exist[^3]. Furthermore, that admission grants the foreigner an elevation in perceived freedom. Although he must forfeit his position in this power hierarchy, by doing this he manages to tear himself away from the shackles of the native's culture; for his mistakes there is always an excuse to which he can reach. He can apologize for everything and nothing, as he deems necessary, and the possibility of choosing the new customs naturally also means that he is bound to nothing, obligated to nothing. He is free from those cultural rules, in the truest sense of the word[^4]. In this freedom, however, lies at the same time his unfreedom. Although he may learn all the rules, appropriate all the customs and habits, these only apply insofar as they are accepted by the natives. The choice to consider himself here in this country as a true native remains outside his sphere of power. He and his entire existence are inevitably subject to the native of the land, and without running the risk of destroying his existence, the native can show him no mercy. He must necessarily assert himself as master in this relationship. The only true freedom that remains for the foreigner in this relationship is the choice of the veil with which he conceals his identity or <em>non-identity</em>. He is condemned to spend his days in this country as an outsider, without any hope of reconciliation. He can only hide and defend himself, in the hope that he escapes undetected and can live out his life somewhat in peace.</p>
+<p>These phenomena, however, do not apply to Heimat. However bleak the situation may look here for the foreigner, the choice of his Heimat rests with him and him alone. It cannot be dictated to him, no matter how hard one tries. Although the physical aspects of that Heimat could be taken from him by means of force, the metaphysical ones would continue to dwell within him. In this relationship between Heimat and inhabitant there need be no other. It requires only the inhabitant and that which he considers Heimat. This may consist of people, places, or even just a feeling that he carries within himself. Since Heimat dwells only within the person, it does not require the acknowledgment of the other in order to be. It does not have to be assimilated by another, but instead succeeds in remaining free from the chains of the master. In this respect, it is possible for every person on earth to form a Heimat for themselves, from what they think is right. They are not forced to fetter themselves to something that does not suit them, and they do not have to bow before anyone either.</p>
+<p>Every person on earth therefore always has a hope of Heimat; the direction of all hope is solely Heimat; one must only allow oneself this hope. In a stanza of the poem "The Silesian Weavers" from the year 1844, Heinrich Heine wrote:</p>
+<p><em>A curse on the false fatherland,</em>  <br><em>Where only shame and disgrace flourish,</em>  <br><em>Where every flower is broken early,</em>  <br><em>Where putrefaction and decay delight the worm –</em>  <br>     <em>We weave, we weave![^5]</em></p>
+<p>One could interpret here that although the weavers do not feel they are in the right place in their "false fatherland", they nevertheless weave on, in the hope that they may manage to fabricate a new Heimat for themselves from the fibers of their true being, that they can one day belong somewhere: a Heimat true to them. But who is really responsible for forging Heimat? To whom should this tremendously difficult task fall? If we assume, in the style of neoliberalism, the autonomy of all people and say that each person is only themselves responsible for the exhaustion of their Heimat, we see that it is impossible to create a single unique Heimat for each person that does not encroach upon the Heimat of another and thus can only lead to the tearing away of another's Heimat. Those conditions that are supposed to contribute to their true happiness, or at least give them the freedom to shape it as they wish, only lead into the bars of the prison from which they can never escape. They must be constantly vigilant, in the hope that no one comes to rob them of their Heimat. Since they must live here permanently in fear, we can deduce that they are not in any kind of Heimat. The person would then be cursed to live the rest of their life in misery, mourning the loss for which <em>they</em> alone bear the guilt. Only humanity as a whole can strive for Heimat. The weavers weave <em>together</em>, as a collective: "<em>We</em> weave". Heimat can therefore either be attainable for all people in the world or for no one. A person who steals Heimat from their kind can only thereby lose Heimat themselves. Adorno and Horkheimer wrote in their work "Dialectic of Enlightenment": "<em>of happiness without power, of reward without labor, of Heimat without boundary stone, of religion without myth.[^6]</em>" That is what all people on earth truly long for: Heimat. It can only be brought about when one frees it from those distinctions of objective, spatial existence; otherwise it is always doomed to failure. The only proof we need here to refute the myth that Heimat requires these objects is the fact that people who have never encountered these objects can also attain this state of Heimat, just like those who claim to need these objects. Their <em>presence</em> in the <em>absence</em> of these objects shows us that Heimat exists outside the realm of the objective; it overcomes it and transitions into an entirely metaphysical form. It is <em>in</em> and <em>for</em> itself. By its very nature, it is impossible to fetter its form in the merely physical. The alienation of Heimat that occurs when one attempts to locate it in mere objects is one of the greatest obstacles for humanity on its way to Heimat. Ernst Bloch further wrote in his monumental work "The Principle of Hope":</p>
+<p><em>"Man still lives everywhere in prehistory; indeed everything and everyone still stands before the creation of the world, as a proper one. The real genesis is not at the beginning but at the end, and it only begins to begin when society and existence become radical, that is, grasp themselves at the root. The root of history, however, is the working, creating human being, who transforms and overtakes the given circumstances. Once he has grasped himself and established what is his without alienation and estrangement in real democracy, something arises in the world that shines into everyone's childhood and in which no one has yet been: Heimat.[^7]"</em></p>
+<p>We see here that Heimat is not something that dwells latently within the person. One must create it oneself. It cannot be imposed upon the person. Moreover, a world in which the person is oppressed can offer them no Heimat. Heimat for Bloch here consists of memories of the past and at the same time hope. The death of the <em>Urheimat</em>, which one perceives in one's childhood as true Heimat, precedes the emergence of true Heimat. Put differently: the death of the <em>Urheimat</em> conditions the birth of the new, self-created one. But if the person is incapable of processing the loss of the <em>Urheimat</em>, they quickly fall into uncertain panic. They want to hold onto the old <em>Urheimat</em>, not to walk through the world alone and lonely. Consequently, they try to impose the identity of the <em>Urheimat</em> upon themselves, be it through nationalism or tribalism. A world that dwells solely in their memory, they try to revive, in an endless struggle that they can never win. They remain fettered here, cannot free themselves from the chains of this distorted impression of the past, and secretly feel ashamed that they are unable to escape this desolate situation. They bounce back and forth against the walls of their self-created prison and are thereby only filled with feelings of shame and envy. They look around and the people around them who are also on this journey seem to mock them. They can do nothing but reach for what seems to them the safest means to defend themselves: the identity of the <em>Urheimat</em> that they have imposed upon themselves. It is the only thing that is not foreign to them in this world. It must now be imposed on others, so that they can also force their feelings of shame and feelings of being lost upon them. They too must be as lost as they are, otherwise their place in the world is untenable and thus also their existence.</p>
+<p>We see from anti-Semites, who believe that Judaism has no right to Heimat in the world, no matter in which country, because it has long since been displaced, that this idea only brings hatred and violence with it. To quote Adorno and Horkheimer again: "<em>instead of the voice of conscience it hears voices; instead of examining itself to take note of the protocol of its own lust for power, it attributes the Protocols of the Elders of Zion to others.[^8]</em>" This idea cannot be dissolved. People who must flee from their own country, whether because of war or the climate crisis, find themselves without any hope of a potential new Heimat, because those who cling firmly to this fragile idea deny them the ability to settle down and continue living in peace. They need the continued displacement of these people in order to be able to lay the foundation for their own existence. Because they also feel displaced from their <em>Urheimat</em> and therefore consider themselves powerless, they are filled with envy. As Adorno and Horkheimer wrote in the later added chapter of "Dialectic of Enlightenment": "<em>The thought of happiness without power is unbearable, because it would be happiness in the first place.</em>"[^9] They want the sympathy that one gives to the displaced. They want to seize that power which they believe to be in the possession of others. Whoever can prove themselves here in this devastating discord as the powerless party will be given the power[^10] and, since they erroneously cling to those outdated, feeble rules of being native, they imagine that they must also prove themselves here as the master, that they are even capable of proving themselves as the master, who still needs the bondsman in order to maintain his firm position. In this respect, they must prove themselves simultaneously as victim and master. They find themselves in a vicious circle that they can never break. Although they need power to preserve their place at the top of the power hierarchy, they cannot simply steal the supposed power of others without presenting themselves as powerless victims. They must sufficiently feign the suffering of the victim so that they can deceive the others. They then exploit this perfidious pretense to assert themselves and oppress those people who have rid themselves of the dead <em>Urheimat</em>.</p>
+<p>We often see this attitude represented among the populist parties that, for example, are currently achieving an enormous number of votes in Europe. They speak of old times, of virtue, of Heimat and of old traditions that must be preserved. They appease this fetishization of the <em>Urheimat</em> that has spread. They try to alienate people who had to move, who have settled elsewhere, from their new Heimat. They drag along, among other things, ideals, images and clichés that are supposed to underpin their conception of the <em>Urheimat</em>. But they do not notice that what they are doing here can only disempower every attempt to revive the <em>Urheimat</em>. They create an image of a kind of land of plenty that is supposed to represent their true "Heimat", but in doing so they unwittingly rid themselves of the chance of a supposed return to this fabricated past, alienate themselves from their own Heimat with every step that drives them further into this disgraceful madness. The more complex their distorted image of the <em>Urheimat</em>, the more difficult the task of returning to it in the end becomes.</p>
+<p>They naturally know in doing so that if this delusion does not persist, it would definitively endanger their existence. They must propagate it in order to continue to divide people, so that the foundation of their power does not crumble. If the person were to rid themselves of this fragile, trite concept of Heimat, they could ultimately face forward and look the future in the eye, without being afraid of what is yet to come. One does not necessarily have to forget the <em>Urheimat</em>. However, we wave the club around paranoid, in the attempt to defend our <em>Urheimat</em>, although it has long since died, and in doing so only hit ourselves. We merely have to overcome this in order to build a new, true Heimat. The direction of all hope is solely Heimat. It is not a place; it is rather a perspective, or a state in which one has freed oneself from all temporal, objective and even spatial characteristics. The feeling of security and at the same time adventure, like a child playing in the stream and knowing that its parents protect it from danger. It does not decay with the dissolution of borders or states and although it may seem tremendously difficult, it is attainable for all people on earth. Klaus Kufeld, the founding director of the Ernst Bloch Center, expressed it thus in his work "Heimat als Utopie": "<em>Perhaps it should be with Heimat as it is with hope. The hope that is always directed forward is not an affect for Ernst Bloch, not a pure feeling. For hope is only effective, sustainably effective, if it also withstands reality. Docta spes, the instructed, instructable hope, only becomes wise through disappointment. This hope is thought through the heart. Heimat alone as a backward-looking affect remains a diffuse feeling of Heimat, which so to speak gets stuck in the heart and sometimes gets caught there, crystallizes nostalgically. And nostalgic would mean: possibly losing the connection to reality. Politically exploited, but not ideologically captive,</em>  <br><em>it now becomes a fighting term again. Heimat as a category of thought oriented toward the future does not deny feeling at all, for the emotion remains wise.</em></p>
+<p><em>Only then does Heimat become a practiced human right.[^11]</em>"</p>
+<p>I would like to add a poem here at this point in conclusion by the poet Johannes R. Becher (from whom I also took the title of this text). I find it fitting to the text:</p>
+<p><em>Heimat, my sorrow,</em>  <br> <em>Land in twilight's glow,</em>  <br> <em>Sky, you my blue one,</em>  <br> <em>You, my happiness.</em></p>
+<p><em>One day it will say:</em>  <br> <em>When I was banished;</em>  <br> <em>Have I, to praise you,</em>  <br> <em>Sent you a song.</em></p>
+<p><em>Was, to unite you,</em>  <br> <em>Consecrated you a song,</em>  <br> <em>And to weep with you</em>  <br> <em>In the darkness ...</em></p>
+<p><em>Sky shone, a blue one,</em>  <br> <em>Peace returned –</em>  <br> <em>Heimat, my sorrow,</em>  <br> <em>You, my happiness.</em></p>
+<p>First published on 03.02.2026<br>Second publishing on 05.02.2026</p><script>document.addEventListener('DOMContentLoaded', function() {
+  window.addFootnote('post-2026-02-03-homeland-my-sorrow', 1, "Theodor W. Adorno, Minima Moralia, Suhrkamp Verlag, S. 35");
+  window.addFootnote('post-2026-02-03-homeland-my-sorrow', 2, "G.W.F. Hegel, Ph\u00e4nomenologie des Geistes, Reclam Verlag, S. 152");
+  window.addFootnote('post-2026-02-03-homeland-my-sorrow', 3, "G.W.F.Hegel: Ph\u00e4nomenologie des Geistes, Reclam Verlag S.158 k\u00f6nnte hier interessant sein.");
+  window.addFootnote('post-2026-02-03-homeland-my-sorrow', 4, "The laws of that country naturally apply here, but since these apply to everyone, it is unnecessary to consider them here.");
+  window.addFootnote('post-2026-02-03-homeland-my-sorrow', 5, "Heinrich Heine, Die schesischen Weber https://de.wikipedia.org/wiki/Die\\_schlesischen\\_Weber");
+  window.addFootnote('post-2026-02-03-homeland-my-sorrow', 6, "Theodor W. Adorno, Max Horkheimer, Dialektik der Aufkl\u00e4rung");
+  window.addFootnote('post-2026-02-03-homeland-my-sorrow', 7, "Ernst Bloch, Das Prinzip Hoffnung, S.1628");
+  window.addFootnote('post-2026-02-03-homeland-my-sorrow', 8, "Max Horkheimer, Theodor W. Adorno, Dialektik der Aufkl\u00e4rung, Philosophische Fragmente, Frankfurt am Main 1969, S.208-209");
+  window.addFootnote('post-2026-02-03-homeland-my-sorrow', 9, "Theodor W. Adorno und Max Horkheimer, Elemente des Antisemitismus \\- Grenzen der Aufkl\u00e4rung");
+  window.addFootnote('post-2026-02-03-homeland-my-sorrow', 10, "As the notorious excuse \"I was just following orders!\" shows us. Someone is supposed to have acted without free will and therefore is not guilty of the consequences of his actions. One must forgive him his misdeeds, since he was \"powerless\" at the time of committing them.");
+  window.addFootnote('post-2026-02-03-homeland-my-sorrow', 11, "Klaus Kufeld, Heimat als Utopie");
+});</script></article><article id='post-2026-02-03-heimat-meiner-trauer' class='bilingual-column lang-de'><h2>Deutsch</h2><h1 class='post-title'>Heimat Meiner Trauer</h1><p class='post-date'>2026-02-03</p><p>Wir leben in einer Zeit, in der vielen Menschen das Konzept der Heimat sehr wichtig ist. Sie sehen sich in dieser immer wechselnden, sich immer schneller drehenden Welt um, und greifen nach etwas Festem, damit sie nicht von den Wellen der Zeit weggeschwemmt werden. Bringt uns aber in diesem Fall dieser Begriff oder dieses Verständnis der Heimat nicht mehr Probleme, als er lösen kann? Die Suggerierung, dass die Heimat etwas Inhärentes sei, was allen Menschen innewohnt, kommt mir eher verhängnisvoll als hilfreich vor. Vor allem in einer Zeit, in der nichts lange stehen bleibt bzw. stehen bleiben darf und stattdessen von dem fortwährenden Fortschritt der Welt unterjocht wird.</p>
+<p>Wenn einer an seine Heimat denkt, mögen ihm sofort einige Sachen einfallen. Für manche ist es der Bauernhof, der irgendwo auf dem Land steht, in einem versteckten Tal, der Zivilisation fern. Für manche mag es auch eine Stadt sein, in der sie groß geworden sind. Wenn man aber ein bisschen länger über den Begriff der Heimat nachdenkt, wird es schnell sinnfällig, dass es nicht allzu einfach ist zu erklären, was Heimat eigentlich ist. Die Heimat kann auch etwas total abstraktes sein. Für die, die vertrieben worden sind, kann der Begriff der Heimat schlichtweg mit Menschen assoziiert werden, er muss sich nicht auf irgendwelche physischen Konstrukten stützen.  <br>Für Adorno, in seinem im Exil geschriebenen Werk “Minima Moralia”, sehen wir, dass die Heimat der Muttersprache des Einwohners bedarf, um überhaupt eine Art Heimat zu sein. Er schreibt “<em>Jeder Intellektuelle in der Emigration, ohne alle Ausnahme ist beschädigt, und tut gut daran, es selber zu erkennen \[...\] Er lebt in einer Umwelt, der ihm unverständlich bleiben muß, \[...\] immerzu ist er in der Irre. \[...\] Enteignet ist seine Sprache und abgegraben die geschichtliche Dimension, aus der er seine Kräfte zog.[^1]”</em>. Als er schreibt, dass seine Umwelt ihm unverständlich bleiben <em>muss</em>, stellt sich ganz offen die Frage warum? Ich glaube, die Antwort liegt in einem Abschnitt von Hegels berühmten Werk "Phänomenologie des Geistes”, und zwar in dem vierten Teil des Buches “die Wahrheit der Gewissheit seiner selbst”. Hegel schreibt hier: <em>"Das Selbstbewusstsein ist an und für sich, indem, und dadurch, dass es für ein Anderes an und für sich ist; d.h. es ist nur als ein Anerkanntes.[^2]”</em>. Wir können dieses Prinzip auch auf die Kultur eines Volkes oder Stammes anwenden, da die Kultur hier als eine Art <em>Supra-Selbstbewusstsein</em> des Volkes fungiert. Indem wir dies machen, sehen wir, dass sie nur existiert, insofern, dass sie für einen Anderen, einen Außenseiter, fremd ist. Es <em>ist</em> nur als ein Anerkanntes. Wenn alle Kulturen der Welt einem riesigen Amalgam gehören würden, undifferenzierbar, dann könnte man sie gar nicht mehr anerkennen, denn es gäbe hier nichts, was anzuerkennen wäre, nur das Ganze an sich. Sie benötigen es, die Außenseiter auszuschließen, um ihre Existenz zu bewahren. An dieser Stelle möchte ich aber nicht zu viel Zeit auf dieses Thema verwenden, denn wir werden es zu einem späteren Zeitpunkt in dem Text wieder aufgreifen.</p>
+<p>Vor knapp über zwei Jahren bin ich ausgewandert, in ein mir fast komplett, aber nicht allzu fremdes Land. Ich habe damals natürlich mein Herkunftsland verlassen, ohne die Absicht, je langfristig zurückzukehren. Ich empfand damals allerdings das Land, das ich verließ, nicht als eine Heimat. Zwar habe ich mein bisheriges Leben dort verbracht, aber eine emotionale oder spirituelle Verbindung fühlte ich nicht. Meine Familie wird sich ganz bestimmt als "Landsleute" bezeichnen, die in dieses Land gehören. Traditionen jeglicher Art hatten wir jedoch nicht. Das Leben bestand schlichtweg aus dem Hinnehmen der Tage, die unaufhörlich weiter kamen (dies tun sie nämlich immer noch). Dies ließ mich allerdings nicht verloren und zwang mich auch nicht, einfach ziellos durch die Welt zu schleudern, aber es ließ mich ohne jegliche Fesseln oder eine besonders starke Lust, in jenem Land permanent zu verweilen. Es erbrachte mir stattdessen die Sehnsucht, irgendwo zu finden, wo ich mich “wohl” fühle, das, was man als eine wahre “Heimat” bezeichnen könnte. Ich dachte, ich hätte diesen Ort gefunden, aber mit jedem neuen Tag, der neu anbrach, fiel es mir langsam ein: Ich hatte zwar etwas anderes gefunden, insofern ich das Gefühl von neuer Freiheit hatte, aber dieses Gefühl von irgendwohin Gehören fehlte mir doch weiterhin. Ich konnte mir hier neue Bräuche und Sitten auswählen, mir freien Lauf erlauben, um das zu selektieren, was ich wirklich haben möchte, nur mitmachen, wie es mir gefällt. Die Sprache beherrsche ich auch einigermaßen. Fließend, wie die Muttersprache, wird sie womöglich nie sein, aber um mich hinreichend zu integrieren, reicht es durchaus aus. Schlimmstenfalls, wenn beide von diesen Tarntechniken scheitern würden, hätte ich immer noch die Ausrede des “Ausländers”, insofern ich einfach zugeben könnte, dass ich nicht ursprünglich aus diesem Land stamme und ich daher nicht zu jenen Sitten verpflichtet bin, dass ich mir derer gar nicht bewusst sei, ein hilfloser Narr, der ganz unbewusst verloren durch die Welt zu gehen bestraft ist.   <br>Dies ist nicht nur wesentlich für mein Dasein als Fremder, sondern auch für das Dasein des Einheimischen. Er mag zwar aus dem Land stammen, sich hier so gut auskennen, wie niemand anderes, aber ohne das Eingeständnis des Fremden, dass es hier eine gewisse Kultur gebe, wovon er selbst nichts wissen könne, an deren Regeln er sich halten müsse, würde die Existenz der Identität des Einheimischen gefährdet. Er bedarf des Fremden, wie der Herr des Knechts, ohne welchen es seine Position als Herr nicht geben könnte[^3]. Ferner verleiht jenes Eingeständnis dem Fremden eine Erhöhung an empfundene Freiheit. Er muss zwar seine Position in dieser Machthierarchie einbüßen, aber indem er dies tut, vermag er es, sich von den Manschetten des Einheimischen Kultur zu entreißen; für seine Fehler gibt es immer eine Ausrede, nach der er greifen kann. Er kann sich für alles und nichts entschuldigen, wie er es für nötig hält, und die Möglichkeit, die ihm neuen Sitten auszuwählen, heißt natürlich auch, dass er an nichts gebunden ist, zu nichts verpflichtet ist. Er ist von jenen kulturellen Regeln frei, im wahrsten Sinne des Wortes[^4]. In dieser Freiheit indes besteht zugleich seine Unfreiheit. Er mag zwar alle Regeln lernen, sich alle Bräuche und Sitten aneignen, aber diese gelten nur insofern sie von den Einheimischen akzeptiert werden. Die Wahl zu treffen, sich hier in diesem Land als wahrer Einheimischer zu betrachten, bleibt außerhalb seines Machtbereiches. Er und sein ganzes Dasein sind unweigerlich dem Eingeborenen des Landes unterworfen und ohne Gefahr zu laufen, seine Existenz zu zerstören, kann ihm der Eingeborene kein Erbarmen zeigen. Er muss sich zwangsläufig als Herr in dieser Beziehung durchsetzen. Die einzige wahre Freiheit, die dem Fremden in dieser Beziehung übrig bleibt, ist die Wahl des Schleiers, womit er seine Identität oder <em>Unidentität</em>, verdeckt. Er ist verdammt, seine Tage in diesem Land als Außenseiter zu verbringen, ohne jegliche Hoffnung auf Versöhnung. Er kann sich nur verstecken und wehren, in der Hoffnung, dass er unentdeckt auskommt und sein Leben einigermaßen in Ruhe ausleben kann.</p>
+<p>Diese Phänomene gelten hingegen nicht für die Heimat. Wie düster die Lage hier für den Fremden aussehen mag, die Wahl seiner Heimat obliegt nur ihm und ihm alleine. Die kann ihm nicht diktiert werden, egal wie sehr man sich bemüht. Die physischen Aspekte jener Heimat könnte man ihm zwar vermittels der Gewalt entziehen, aber die metaphysischen würden ihm weiterhin innewohnen. In dieser Beziehung zwischen Heimat und Einwohner braucht es keinen anderen zu geben. Es bedarf nur des Einwohners und dessen, was er als Heimat betrachtet. Dies mag aus Menschen, Orten, oder gar nur einem Gefühl, das er in sich trägt, bestehen. Da die Heimat nur innerhalb des Menschen wohnt, bedarf sie nicht der Anerkennung des Anderen, um zu sein. Sie muss nicht von einem Anderen assimiliert werden, sondern ihr gelingt es, frei von den Ketten des Herrn zu bleiben. Insofern ist es für jeden Menschen auf der Erde möglich, sich eine Heimat zu bilden, aus dem, was er für richtig hält. Er ist nicht gezwungen sich an etwas zu fesseln, was ihm nicht passt, und er muss sich auch vor niemandem beugen.   <br>Jeder Mensch der Erde hat demnach immer eine Hoffnung auf Heimat, die Zielrichtung aller Hoffnung ist einzig die Heimat; man muss sich nur diese Hoffnung erlauben. In einer Strofe des Gedichts “Die schlesischen Weber” aus dem Jahr 1844 schrieb Heinrich Heine:</p>
+<p><em>Ein Fluch dem falschen Vaterlande,</em>  <br><em>Wo nur gedeihen Schmach und Schande,</em>  <br><em>Wo jede Blume früh geknickt,</em>  <br><em>Wo Fäulniß und Moder den Wurm erquickt –</em>  <br>     <em>Wir weben, wir weben\![^5]</em></p>
+<p>Man könnte hier deuten, dass obgleich die Weber sich in ihrem “falschen Vaterland” nicht am richtigen Platz fühlen, weben sie trotzdem weiter, in der Hoffnung, dass sie es vermögen, sich eine neue Heimat, aus den Fasen ihres wahren Seins, zu fabrizieren, dass sie eines Tages irgendwohin gehören können: eine ihnen wahre Heimat. Wer ist aber wirklich zuständig für das Schmieden der Heimat? Wem soll diese ungeheuer schwere Aufgabe obliegen? Nehmen wir im Stil des Neoliberalismus die Eigenständigkeit aller Menschen an und sagen wir das jeder Mensch nur selbst für die Erschöpfung seiner Heimat verantwortlich ist, sehen wir, dass es unmöglich ist, eine einzelne einzigartige Heimat für jeden Menschen zu schaffen, die nicht in die Heimat eines anderen übergreift und insofern nur zu dem Entreißen der Heimat des anderen führen kann. Jene Bedingungen, die zu seinem wahren Glück beitragen sollen, oder zumindest ihm die Freiheit geben, um das so zu gestalten, wie er es möchte, münden nur in die Gitter des Zuchthauses, aus dem er es nie heraus vermag. Er muss ständig wachsam sein, in der Hoffnung, dass niemand kommt, um ihn der Heimat zu berauben. Da er hier permanent in Angst leben muss, können wir ableiten, dass er sich in keiner Art von Heimat befindet. Der Mensch sei dann verflucht, den Rest seines Lebens in Misere zu leben, um den Verlust, wofür <em>er</em> lediglich die Schuld trage, zu betrauern. Einzig die Menschheit als Ganzes kann die Heimat anstreben. Die Weber weben <em>zusammen</em>, als ein Kollektiv: “<em>Wir</em> weben”. Die Heimat kann demnach entweder für alle Menschen der Welt oder Niemanden erreichbar sein. Ein Mensch, der seinesgleichen die Heimat entwendet, kann nur dabei selbst die Heimat verlieren. Adorno und Horkheimer schrieben in ihrem Werk "Dialektik der Aufklärung": <em>"des Glückes ohne Macht, des Lohnes ohne Arbeit, der Heimat ohne Grenzstein, der Religion ohne Mythos.[^6]</em>" Das sei es, was alle Menschen der Erde wirklich ersehnen: die Heimat. Sie kann erst nur zustande gebracht werden, wenn man sie von jenen Distinktionen der gegenständlichen, räumlichen Existenz befreit, sonst ist sie immer zum Scheitern verurteilt. Der einzige Beweis, den wir hier brauchen, um den Mythos, dass die Heimat dieser Gegenstände bedarf, zu widerlegen, ist die Tatsache, dass Menschen, die diesen Gegenständen nie begegnet sind, diesen Zustand der Heimat ebenso erreichen können, wie diejenigen, die behaupten, diese Objekte zu benötigen. Ihre <em>An</em>wesenheit in der <em>Ab</em>wesenheit dieser Objekte zeigt uns, dass die Heimat außerhalb des Reiches des Gegenständlichen existiert, sie überwindet es und geht in eine gänzlich metaphysische Form über. Sie ist <em>an</em> und <em>für</em> sich. Ihrem Wesen nach ist es unmöglich, ihre Form in dem bloßen Physikalischen zu fesseln. Die Entäußerung der Heimat, die vonstatten geht, wenn man versucht, sie in bloßen Gegenständen zu verorten, ist eines der größten Hindernisse für die Menschheit, auf ihrem Weg in die Heimat. Ernst Bloch schrieb ferner in seinem monströsen Werk “Das Prinzip Hoffnung”:</p>
+<p><em>"Der Mensch lebt noch überall in der Vorgeschichte, ja alles und jedes steht noch vor Erschaffung der Welt, als einer rechten. Die wirkliche Genesis ist nicht am Anfang, sondern am Ende, und sie beginnt erst anzufangen, wenn Gesellschaft und Dasein radikal werden, das heißt sich an der Wurzel fassen. Die Wurzel der Geschichte aber ist der arbeitende, schaffende, die Gegebenheiten umbildende und überholende Mensch. Hat er sich erfaßt und das Seine ohne Entäußerung und Entfremdung in realer Demokratie begründet, so entsteht in der Welt etwas, das allen in die Kindheit scheint und worin noch niemand war: Heimat.[^7]"-</em></p>
+<p>Wir sehen hier, dass die Heimat nicht etwas ist, was dem Menschen latent innewohnt. Man muss sie selbst schaffen. Sie kann dem Menschen nicht auferlegt werden. Darüber hinaus kann eine Welt, in der der Mensch unterdrückt wird, ihm keine Heimat bieten. Die Heimat für Bloch hier besteht aus Erinnerungen der Vergangenheit und zugleich Hoffnung. Der Tod der <em>Urheimat</em>, welche man in seiner Kindheit als wahre Heimat empfindet, setzt der Entstehung der wahren Heimat voraus. Anders ausgedrückt: bedingt der Tod der <em>Urheimat</em> die Geburt der neuen selbst geschaffenen. Ist der Mensch aber unfähig, den Verlust der <em>Urheimat</em> zu verarbeiten, so gerät er schnell in ungewisse Panik. Er will sich an der alten <em>Urheimat</em> festhalten, durch die Welt nicht einsam und allein gehen. Demzufolge versucht er, sich die Identität der <em>Urheimat</em> aufzuzwingen, sei es durch Nationalismus oder Tribalismus. Eine Welt, die einzig ihm in Erinnerung wohnt, versucht er wiederzubeleben, in einem endlosen Kampf, der für ihn nie zu gewinnen ist. Er bleibt hier gebändigt, kann sich von den Ketten dieses verzogenen Eindrucks der Vergangenheit nicht befreien und schämt sich heimlich dafür, dass er außerstande ist, aus dieser öden Lage rauszukommen. Er prallt hin und her, auf die Wände seines von ihm selbst geschaffenen Gefängnisses und wird dabei nur von Gefühlen der Schande und des Neids gefüllt. Er sieht sich um und die Menschen um ihn herum, die sich auch auf dieser Reise befinden, scheinen ihn zu verhöhnen. Er kann nichts anderes als nach dem ihm scheinbar sichersten Mittel greifen, um sich zu wehren: die Identität der <em>Urheimat</em>, die er sich auferlegt hat. Sie ist das einzige, was ihm in dieser Welt nicht fremd ist. Sie muss jetzt den anderen oktroyiert werden, damit er seine Schamgefühle und Gefühle der Verlorenheit auch auf sie zwingen kann. Sie müssen auch so verloren sein wie er, sonst ist sein Platz in der Welt unhaltbar und damit auch sein Dasein.   <br>Wir sehen von Antisemiten, die glauben, dass das Judentum der Welt kein Recht auf Heimat, egal in welchem Land, hat, weil es schon längst verdrängt worden ist, dass diese Idee nur Hass und Gewalt mit sich bringt. Um wieder Adorno und Horkheimer zu zitieren <em>“anstatt der Stimme des Gewissens hört es Stimmen; anstatt in sich zu gehen, um das Protokoll der eigenen Machtgier aufzunehmen, schreibt es die Protokolle der Weisen von Zion den andern zu.[^8]”</em>. Diese Idee lässt sich nicht auflösen. Menschen, die aus ihrem eigenen Land flüchten müssen, sei es wegen Krieg oder der Klimakrise, befinden sich gar ohne Hoffnung auf eine potenzielle neue Heimat, weil diejenigen, die sich fest an dieser hinfälligen Idee krallen, es ihnen versagen, sich niederzulassen und in Ruhe weiterzuleben. Sie brauchen die fortwährende Vertreibung dieser Menschen, um das eigene Dasein zugrunde legen zu können. Weil sie sich auch von ihrer <em>Urheimat</em> vertrieben fühlen und daher sich als machtlos betrachten, erfüllt sie der Neid. Wie Adorno und Horkheimer in dem später hinzugefügten Kapitel von “Dialektik der Aufklärung” schrieben: "<em>Der Gedanke an Glück ohne Macht ist unerträglich, weil es überhaupt erst Glück wäre.</em>”[^9]. Sie wollen die Sympathie, die man den Verdrängten schenkt. Sie wollen jene Macht ergreifen, die sie glauben, im Besitz der anderen zu sein. Wer sich hier in dieser verheerenden Zwietracht als die machtlose Partei beweisen kann, dem wird die Macht geschenkt[^10] und, da sie sich fehlerhaft an jenen überholten, schmächtigen Regeln des Einheimischseins festhalten, wähnen sie, dass sie sich auch hier als der Herr erweisen müssen, dass sie es gar vermögen, sich als der Herr zu erweisen, der nach wie vor des Knechtes bedarf, um seine feste Position zu behalten. Insofern müssen sie sich parallel als Opfer und Herr beweisen. Sie befinden sich in einem Teufelskreis, den sie nie zerschlagen können. Sie brauchen zwar die Macht, um ihre Stelle an der Spitze der Machthierarchie zu bewahren, können die vermeintliche Macht der anderen aber nicht einfach entwenden, ohne sich als machtlose Opfer zu geben. Sie müssen das Leid des Opfers hinreichend vormachen, damit sie die anderen täuschen können. Diese perfide Vortäuschung nutzen sie dann aus, um sich durchzusetzen und jene Menschen, die sich der toten <em>Urheimat</em> entledigt haben, zu unterdrücken.  <br>Wir sehen diese Haltung häufig unter den populistischen Parteien vertreten, die beispielsweise in Europa gerade eine ungeheure Menge an Stimmen erzielen. Sie sprechen von alten Zeiten, von Tugend, von Heimat und von alten Traditionen, die man zu bewahren habe. Sie beschwichtigen diese Fetischisierung der <em>Urheimat</em>, die sich ausgebreitet hat. Sie versuchen die Menschen, die umziehen mussten, sich woanders niedergelassen haben, ihrer neuen Heimat zu entfremden. Sie schleppen unter anderem Ideale, Bilder und Klischees mit sich, die ihre Vorstellung der <em>Urheimat</em> untermauern sollen. Sie merken aber nicht, dass das, was sie hier tun, nur jeden Versuch auf Wiederbelebung der <em>Urheimat</em> entmachten kann. Sie kreieren ein Bild von einer Art Schlaraffenland, das ihre wahre “Heimat” repräsentieren soll, aber dabei entledigen sie sich unwissentlich der Chance einer vermeintlichen Rückkehr in diese fabrizierte Vergangenheit, entfremden sich der eigenen Heimat mit jedem Schritt, der sie weiter in diesen schmählichen Wahnsinn treibt. Je komplexer ihr verzogenes Bild von der <em>Urheimat</em>, desto schwieriger wird die Aufgabe, am Ende in sie zurückzukehren.   <br>Sie wissen selbstverständlich dabei, dass, wenn diese Wahnvorstellung nicht beharrt, es ihre Existenz endgültig gefährden würde. Sie müssen sie propagieren, um die Menschen weiterhin zu entzweien, damit das Fundament ihrer Macht nicht zerfällt. Würde der Mensch sich dieses hinfälligen, abgedroschenen Begriffes der Heimat entledigen, könnte er sich letztendlich nach vorne richten und der Zukunft in die Augen schauen, ohne dabei Angst zu haben, vor dem, was noch kommt. Die <em>Urheimat</em> muss man nicht zwangsläufig vergessen. Wir fuchteln jedoch paranoid mit der Keule herum, in dem Versuch, unsere <em>Urheimat</em> zu verteidigen, obwohl sie schon längst verstorben ist, und treffen dabei nur uns selbst. Dies müssen wir bloß überwinden, um eine neue, wahre Heimat aufzubauen. Die Richtung aller Hoffnung ist einzig die Heimat. Sie ist kein Ort, sie ist vielmehr eine Perspektive, oder ein Zustand, in dem man sich von allen zeitlichen, gegenständlichen und gar räumlichen Merkmalen befreit hat. Das Gefühl von Geborgenheit und zugleich Abenteuer, wie ein Kind, das im Bach spielt und dabei weiß, dass seine Eltern ihn vor Gefahr hüten. Sie verfällt nicht mit der Auflösung von Grenzen oder Staaten und obwohl es ungeheuer schwierig erscheinen mag, ist sie für alle Menschen der Erde erreichbar. Klaus Kufeld, der Gründungsdirektor des Ernst-Bloch-Zentrums, drückte es in seinem Werk “Heimat als Utopie” so aus: <em>“Vielleicht sollte es sich mit der Heimat verhalten wie mit der Hoffnung. Die stets nach vorn gerichtete Hoffnung ist bei Ernst Bloch kein Affekt, kein reines Gefühl. Denn Hoffnung sei nur wirksam, nachhaltig wirksam, wenn sie auch der Wirklichkeit standhalte. Docta spes, die belehrte, belehrbare Hoffnung werde erst aus Enttäuschung klug. Diese Hoffnung wird durch das Herz gedacht. Heimat allein als rückwärtsgewandter Affekt bleibt ein diffuses Heimatgefühl, das sozusagen im Herzen hängenbleibt und manchmal sich dort verfängt, nostalgisch kristallisiert. Und nostalgisch hieße: womöglich den Wirklichkeitsbezug zu verlieren. Politisch ausgeschlachtet, nicht aber ideologisch befangen,</em>  <br><em>wird sie nun doch wieder zum Kampfbegriff. Heimat als der Zukunft zugewandte Kategorie des Denkens verleugnet das Gefühl keineswegs, denn die Emotion bleibt klug.</em></p>
+<p><em>Erst dann wird Heimat zu einem praktizierten Menschenrecht.[^11]”.</em></p>
+<p>Ich möchte hier an dieser Stelle zum Schluss ein Gedicht von dem Dichter Johannes R. Becher ( von dem ich mir auch den Titel dieses Textes genommen habe.) hinzufügen. Ich finde es passend zu dem Text:</p>
+<p><em>Heimat, meine Trauer,</em>  <br> <em>Land im Dämmerschein,</em>  <br> <em>Himmel, du mein blauer,</em>  <br> <em>Du mein Fröhlichsein.</em></p>
+<p><em>Einmal wird es heißen:</em>  <br> <em>Als ich war verbannt;</em>  <br> <em>Hab ich, dich zu preisen,</em>  <br> <em>Dir ein Lied gesandt.</em></p>
+<p><em>War, um dich zu einen,</em>  <br> <em>Dir ein Lied geweiht,</em>  <br> <em>Und mit Dir zu weinen</em>  <br> <em>In der Dunkelheit …</em></p>
+<p><em>Himmel schien, ein blauer,</em>  <br> <em>Friede kehrte ein –</em>  <br> <em>Heimat, meine Trauer,</em>  <br> <em>Du, mein Fröhlichsein.</em></p>
+<p>Erst Veröffentlicht am 03.02.2026<br>Zweite Veröffentlichung am 05.02.2026</p><script>document.addEventListener('DOMContentLoaded', function() {
+  window.addFootnote('post-2026-02-03-heimat-meiner-trauer', 1, "Theodor W. Adorno, Minima Moralia, Suhrkamp Verlag, S. 35");
+  window.addFootnote('post-2026-02-03-heimat-meiner-trauer', 2, "G.W.F. Hegel, Ph\u00e4nomenologie des Geistes, Reclam Verlag, S. 152");
+  window.addFootnote('post-2026-02-03-heimat-meiner-trauer', 3, "G.W.F.Hegel: Ph\u00e4nomenologie des Geistes, Reclam Verlag S.158 k\u00f6nnte hier interessant sein.");
+  window.addFootnote('post-2026-02-03-heimat-meiner-trauer', 4, "Es gelten hier nat\u00fcrlich die Gesetze jenes Landes, aber da diese f\u00fcr alle gelten, ist es hier unn\u00f6tig, diese in Betracht zu ziehen.");
+  window.addFootnote('post-2026-02-03-heimat-meiner-trauer', 5, "Heinrich Heine, Die schesichen Weber https://de.wikipedia.org/wiki/Die\\_schlesischen\\_Weber");
+  window.addFootnote('post-2026-02-03-heimat-meiner-trauer', 6, "Theodor W. Adorno, Max Horkheimer, Dialektik der Aufkl\u00e4rung");
+  window.addFootnote('post-2026-02-03-heimat-meiner-trauer', 7, "Ernst Bloch, Das Prinzip Hoffnung, S.1628");
+  window.addFootnote('post-2026-02-03-heimat-meiner-trauer', 8, "Max Horkheimer, Theodor W. Adorno, Dialektik der Aufkl\u00e4rung, Philosophische Fragmente, Frankfurt am Main 1969, S.208-209");
+  window.addFootnote('post-2026-02-03-heimat-meiner-trauer', 9, "Theodor W. Adorno und Max Horkheimer, Elemente des Antisemitismus \\- Grenzen der Aufkl\u00e4rung");
+  window.addFootnote('post-2026-02-03-heimat-meiner-trauer', 10, "Wie die ber\u00fcchtigte Ausrede \"Ich habe doch nur Befehle befolgt\\!\" uns zeigt. Einer soll ohne freien Willen gehandelt haben und insofern ist er f\u00fcr die Folgen dessen Handeln nicht schuldig. Man m\u00fcsse ihm seine Untaten vergeben, da er zu der Zeit des Begehens \"machtlos\" gewesen sei.");
+  window.addFootnote('post-2026-02-03-heimat-meiner-trauer', 11, "Klaus Kufeld, Heimat als Utopie");
+});</script></article></div>
+  </main>
+
+  <script>
+    var COMMENTS_KEY = 'blog_comments';
+    var TRANSLATIONS_KEY = 'blog_translations';
+    var CURRENT_LANG_KEY = 'blog_current_lang';
+    var FOOTNOTES_KEY = 'blog_footnotes';
+
+    var commentsStore = loadCommentsFromStorage();
+    var translationsCache = loadTranslationsFromStorage();
+    var footnotesStore = loadFootnotesFromStorage();
+    var currentLang = localStorage.getItem(CURRENT_LANG_KEY) || 'en';
+    var originalContent = new Map();
+    var articleLanguages = new Map(); // Track the original language of each article
+
+    function loadCommentsFromStorage() {
+      try {
+        var stored = localStorage.getItem(COMMENTS_KEY);
+        return stored ? JSON.parse(stored) : {};
+      } catch (e) {
+        console.error('Error loading comments:', e);
+        return {};
+      }
+    }
+
+    function saveCommentsToStorage(comments) {
+      try {
+        localStorage.setItem(COMMENTS_KEY, JSON.stringify(comments));
+      } catch (e) {
+        console.error('Error saving comments:', e);
+      }
+    }
+
+    function loadTranslationsFromStorage() {
+      try {
+        var stored = localStorage.getItem(TRANSLATIONS_KEY);
+        return stored ? JSON.parse(stored) : {};
+      } catch (e) {
+        console.error('Error loading translations:', e);
+        return {};
+      }
+    }
+
+    function saveTranslationsToStorage(translations) {
+      try {
+        localStorage.setItem(TRANSLATIONS_KEY, JSON.stringify(translations));
+      } catch (e) {
+        console.error('Error saving translations:', e);
+      }
+    }
+
+    function loadFootnotesFromStorage() {
+      try {
+        var stored = localStorage.getItem(FOOTNOTES_KEY);
+        return stored ? JSON.parse(stored) : {};
+      } catch (e) {
+        console.error('Error loading footnotes:', e);
+        return {};
+      }
+    }
+
+    function saveFootnotesToStorage(footnotes) {
+      try {
+        localStorage.setItem(FOOTNOTES_KEY, JSON.stringify(footnotes));
+      } catch (e) {
+        console.error('Error saving footnotes:', e);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var articles = document.querySelectorAll('main article');
+      
+      articles.forEach(function(article, index) {
+        if (!article.id) {
+          var heading = article.querySelector('h2, h3');
+          var slug = heading ? heading.textContent.toLowerCase().replace(/[^a-z0-9]+/g, '-') : 'post-' + index;
+          article.id = slug;
+        }
+        
+        // Store original content without comment section and footnotes
+        var clone = article.cloneNode(true);
+        var existingComments = clone.querySelector('.comment-section');
+        var existingFootnotes = clone.querySelector('.footnotes');
+        if (existingComments) existingComments.remove();
+        if (existingFootnotes) existingFootnotes.remove();
+        originalContent.set(article.id, clone.innerHTML);
+        
+        // Detect the language of this article
+        var articleText = clone.textContent.trim();
+        var detectedLang = detectLanguage(articleText);
+        articleLanguages.set(article.id, detectedLang);
+        // language detection result: detectedLang
+        
+        if (!commentsStore[article.id]) {
+          commentsStore[article.id] = [];
+        }
+        
+        if (!footnotesStore[article.id]) {
+          footnotesStore[article.id] = [];
+        }
+        
+        // Process existing footnotes from content
+        processFootnotes(article);
+        
+        // Add footnotes section
+        renderFootnotes(article.id);
+        // Attach hover handlers for interactive footnotes
+        attachFootnoteHoverHandlers(article);
+        
+        // Add comment section if it doesn't exist
+        if (!article.querySelector('.comment-section')) {
+          var commentSection = createCommentSection(article.id);
+          article.appendChild(commentSection);
+        }
+        renderComments(article.id);
+      });
+
+      document.getElementById('lang-en').addEventListener('click', function() {
+        switchLanguage('en');
+      });
+      document.getElementById('lang-de').addEventListener('click', function() {
+        switchLanguage('de');
+      });
+
+      updateLanguageButtons();
+
+      var backHomeLink = document.getElementById('back-home-link');
+      if (backHomeLink) {
+        var path = window.location.pathname;
+        if (path.includes('/posts/')) {
+          backHomeLink.href = '../blogs.html';
+          backHomeLink.textContent = 'Back to Blog Index';
+        } else if (path.endsWith('/blogs.html') || path.endsWith('/blogs/')) {
+          backHomeLink.href = 'index.html';
+          backHomeLink.textContent = 'Back to Home';
+        } else {
+          backHomeLink.href = 'index.html';
+          backHomeLink.textContent = 'Back to Home';
+        }
+      }
+
+      if (document.body.classList.contains('bilingual-mode')) {
+        var toggle = document.querySelector('.language-toggle');
+        if (toggle) toggle.style.display = 'none';
+      } else {
+        if (currentLang === 'de') {
+          translateAllArticles('de');
+        } else if (currentLang === 'en') {
+          translateAllArticles('en');
+        }
+      }
+    });
+
+    function detectLanguage(text) {
+      // Simple language detection based on common words
+      // Take a sample of the text (first 500 characters)
+      var sample = text.substring(0, 500).toLowerCase();
+      
+      // German indicators
+      var germanWords = ['und', 'der', 'die', 'das', 'ich', 'ist', 'nicht', 'sie', 'mit', 'auf', 'für', 'ein', 'eine', 'auch', 'sich', 'werden', 'aus', 'aber', 'über', 'können', 'müssen', 'sollte', 'würde', 'schon', 'mehr', 'durch', 'beim', 'zur', 'vom', 'zum'];
+      var germanChars = ['ä', 'ö', 'ü', 'ß'];
+      
+      // English indicators
+      var englishWords = ['the', 'and', 'is', 'in', 'to', 'of', 'that', 'it', 'for', 'on', 'with', 'as', 'was', 'at', 'be', 'this', 'have', 'from', 'or', 'one', 'had', 'by', 'but', 'not', 'what', 'all', 'were', 'when', 'there', 'can'];
+      
+      var germanScore = 0;
+      var englishScore = 0;
+      
+      // Check for German special characters (strong indicator)
+      germanChars.forEach(function(char) {
+        if (sample.indexOf(char) !== -1) {
+          germanScore += 5; // Strong indicator
+        }
+      });
+      
+      // Count word matches
+      germanWords.forEach(function(word) {
+        var regex = new RegExp('\\b' + word + '\\b', 'gi');
+        var matches = sample.match(regex);
+        if (matches) {
+          germanScore += matches.length;
+        }
+      });
+      
+      englishWords.forEach(function(word) {
+        var regex = new RegExp('\\b' + word + '\\b', 'gi');
+        var matches = sample.match(regex);
+        if (matches) {
+          englishScore += matches.length;
+        }
+      });
+      
+      // language detection scores computed
+      
+      // Return the language with higher score, default to English
+      return germanScore > englishScore ? 'de' : 'en';
+    }
+
+    function processFootnotes(article) {
+      var articleId = article.id;
+      var content = article.innerHTML;
+      // Normalize caret-style footnote markers [^1] -> [1]
+      content = content.replace(/\[\^(\d+)\]/g, '[$1]');
+      
+      // Look for footnote patterns like [1], [2], etc.
+      var footnotePattern = /\[(\d+)\]/g;
+      var match;
+      var footnoteRefs = [];
+      
+      while ((match = footnotePattern.exec(content)) !== null) {
+        footnoteRefs.push({
+          number: parseInt(match[1]),
+          index: match.index
+        });
+      }
+      
+      // Replace footnote markers with proper links
+      if (footnoteRefs.length > 0) {
+        var newContent = content;
+        for (var i = footnoteRefs.length - 1; i >= 0; i--) {
+          var ref = footnoteRefs[i];
+          var before = newContent.substring(0, ref.index);
+          var after = newContent.substring(ref.index + ('[' + ref.number + ']').length);
+          newContent = before + '<a href="#fn-' + articleId + '-' + ref.number + '" class="footnote-ref" id="fnref-' + articleId + '-' + ref.number + '">[' + ref.number + ']</a>' + after;
+        }
+        article.innerHTML = newContent;
+      }
+    }
+
+    function renderFootnotes(postId) {
+      var article = document.getElementById(postId);
+      if (!article) return;
+      
+      var footnotes = footnotesStore[postId] || [];
+      
+      // Remove existing footnotes section
+      var existingFootnotes = article.querySelector('.footnotes');
+      if (existingFootnotes) {
+        existingFootnotes.remove();
+      }
+      
+      if (footnotes.length === 0) return;
+      
+      var footnotesSection = document.createElement('div');
+      footnotesSection.className = 'footnotes';
+      
+      var heading = document.createElement('h4');
+      heading.textContent = 'Footnotes';
+      footnotesSection.appendChild(heading);
+      
+      var ol = document.createElement('ol');
+      footnotes.forEach(function(footnote) {
+        var li = document.createElement('li');
+        li.id = 'fn-' + postId + '-' + footnote.number;
+        li.innerHTML = sanitizeUserHtml(footnote.text) + ' <a href="#fnref-' + postId + '-' + footnote.number + '" class="footnote-backref">↩</a>';
+        ol.appendChild(li);
+      });
+      
+      footnotesSection.appendChild(ol);
+      
+      // Insert before comment section
+      var commentSection = article.querySelector('.comment-section');
+      if (commentSection) {
+        article.insertBefore(footnotesSection, commentSection);
+      } else {
+        article.appendChild(footnotesSection);
+      }
+      // Ensure hover handlers are attached to any new .footnote-ref elements
+      attachFootnoteHoverHandlers(article);
+    }
+
+    function updateLanguageButtons() {
+      document.getElementById('lang-en').classList.toggle('active', currentLang === 'en');
+      document.getElementById('lang-de').classList.toggle('active', currentLang === 'de');
+    }
+
+    function switchLanguage(lang) {
+      if (lang === currentLang) return;
+      
+      currentLang = lang;
+      localStorage.setItem(CURRENT_LANG_KEY, lang);
+      updateLanguageButtons();
+
+      // Always translate to the selected language
+      translateAllArticles(lang);
+    }
+
+    function restoreOriginalContent() {
+      var articles = document.querySelectorAll('main article');
+      articles.forEach(function(article) {
+        var original = originalContent.get(article.id);
+        if (original) {
+          var commentSection = article.querySelector('.comment-section');
+          article.innerHTML = original;
+          processFootnotes(article);
+          renderFootnotes(article.id);
+          if (commentSection) {
+            article.appendChild(commentSection);
+          }
+        }
+      });
+    }
+
+    function translateAllArticles(targetLang) {
+      if (document.body.classList.contains('bilingual-mode')) {
+        return;
+      }
+      var articles = document.querySelectorAll('main article');
+      articles.forEach(function(article) {
+        var sourceLang = articleLanguages.get(article.id) || 'en';
+        
+        // Only translate if source and target languages are different
+        if (sourceLang === targetLang) {
+          // Restore original content if already in target language
+          var original = originalContent.get(article.id);
+          if (original) {
+            var commentSection = article.querySelector('.comment-section');
+            article.innerHTML = original;
+            processFootnotes(article);
+            renderFootnotes(article.id);
+            if (commentSection) {
+              article.appendChild(commentSection);
+            }
+          }
+        } else {
+          translateArticle(article, targetLang, sourceLang);
+        }
+      });
+    }
+
+    function translateArticle(article, targetLang, sourceLang) {
+      var articleId = article.id;
+      var cacheKey = articleId + '_' + sourceLang + '_' + targetLang;
+      
+      // Check cache first
+      if (translationsCache[cacheKey]) {
+        var commentSection = article.querySelector('.comment-section');
+        article.innerHTML = translationsCache[cacheKey];
+        renderFootnotes(articleId);
+        if (commentSection) {
+          article.appendChild(commentSection);
+        }
+        return;
+      }
+
+      // Show translating notice
+      var commentSection = article.querySelector('.comment-section');
+      var original = originalContent.get(articleId);
+      if (!original) return;
+
+      article.innerHTML = original;
+      
+      var notice = document.createElement('div');
+      notice.className = 'translation-notice';
+      notice.textContent = 'Translating...';
+      article.insertBefore(notice, article.firstChild);
+
+      // Extract all text nodes that need translation
+      var textElements = [];
+      extractTextElements(article, textElements);
+      
+      // Translate each text element
+      var translatedCount = 0;
+      var totalCount = textElements.length;
+
+      if (totalCount === 0) {
+        notice.remove();
+        renderFootnotes(articleId);
+        if (commentSection) {
+          article.appendChild(commentSection);
+        }
+        return;
+      }
+
+      textElements.forEach(function(elem) {
+        var originalText = elem.textContent.trim();
+        if (originalText.length > 0) {
+          translateWithLibreTranslate(originalText, targetLang, sourceLang).then(function(translated) {
+            elem.textContent = translated || elem.textContent;
+            translatedCount++;
+            
+            if (translatedCount === totalCount) {
+              var langNames = {
+                'en': 'English',
+                'de': 'German'
+              };
+              notice.textContent = 'Translated from ' + langNames[sourceLang] + ' to ' + langNames[targetLang];
+              notice.className = 'translation-notice';
+              
+              // Cache the translation
+              var clone = article.cloneNode(true);
+              var cloneComments = clone.querySelector('.comment-section');
+              var cloneFootnotes = clone.querySelector('.footnotes');
+              if (cloneComments) cloneComments.remove();
+              if (cloneFootnotes) cloneFootnotes.remove();
+              translationsCache[cacheKey] = clone.innerHTML;
+              saveTranslationsToStorage(translationsCache);
+              
+              renderFootnotes(articleId);
+              if (commentSection) {
+                article.appendChild(commentSection);
+              }
+            }
+          }).catch(function(error) {
+            console.error('Translation failed:', error);
+            translatedCount++;
+            
+            if (translatedCount === totalCount) {
+              notice.textContent = 'Translation failed. Please try again later.';
+              notice.className = 'translation-error';
+              
+              renderFootnotes(articleId);
+              if (commentSection) {
+                article.appendChild(commentSection);
+              }
+            }
+          });
+        } else {
+          translatedCount++;
+        }
+      });
+    }
+
+    function extractTextElements(node, results) {
+      // Skip comment sections, footnotes, and code blocks
+      if (node.classList && (node.classList.contains('comment-section') || 
+          node.classList.contains('footnotes') ||
+          node.classList.contains('translation-notice') ||
+          node.classList.contains('translation-error'))) {
+        return;
+      }
+
+      if (node.tagName === 'CODE' || node.tagName === 'PRE' || 
+          node.tagName === 'SCRIPT' || node.tagName === 'STYLE' ||
+          node.tagName === 'A' || node.tagName === 'H1') {
+        return;
+      }
+
+      // If it's a text node, check if it has meaningful content
+      if (node.nodeType === Node.TEXT_NODE) {
+        var text = node.textContent.trim();
+        if (text.length > 0) {
+          results.push(node);
+        }
+      } else if (node.nodeType === Node.ELEMENT_NODE) {
+        // Recurse into child nodes
+        for (var i = 0; i < node.childNodes.length; i++) {
+          extractTextElements(node.childNodes[i], results);
+        }
+      }
+    }
+
+    function translateWithLibreTranslate(text, targetLang, sourceLang) {
+      return new Promise(function(resolve, reject) {
+        // Split long texts
+        if (text.length > 500) {
+          var sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
+          var promises = sentences.map(function(sentence) {
+            return translateSingleText(sentence.trim(), targetLang, sourceLang);
+          });
+          
+          Promise.all(promises).then(function(results) {
+            resolve(results.join(' '));
+          }).catch(reject);
+        } else {
+          translateSingleText(text, targetLang, sourceLang).then(resolve).catch(reject);
+        }
+      });
+    }
+    
+    function translateSingleText(text, targetLang, sourceLang) {
+      return new Promise(function(resolve, reject) {
+        // Use Google Translate's unofficial API via translate.googleapis.com
+        var url = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=' + sourceLang + '&tl=' + targetLang + '&dt=t&q=' + encodeURIComponent(text);
+        
+        fetch(url)
+          .then(function(response) {
+            if (!response.ok) {
+              throw new Error('Translation API error: ' + response.status);
+            }
+            return response.json();
+          })
+          .then(function(data) {
+            // Google Translate API returns nested arrays
+            // Format: [[[translated_text, original_text, null, null, score]]]
+            if (data && data[0] && data[0][0] && data[0][0][0]) {
+              var translated = '';
+              for (var i = 0; i < data[0].length; i++) {
+                if (data[0][i][0]) {
+                  translated += data[0][i][0];
+                }
+              }
+              resolve(translated || text);
+            } else {
+              console.warn('Unexpected translation response format');
+              resolve(text);
+            }
+          })
+          .catch(function(error) {
+            console.error('Translation error:', error);
+            resolve(text); // Fallback to original text
+          });
+      });
+    }
+
+    function createCommentSection(postId) {
+      var section = document.createElement('div');
+      section.className = 'comment-section';
+      
+      var heading = document.createElement('h3');
+      heading.textContent = 'Comments';
+      section.appendChild(heading);
+      
+      var form = document.createElement('div');
+      form.className = 'comment-form';
+      
+      var nameInput = document.createElement('input');
+      nameInput.type = 'text';
+      nameInput.id = 'name-' + postId;
+      nameInput.placeholder = 'Your name';
+      nameInput.required = true;
+      nameInput.maxLength = 50;
+      
+      var commentInput = document.createElement('textarea');
+      commentInput.id = 'comment-' + postId;
+      commentInput.placeholder = 'Write your comment...';
+      commentInput.required = true;
+      commentInput.maxLength = 1000;
+      
+      var button = document.createElement('button');
+      button.textContent = 'Post Comment';
+      button.setAttribute('data-post-id', postId);
+      button.addEventListener('click', function() {
+        submitComment(this.getAttribute('data-post-id'));
+      });
+      
+      form.appendChild(nameInput);
+      form.appendChild(commentInput);
+      form.appendChild(button);
+      section.appendChild(form);
+      
+      var commentsContainer = document.createElement('div');
+      commentsContainer.id = 'comments-' + postId;
+      commentsContainer.className = 'comments-container';
+      commentsContainer.innerHTML = '<p class="loading">Loading comments...</p>';
+      section.appendChild(commentsContainer);
+      
+      return section;
+    }
+
+    function submitComment(postId) {
+      var nameInput = document.getElementById('name-' + postId);
+      var commentInput = document.getElementById('comment-' + postId);
+      var button = event.target;
+      
+      var name = nameInput.value.trim();
+      var text = commentInput.value.trim();
+      
+      if (!name || !text) {
+        alert('Please fill in both your name and comment');
+        return;
+      }
+      
+      button.disabled = true;
+      
+      var comment = {
+        id: Date.now().toString(),
+        author: name,
+        text: text,
+        date: new Date().toISOString(),
+        timestamp: Date.now()
+      };
+      
+      commentsStore[postId].push(comment);
+      saveCommentsToStorage(commentsStore);
+      
+      nameInput.value = '';
+      commentInput.value = '';
+      
+      renderComments(postId);
+      
+      button.disabled = false;
+      
+      var originalText = button.textContent;
+      button.textContent = 'Posted!';
+      setTimeout(function() {
+        button.textContent = originalText;
+      }, 2000);
+    }
+
+    function renderComments(postId) {
+      var container = document.getElementById('comments-' + postId);
+      var comments = commentsStore[postId] || [];
+      
+      if (comments.length === 0) {
+        container.innerHTML = '<p class="no-comments">No comments yet. Be the first to comment!</p>';
+        return;
+      }
+      
+      var sortedComments = comments.slice().sort(function(a, b) {
+        return b.timestamp - a.timestamp;
+      });
+      
+      var commentsList = document.createElement('ul');
+      commentsList.className = 'comments-list';
+      
+      sortedComments.forEach(function(comment) {
+        var li = document.createElement('li');
+        li.className = 'comment';
+        
+        var date = new Date(comment.date);
+        var dateStr = date.toLocaleDateString() + ' at ' + date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        
+        li.innerHTML = '<div class="comment-header"><span class="comment-author">' + escapeHtml(comment.author) + '</span><span class="comment-date">' + dateStr + '</span></div><div class="comment-text">' + sanitizeUserHtml(comment.text) + '</div>';
+        commentsList.appendChild(li);
+      });
+      
+      container.innerHTML = '';
+      container.appendChild(commentsList);
+    }
+
+    function escapeHtml(text) {
+      var div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // Sanitize user-supplied content but allow <em> and <strong> (no attributes).
+    // Also convert simple markdown *italics* and **bold** into those tags.
+    function sanitizeUserHtml(input) {
+      if (!input) return '';
+      // Convert **bold** then *italics* (simple, non-nested handling)
+      var text = input.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+      text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
+
+      // Parse and rebuild allowing only EM and STRONG tags, stripping attributes
+      var container = document.createElement('div');
+      container.innerHTML = text;
+
+      function sanitizeNode(node) {
+        if (node.nodeType === Node.TEXT_NODE) {
+          var d = document.createElement('div');
+          d.textContent = node.textContent;
+          return d.innerHTML;
+        } else if (node.nodeType === Node.ELEMENT_NODE) {
+          var tag = node.tagName.toLowerCase();
+          if (tag === 'em' || tag === 'strong') {
+            var inner = '';
+            for (var i = 0; i < node.childNodes.length; i++) {
+              inner += sanitizeNode(node.childNodes[i]);
+            }
+            return '<' + tag + '>' + inner + '</' + tag + '>';
+          } else {
+            // For any other tag, omit the tag but sanitize children
+            var inner = '';
+            for (var i = 0; i < node.childNodes.length; i++) {
+              inner += sanitizeNode(node.childNodes[i]);
+            }
+            return inner;
+          }
+        } else {
+          return '';
+        }
+      }
+
+      var out = '';
+      for (var i = 0; i < container.childNodes.length; i++) {
+        out += sanitizeNode(container.childNodes[i]);
+      }
+      return out;
+    }
+
+    // Interactive footnote bubble helpers
+    var _currentFootnoteBubble = null;
+
+    function mmToPx(mm) {
+      var el = document.createElement('div');
+      el.style.position = 'absolute';
+      el.style.left = '-9999px';
+      el.style.width = mm + 'mm';
+      document.body.appendChild(el);
+      var px = el.getBoundingClientRect().width;
+      document.body.removeChild(el);
+      return px;
+    }
+
+    function attachFootnoteHoverHandlers(article) {
+      try {
+        var refs = article.querySelectorAll('.footnote-ref');
+        refs.forEach(function(ref) {
+          ref.addEventListener('mouseenter', onFootnoteRefEnter);
+          ref.addEventListener('mouseleave', onFootnoteRefLeave);
+          ref.addEventListener('focus', onFootnoteRefEnter);
+          ref.addEventListener('blur', onFootnoteRefLeave);
+        });
+      } catch (e) {
+        console.error('attachFootnoteHoverHandlers error', e);
+      }
+    }
+
+    function onFootnoteRefEnter(e) {
+      showFootnoteBubble(e.currentTarget);
+    }
+
+    function onFootnoteRefLeave(/* e */) {
+      hideFootnoteBubble();
+    }
+
+    function showFootnoteBubble(ref) {
+      hideFootnoteBubble();
+      if (!ref || !ref.id) return;
+      var m = ref.id.match(/^fnref-(.+)-(\d+)$/);
+      if (!m) return;
+      var postId = m[1];
+      var num = parseInt(m[2], 10);
+      var content = getFootnoteContent(postId, num);
+      if (!content) return;
+
+      var bubble = document.createElement('div');
+      bubble.className = 'footnote-bubble';
+      bubble.innerHTML = content;
+      document.body.appendChild(bubble);
+
+      // Position bubble 10mm to the right of the main column when possible
+      var rect = ref.getBoundingClientRect();
+      bubble.style.position = 'absolute';
+      bubble.style.zIndex = 99999;
+      bubble.style.pointerEvents = 'auto';
+      bubble.style.opacity = 0;
+      bubble.style.transition = 'opacity 0.12s ease';
+
+      requestAnimationFrame(function() {
+        var left = rect.right + 8 + window.scrollX;
+        try {
+          var main = document.querySelector('main');
+          if (main) {
+            var mainRect = main.getBoundingClientRect();
+            var tenMm = mmToPx(10);
+            left = mainRect.right + tenMm + window.scrollX;
+          }
+        } catch (e) {
+          // fallback to reference-right behavior
+        }
+        var top = rect.top + window.scrollY;
+        // prevent overflow to the right
+        if (left + bubble.offsetWidth + 10 > window.innerWidth + window.scrollX) {
+          left = rect.left - bubble.offsetWidth - 8 + window.scrollX;
+        }
+        // keep bubble within viewport vertically
+        if (top + bubble.offsetHeight > window.scrollY + window.innerHeight) {
+          top = Math.max(window.scrollY + 8, window.scrollY + window.innerHeight - bubble.offsetHeight - 8);
+        }
+        bubble.style.left = left + 'px';
+        bubble.style.top = top + 'px';
+        bubble.style.opacity = 1;
+      });
+
+      _currentFootnoteBubble = bubble;
+    }
+
+    function hideFootnoteBubble() {
+      if (_currentFootnoteBubble) {
+        _currentFootnoteBubble.remove();
+        _currentFootnoteBubble = null;
+      }
+    }
+
+    function getFootnoteContent(postId, number) {
+      // Prefer the rendered footnote <li> if present
+      var el = document.getElementById('fn-' + postId + '-' + number);
+      if (el) return el.innerHTML;
+      // Fallback to stored data
+      var arr = footnotesStore[postId] || [];
+      var f = arr.find(function(x) { return x.number === number; });
+      return f ? sanitizeUserHtml(f.text) : null;
+    }
+
+    // Add footnote functionality
+    window.addFootnote = function(postId, number, text) {
+      if (!footnotesStore[postId]) {
+        footnotesStore[postId] = [];
+      }
+      
+      // Check if footnote already exists
+      var existing = footnotesStore[postId].find(function(fn) {
+        return fn.number === number;
+      });
+      
+      if (existing) {
+        existing.text = text;
+      } else {
+        footnotesStore[postId].push({
+          number: number,
+          text: text
+        });
+      }
+      
+      // Sort by number
+      footnotesStore[postId].sort(function(a, b) {
+        return a.number - b.number;
+      });
+      
+      saveFootnotesToStorage(footnotesStore);
+      renderFootnotes(postId);
+      // After rendering, attach hover handlers for this article so bubbles work immediately
+      var article = document.getElementById(postId);
+      if (article) attachFootnoteHoverHandlers(article);
+    };
+  </script>
+</body>
+</html>
