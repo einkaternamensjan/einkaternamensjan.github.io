@@ -34,7 +34,7 @@ def title_from_filename(blog_path):
 def title_from_markdown(raw):
     for line in raw.splitlines():
         clean = line.strip()
-        if not clean:
+        if not clean or (clean.startswith('<!--') and clean.endswith('-->')):
             continue
         m = re.match(r'^(#{1,6})\s*(.+)$', clean)
         if m:
@@ -46,10 +46,17 @@ def title_from_markdown(raw):
 def strip_first_markdown_title(raw):
     lines = raw.splitlines()
     i = 0
-    while i < len(lines) and not lines[i].strip():
-        i += 1
+    # skip leading whitespace and comments
+    while i < len(lines):
+        line = lines[i].strip()
+        if not line or (line.startswith('<!--') and line.endswith('-->')):
+            i += 1
+            continue
+        break
+
     if i >= len(lines):
         return raw
+
     if re.match(r'^(#{1,6})\s*.+$', lines[i].strip()):
         return '\n'.join(lines[:i] + lines[i+1:])
     return raw
