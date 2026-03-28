@@ -1,2 +1,3 @@
+# What Hour is Man?
 
 The unease of ignorance begets the indomitable desire for wisdom. Yet this cannot strip the perceived emptiness of being of its power. The paralysis that overcomes one who stands before this problem will not be conquered, but stubbornly serves the purpose of steering him into obscurity. To surrender oneself to this paralysis a priori is a delusional folly. One must resist it. Man, confronted by his own existence, finds his purpose solely in the *sublation* of that existence. The moment of his *Being* (Dasein) he must *sublate* — free himself from it. Time *temporalizes* itself in that moment, and his task is to reverse this. He must overcome the forces of time and place himself in time's stead. He must *temporalize* himself.

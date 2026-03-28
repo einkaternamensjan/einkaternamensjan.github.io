@@ -31,6 +31,30 @@ def title_from_filename(blog_path):
     return title.title()
 
 
+def title_from_markdown(raw):
+    for line in raw.splitlines():
+        clean = line.strip()
+        if not clean:
+            continue
+        m = re.match(r'^(#{1,6})\s*(.+)$', clean)
+        if m:
+            return m.group(2).strip()
+        break
+    return None
+
+
+def strip_first_markdown_title(raw):
+    lines = raw.splitlines()
+    i = 0
+    while i < len(lines) and not lines[i].strip():
+        i += 1
+    if i >= len(lines):
+        return raw
+    if re.match(r'^(#{1,6})\s*.+$', lines[i].strip()):
+        return '\n'.join(lines[:i] + lines[i+1:])
+    return raw
+
+
 def create_slug(filename):
     slug = filename.replace('.md', '')
     slug = re.sub(r'[^a-z0-9]+', '-', slug.lower())
@@ -91,8 +115,10 @@ for blog_path in blog_paths:
 
     raw_without_footnotes = re.sub(r'^\[\^\d+\]:.*(?:\n|$)', '', raw, flags=re.MULTILINE)
 
-    title = title_from_filename(blog_path)
+    title = title_from_markdown(raw_without_footnotes) or title_from_filename(blog_path)
     slug = create_slug(blog_path)
+
+    markdown_body = strip_first_markdown_title(raw_without_footnotes)
 
     date_match = re.match(r'^(\d{4}-\d{2}-\d{2})-', blog_path)
     date = date_match.group(1) if date_match else 'undated'
@@ -105,7 +131,7 @@ for blog_path in blog_paths:
         'title': title,
         'slug': slug,
         'raw': raw_without_footnotes,
-        'compiled': compile_markdown(raw_without_footnotes),
+        'compiled': compile_markdown(markdown_body),
         'footnotes': footnotes,
         'lang': lang,
     })
@@ -145,7 +171,6 @@ for date, entries in posts_by_date.items():
             f"<article id='{entry['slug']}' class='bilingual-column lang-{entry['lang']}'>"
             f"<h2>{'Deutsch' if entry['lang'] == 'de' else 'English'}</h2>"
             f"<h1 class='post-title'>{entry['title']}</h1>"
-            f"<p class='post-date'>{entry['date']}</p>"
             f"{entry['compiled']}"
             f"{script_block}"
             f"</article>"
@@ -173,14 +198,18 @@ for date, entries in posts_by_date.items():
     else:
         title_html = f"<h1>{first_entry['title']}</h1>"
 
+    # Format date as DD.MM.YY
+    date_parts = date.split('-')
+    formatted_date = f"{date_parts[2]}.{date_parts[1]}.{date_parts[0][2:]}"
+
     group_content = (
-        f"<div class='group-header'>{title_html}<p>{date}</p></div>"
+        f"<div class='group-header'>{title_html}</div>"
         f"<nav aria-label='Post languages'>{chapter_links}</nav>"
         f"<div class='bilingual-layout'>{''.join(group_articles)}</div>"
     )
 
     group_index_html = '<br>'.join(group_nav_items)
-    page_html = template.replace('###STYLESHEET###', '../styles.css').replace('###BLOG-CONTENTS###', group_index_html).replace('###BLOGS###', group_content)
+    page_html = template.replace('###STYLESHEET###', '../styles.css').replace('###BLOG-CONTENTS###', group_index_html).replace('###BLOGS###', group_content).replace('###PUBLICATION-DATE###', f'Published on {formatted_date}')
     page_html = page_html.replace('<body>', '<body class="bilingual-mode">')
 
     target_file = POSTS_DIR / f"{group_slug}.html"
@@ -206,14 +235,19 @@ for date, entries in posts_by_date.items():
         title_parts.append(first_entry['title'])
 
     composed_title = ' / '.join(title_parts)
-    index_items.append(f"<li><a href='posts/{group_slug}.html'>{date} – {composed_title} ({lang_labels})</a></li>")
+
+    # Format date as DD.MM.YY
+    date_parts = date.split('-')
+    formatted_date = f"{date_parts[2]}.{date_parts[1]}.{date_parts[0][2:]}"
+
+    index_items.append(f"<li><a href='posts/{group_slug}.html'>{composed_title} ({lang_labels}) - {formatted_date}</a></li>")
 
 index_content = (
     '<header><h1>Blog Index</h1></header>'
     f"<main><ul class='post-index'>{''.join(index_items)}</ul></main>"
 )
 
-index_html = template.replace('###STYLESHEET###', 'styles.css').replace('###BLOG-CONTENTS###', '').replace('###BLOGS###', index_content)
+index_html = template.replace('###STYLESHEET###', 'styles.css').replace('###BLOG-CONTENTS###', '').replace('###BLOGS###', index_content).replace('###PUBLICATION-DATE###', '')
 with OUT_FILE.open('w', encoding='utf-8', errors='replace') as fh:
     fh.write(index_html)
 
