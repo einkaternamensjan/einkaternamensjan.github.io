@@ -10,7 +10,7 @@ html, body {
 
 /* === Header === */
 header {
-  padding: 2rem;
+  padding: 1rem;
   position: relative;
   z-index: 1;
 
@@ -40,7 +40,7 @@ header p a:hover {
 }
 header h1 {
   margin: 0;
-  font-size: 2.5rem;
+  font-size: 1.8rem;
   color: #e8d7bf;  /* Sandy beige */
   text-shadow: 0 2px 4px rgba(0,0,0,0.7);
 }
