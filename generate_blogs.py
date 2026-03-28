@@ -157,9 +157,24 @@ for date, entries in posts_by_date.items():
         f"<span class='lang-chip'><a href='#{entry['slug']}'>- {entry['lang'].upper()}</a></span>"
         for entry in entries
     ])
+
+    de_entry = next((e for e in entries if e['lang'] == 'de'), None)
+    en_entry = next((e for e in entries if e['lang'] == 'en'), None)
+
+    if de_entry and en_entry:
+        title_html = (
+            f"<h1 class='title-de'>Deutsch: {de_entry['title']}</h1>"
+            f"<h1 class='title-en'>English: {en_entry['title']}</h1>"
+        )
+    elif de_entry:
+        title_html = f"<h1 class='title-de'>Deutsch: {de_entry['title']}</h1>"
+    elif en_entry:
+        title_html = f"<h1 class='title-en'>English: {en_entry['title']}</h1>"
+    else:
+        title_html = f"<h1>{first_entry['title']}</h1>"
+
     group_content = (
-        f"<div class='group-header'><h1>{first_entry['title']} ({date})</h1>"
-        f"<p class='group-subtitle'>Bilingual overview with side-by-side panes.</p></div>"
+        f"<div class='group-header'>{title_html}<p>{date}</p></div>"
         f"<nav aria-label='Post languages'>{chapter_links}</nav>"
         f"<div class='bilingual-layout'>{''.join(group_articles)}</div>"
     )
@@ -179,10 +194,22 @@ for date, entries in posts_by_date.items():
     first_entry = entries[0]
     group_slug = create_slug(f"{date}-{first_entry['title']}")
     lang_labels = ', '.join(sorted({entry['lang'] for entry in entries}))
-    index_items.append(f"<li><a href='posts/{group_slug}.html'>{date} – {first_entry['title']} ({lang_labels})</a></li>")
+
+    de_entry = next((e for e in entries if e['lang'] == 'de'), None)
+    en_entry = next((e for e in entries if e['lang'] == 'en'), None)
+    title_parts = []
+    if de_entry:
+        title_parts.append(f"Deutsch: {de_entry['title']}")
+    if en_entry:
+        title_parts.append(f"English: {en_entry['title']}")
+    if not title_parts:
+        title_parts.append(first_entry['title'])
+
+    composed_title = ' / '.join(title_parts)
+    index_items.append(f"<li><a href='posts/{group_slug}.html'>{date} – {composed_title} ({lang_labels})</a></li>")
 
 index_content = (
-    '<header><h1>Blog Index</h1><p>Click a topic to open per-post bilingual page.</p></header>'
+    '<header><h1>Blog Index</h1></header>'
     f"<main><ul class='post-index'>{''.join(index_items)}</ul></main>"
 )
 

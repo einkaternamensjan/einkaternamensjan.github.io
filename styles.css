@@ -71,7 +71,7 @@ nav h2 {
 /* === Main blog post area === */
 main {
   width: 100%;
-  max-width: 20cm;
+  max-width: 25cm;
   margin: 1.5rem auto 2rem;
   padding: 2rem;
   box-sizing: border-box;
@@ -84,7 +84,7 @@ main {
 }
 
 body.bilingual-mode main {
-  max-width: 22cm;
+  max-width: 30cm;
   padding: 1.5rem;
   background: rgba(16, 28, 24, 0.9);
 }
