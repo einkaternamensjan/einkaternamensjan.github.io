@@ -254,18 +254,16 @@
         attachFootnoteHoverHandlers(article);
       });
 
-      document.getElementById('lang-en').addEventListener('click', function() {
-        switchLanguage('en');
-      });
-      document.getElementById('lang-de').addEventListener('click', function() {
-        switchLanguage('de');
-      });
+      var path = window.location.pathname;
+      var isHomePage = path.endsWith('/index.html') || path.endsWith('/') || path.endsWith('index.html');
 
-      updateLanguageButtons();
+      if (!isHomePage) {
+        var toggle = document.querySelector('.language-toggle');
+        if (toggle) toggle.remove();
+      }
 
       var backHomeLink = document.getElementById('back-home-link');
       if (backHomeLink) {
-        var path = window.location.pathname;
         if (path.includes('/posts/')) {
           backHomeLink.href = '../blogs.html';
           backHomeLink.textContent = 'Back to Blog Index';
@@ -278,15 +276,25 @@
         }
       }
 
-      if (document.body.classList.contains('bilingual-mode')) {
-        var toggle = document.querySelector('.language-toggle');
-        if (toggle) toggle.style.display = 'none';
-      } else {
+      if (isHomePage) {
+        document.getElementById('lang-en').addEventListener('click', function() {
+          switchLanguage('en');
+        });
+        document.getElementById('lang-de').addEventListener('click', function() {
+          switchLanguage('de');
+        });
+
+        updateLanguageButtons();
+
         if (currentLang === 'de') {
           translateAllArticles('de');
         } else if (currentLang === 'en') {
           translateAllArticles('en');
         }
+      } else {
+        // On non-home pages, translation is disabled and only English UI shown
+        currentLang = 'en';
+        updateLanguageButtons();
       }
     });
 
