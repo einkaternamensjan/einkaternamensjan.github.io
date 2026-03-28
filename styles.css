@@ -175,16 +175,14 @@ main h1, main h2 {
 /* language toggle shared style */
 .lang-switch,
 .language-toggle {
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-  z-index: 1000;
   display: flex;
   gap: 0.5rem;
   background: rgba(0,0,0,0.25);
   padding: 0.5rem;
   border-radius: 8px;
   border: 1px solid rgba(255,255,255,0.2);
+  margin: 1rem auto;
+  width: fit-content;
 }
 
 .lang-switch button,
@@ -259,16 +257,14 @@ a:hover, a:focus {
 /* === Language switcher (top-right corner) === */
 .lang-switch,
 .language-toggle {
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-  z-index: 1000;
   display: flex;
   gap: 0.5rem;
   background: rgba(255,255,255,0.1);
   padding: 0.5rem;
   border-radius: 6px;
   backdrop-filter: blur(10px);
+  margin: 1rem auto;
+  width: fit-content;
 }
 
 .language-toggle button,
