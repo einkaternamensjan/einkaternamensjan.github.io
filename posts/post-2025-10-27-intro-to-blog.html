@@ -86,118 +86,6 @@
       text-decoration: underline;
     }
 
-    /* Comment section styling */
-    .comment-section {
-      max-width: 20cm;
-      margin: 3rem auto 4rem;
-      padding: 1.5rem;
-      background: rgba(255,255,255,0.05);
-      border-radius: 6px;
-    }
-    
-    .comment-section h3 {
-      margin-top: 0;
-      margin-bottom: 1.5rem;
-      font-size: 1.5rem;
-    }
-
-    /* Comment form */
-    .comment-form {
-      margin-bottom: 2rem;
-      padding: 1rem;
-      background: rgba(255,255,255,0.03);
-      border-radius: 4px;
-    }
-
-    .comment-form input,
-    .comment-form textarea {
-      width: 100%;
-      padding: 0.75rem;
-      margin-bottom: 1rem;
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 4px;
-      color: inherit;
-      font-family: inherit;
-      font-size: 1rem;
-      box-sizing: border-box;
-    }
-
-    .comment-form textarea {
-      min-height: 100px;
-      resize: vertical;
-    }
-
-    .comment-form button {
-      padding: 0.75rem 1.5rem;
-      background: rgba(255,255,255,0.2);
-      border: 1px solid rgba(255,255,255,0.3);
-      border-radius: 4px;
-      color: inherit;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .comment-form button:hover {
-      background: rgba(255,255,255,0.3);
-    }
-
-    .comment-form button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    /* Comments list */
-    .comments-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .comment {
-      padding: 1rem;
-      margin-bottom: 1rem;
-      background: rgba(255,255,255,0.03);
-      border-left: 3px solid rgba(255,255,255,0.3);
-      border-radius: 4px;
-    }
-
-    .comment-header {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 0.5rem;
-      font-size: 0.9rem;
-      opacity: 0.8;
-    }
-
-    .comment-author {
-      font-weight: bold;
-    }
-
-    .comment-date {
-      font-style: italic;
-    }
-
-    .comment-text {
-      line-height: 1.6;
-      white-space: pre-wrap;
-      word-wrap: break-word;
-    }
-
-    .no-comments {
-      text-align: center;
-      padding: 2rem;
-      opacity: 0.6;
-      font-style: italic;
-    }
-
-    .loading {
-      text-align: center;
-      padding: 1rem;
-      opacity: 0.6;
-    }
-
     /* Article spacing */
     article {
       margin-bottom: 4rem;
@@ -250,35 +138,15 @@
   </main>
 
   <script>
-    var COMMENTS_KEY = 'blog_comments';
     var TRANSLATIONS_KEY = 'blog_translations';
     var CURRENT_LANG_KEY = 'blog_current_lang';
     var FOOTNOTES_KEY = 'blog_footnotes';
 
-    var commentsStore = loadCommentsFromStorage();
     var translationsCache = loadTranslationsFromStorage();
     var footnotesStore = loadFootnotesFromStorage();
     var currentLang = localStorage.getItem(CURRENT_LANG_KEY) || 'en';
     var originalContent = new Map();
     var articleLanguages = new Map(); // Track the original language of each article
-
-    function loadCommentsFromStorage() {
-      try {
-        var stored = localStorage.getItem(COMMENTS_KEY);
-        return stored ? JSON.parse(stored) : {};
-      } catch (e) {
-        console.error('Error loading comments:', e);
-        return {};
-      }
-    }
-
-    function saveCommentsToStorage(comments) {
-      try {
-        localStorage.setItem(COMMENTS_KEY, JSON.stringify(comments));
-      } catch (e) {
-        console.error('Error saving comments:', e);
-      }
-    }
 
     function loadTranslationsFromStorage() {
       try {
@@ -326,11 +194,9 @@
           article.id = slug;
         }
         
-        // Store original content without comment section and footnotes
+        // Store original content without footnotes
         var clone = article.cloneNode(true);
-        var existingComments = clone.querySelector('.comment-section');
         var existingFootnotes = clone.querySelector('.footnotes');
-        if (existingComments) existingComments.remove();
         if (existingFootnotes) existingFootnotes.remove();
         originalContent.set(article.id, clone.innerHTML);
         
@@ -339,10 +205,6 @@
         var detectedLang = detectLanguage(articleText);
         articleLanguages.set(article.id, detectedLang);
         // language detection result: detectedLang
-        
-        if (!commentsStore[article.id]) {
-          commentsStore[article.id] = [];
-        }
         
         if (!footnotesStore[article.id]) {
           footnotesStore[article.id] = [];
@@ -355,13 +217,6 @@
         renderFootnotes(article.id);
         // Attach hover handlers for interactive footnotes
         attachFootnoteHoverHandlers(article);
-        
-        // Add comment section if it doesn't exist
-        if (!article.querySelector('.comment-section')) {
-          var commentSection = createCommentSection(article.id);
-          article.appendChild(commentSection);
-        }
-        renderComments(article.id);
       });
 
       document.getElementById('lang-en').addEventListener('click', function() {
@@ -750,128 +605,6 @@
             resolve(text); // Fallback to original text
           });
       });
-    }
-
-    function createCommentSection(postId) {
-      var section = document.createElement('div');
-      section.className = 'comment-section';
-      
-      var heading = document.createElement('h3');
-      heading.textContent = 'Comments';
-      section.appendChild(heading);
-      
-      var form = document.createElement('div');
-      form.className = 'comment-form';
-      
-      var nameInput = document.createElement('input');
-      nameInput.type = 'text';
-      nameInput.id = 'name-' + postId;
-      nameInput.placeholder = 'Your name';
-      nameInput.required = true;
-      nameInput.maxLength = 50;
-      
-      var commentInput = document.createElement('textarea');
-      commentInput.id = 'comment-' + postId;
-      commentInput.placeholder = 'Write your comment...';
-      commentInput.required = true;
-      commentInput.maxLength = 1000;
-      
-      var button = document.createElement('button');
-      button.textContent = 'Post Comment';
-      button.setAttribute('data-post-id', postId);
-      button.addEventListener('click', function() {
-        submitComment(this.getAttribute('data-post-id'));
-      });
-      
-      form.appendChild(nameInput);
-      form.appendChild(commentInput);
-      form.appendChild(button);
-      section.appendChild(form);
-      
-      var commentsContainer = document.createElement('div');
-      commentsContainer.id = 'comments-' + postId;
-      commentsContainer.className = 'comments-container';
-      commentsContainer.innerHTML = '<p class="loading">Loading comments...</p>';
-      section.appendChild(commentsContainer);
-      
-      return section;
-    }
-
-    function submitComment(postId) {
-      var nameInput = document.getElementById('name-' + postId);
-      var commentInput = document.getElementById('comment-' + postId);
-      var button = event.target;
-      
-      var name = nameInput.value.trim();
-      var text = commentInput.value.trim();
-      
-      if (!name || !text) {
-        alert('Please fill in both your name and comment');
-        return;
-      }
-      
-      button.disabled = true;
-      
-      var comment = {
-        id: Date.now().toString(),
-        author: name,
-        text: text,
-        date: new Date().toISOString(),
-        timestamp: Date.now()
-      };
-      
-      commentsStore[postId].push(comment);
-      saveCommentsToStorage(commentsStore);
-      
-      nameInput.value = '';
-      commentInput.value = '';
-      
-      renderComments(postId);
-      
-      button.disabled = false;
-      
-      var originalText = button.textContent;
-      button.textContent = 'Posted!';
-      setTimeout(function() {
-        button.textContent = originalText;
-      }, 2000);
-    }
-
-    function renderComments(postId) {
-      var container = document.getElementById('comments-' + postId);
-      var comments = commentsStore[postId] || [];
-      
-      if (comments.length === 0) {
-        container.innerHTML = '<p class="no-comments">No comments yet. Be the first to comment!</p>';
-        return;
-      }
-      
-      var sortedComments = comments.slice().sort(function(a, b) {
-        return b.timestamp - a.timestamp;
-      });
-      
-      var commentsList = document.createElement('ul');
-      commentsList.className = 'comments-list';
-      
-      sortedComments.forEach(function(comment) {
-        var li = document.createElement('li');
-        li.className = 'comment';
-        
-        var date = new Date(comment.date);
-        var dateStr = date.toLocaleDateString() + ' at ' + date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-        
-        li.innerHTML = '<div class="comment-header"><span class="comment-author">' + escapeHtml(comment.author) + '</span><span class="comment-date">' + dateStr + '</span></div><div class="comment-text">' + sanitizeUserHtml(comment.text) + '</div>';
-        commentsList.appendChild(li);
-      });
-      
-      container.innerHTML = '';
-      container.appendChild(commentsList);
-    }
-
-    function escapeHtml(text) {
-      var div = document.createElement('div');
-      div.textContent = text;
-      return div.innerHTML;
     }
 
     // Sanitize user-supplied content but allow <em> and <strong> (no attributes).
