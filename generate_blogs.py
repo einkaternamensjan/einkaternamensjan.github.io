@@ -252,8 +252,8 @@ for group_id, entries in posts_by_group.items():
 
     composed_title = ' / '.join(title_parts)
 
-    # Format date as DD.MM.YY
-    date_parts = date.split('-')
+    # Format date as DD.MM.YY using this entry's own date
+    date_parts = first_entry['date'].split('-')
     formatted_date = f"{date_parts[2]}.{date_parts[1]}.{date_parts[0][2:]}"
 
     index_items.append(f"<li><a href='posts/{group_slug}.html'>{composed_title} ({lang_labels}) - {formatted_date}</a></li>")
