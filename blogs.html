@@ -97,6 +97,28 @@
       border-bottom: none;
     }
 
+    /* Back to top button */
+    #back-to-top {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 50%;
+      color: #e8d7bf;
+      font-size: 24px;
+      cursor: pointer;
+      display: none;
+      z-index: 1000;
+      transition: background 0.3s;
+    }
+
+    #back-to-top:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
     /* Translation notice */
     .translation-notice {
       background: rgba(100, 150, 255, 0.15);
@@ -127,6 +149,9 @@
     <h1>Blog</h1>
     <p><a id="back-home-link" href="index.html">Back to Home</a></p>
   </header>
+
+  <button id="back-to-top" title="Back to Top">↑</button>
+
   <nav aria-label="Contents">
     <h2>Contents</h2>
     
@@ -251,6 +276,22 @@
           translateAllArticles('en');
         }
       }
+    });
+
+    // Back to top button functionality
+    var backToTopButton = document.getElementById('back-to-top');
+    window.addEventListener('scroll', function() {
+      var header = document.querySelector('header');
+      var headerHeight = header ? header.offsetHeight : 100;
+      if (window.scrollY > headerHeight) {
+        backToTopButton.style.display = 'block';
+      } else {
+        backToTopButton.style.display = 'none';
+      }
+    });
+
+    backToTopButton.addEventListener('click', function() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
     function detectLanguage(text) {
