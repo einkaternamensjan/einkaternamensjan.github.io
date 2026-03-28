@@ -217,8 +217,9 @@ main h1, main h2 {
 }
 
 .bilingual-column {
-  flex: 1 1 min(48%, 450px);
+  flex: 1 1 48%;
   min-width: 18rem;
+  max-width: 600px;
   background: rgba(255,255,255,0.03);
   border: 1px solid rgba(255,255,255,0.15);
   border-radius: 8px;
@@ -235,6 +236,18 @@ main h1, main h2 {
   .bilingual-column {
     max-width: 100%;
     flex: 1 1 100%;
+  }
+}
+
+/* Cross-browser fallback for Android and older mobile browsers */
+@supports not (flex: 1 1 48%) {
+  .bilingual-layout {
+    display: block;
+  }
+  .bilingual-column {
+    width: 100%;
+    margin-bottom: 1rem;
+    max-width: none;
   }
 }
 
