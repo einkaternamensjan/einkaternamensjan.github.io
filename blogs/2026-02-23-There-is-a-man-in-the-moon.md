@@ -1,3 +1,4 @@
+<!-- pair: man-in-moon -->
 
 There is a man in the moon.
 

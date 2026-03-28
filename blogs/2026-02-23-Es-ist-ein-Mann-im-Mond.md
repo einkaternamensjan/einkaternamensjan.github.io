@@ -1,3 +1,4 @@
+<!-- pair: man-in-moon -->
 
 Es ist ein Mann im Mond. 
 

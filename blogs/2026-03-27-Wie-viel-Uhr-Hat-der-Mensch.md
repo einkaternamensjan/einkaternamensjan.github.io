@@ -1,3 +1,5 @@
+<!-- pair: hour-man -->
+
 # Wie viel Uhr hat der Mensch? 
 
 Das Unbehagen des Unwissens zeugt die ununterdrückbare Begierde nach Weisheit. Dies vermag es jedoch nicht, die empfundene Leere des Wesens zu entmachten. Die Paralyse, die einen, der vor diesem Problem steht, überkommt, will sich nicht besiegen lassen, sondern dient beharrlich den Zweck, ihn in die Obskurität zu lenken. Sich dieser Paralyse a priori hinzugeben ist eine wahnhafte Torheit. Es gilt, ihr zu widerstehen. Der Mensch, der von dem eigenen Dasein konfrontiert wird, findet seinen Zweck lediglich in der *Aufhebung* seiner Existenz. Den Moment seines *Daseins* muss er *aufheben*, sich von ihm befreien. Die Zeit *zeitigt sich* in jenem Moment und seine Aufgabe besteht darin, dies umzukehren. Er muss die Kräfte der Zeit überwinden und sich an deren Stelle versetzen. Er muss sich *zeitigen.*

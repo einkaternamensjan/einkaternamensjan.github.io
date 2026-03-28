@@ -55,6 +55,11 @@ def strip_first_markdown_title(raw):
     return raw
 
 
+def pair_id_from_markdown(raw):
+    m = re.search(r'<!--\s*pair\s*:\s*([a-zA-Z0-9_-]+)\s*-->', raw, flags=re.IGNORECASE)
+    return m.group(1).strip() if m else None
+
+
 def create_slug(filename):
     slug = filename.replace('.md', '')
     slug = re.sub(r'[^a-z0-9]+', '-', slug.lower())
@@ -124,12 +129,15 @@ for blog_path in blog_paths:
     date = date_match.group(1) if date_match else 'undated'
 
     lang = guess_language(raw_without_footnotes)
+    pair_id = pair_id_from_markdown(raw_without_footnotes)
+    group_id = f"{date}-{pair_id}" if pair_id else slug
 
     blogs_data.append({
         'name': blog_path,
         'date': date,
         'title': title,
         'slug': slug,
+        'group_id': group_id,
         'raw': raw_without_footnotes,
         'compiled': compile_markdown(markdown_body),
         'footnotes': footnotes,
@@ -144,13 +152,14 @@ with TEMPLATE_FILE.open('r', encoding='utf-8', errors='replace') as fh:
     template = fh.read()
 
 
-posts_by_date = {}
+posts_by_group = {}
 for entry in blogs_data:
-    posts_by_date.setdefault(entry['date'], []).append(entry)
+    posts_by_group.setdefault(entry['group_id'], []).append(entry)
 
-for date, entries in posts_by_date.items():
+for group_id, entries in posts_by_group.items():
     first_entry = entries[0]
-    group_slug = create_slug(f"{date}-{first_entry['title']}")
+    group_slug = create_slug(group_id)
+    date = first_entry['date']
 
     group_nav_items = []
     group_articles = []
@@ -219,18 +228,18 @@ for date, entries in posts_by_date.items():
     print(f"Wrote {target_file} with {len(entries)} language versions.")
 
 index_items = []
-for date, entries in posts_by_date.items():
+for group_id, entries in posts_by_group.items():
     first_entry = entries[0]
-    group_slug = create_slug(f"{date}-{first_entry['title']}")
+    group_slug = create_slug(group_id)
     lang_labels = ', '.join(sorted({entry['lang'] for entry in entries}))
 
     de_entry = next((e for e in entries if e['lang'] == 'de'), None)
     en_entry = next((e for e in entries if e['lang'] == 'en'), None)
     title_parts = []
     if de_entry:
-        title_parts.append(f"Deutsch: {de_entry['title']}")
+        title_parts.append(f"{de_entry['title']}")
     if en_entry:
-        title_parts.append(f"English: {en_entry['title']}")
+        title_parts.append(f"{en_entry['title']}")
     if not title_parts:
         title_parts.append(first_entry['title'])
 
@@ -251,4 +260,4 @@ index_html = template.replace('###STYLESHEET###', 'styles.css').replace('###BLOG
 with OUT_FILE.open('w', encoding='utf-8', errors='replace') as fh:
     fh.write(index_html)
 
-print(f"Wrote {OUT_FILE} with {len(posts_by_date)} groups.")
+print(f"Wrote {OUT_FILE} with {len(posts_by_group)} groups.")
