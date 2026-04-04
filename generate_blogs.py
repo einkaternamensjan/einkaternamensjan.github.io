@@ -63,7 +63,7 @@ def strip_first_markdown_title(raw):
 
 
 def pair_id_from_markdown(raw):
-    m = re.search(r'<!--\s*pair\s*:\s*([a-zA-Z0-9_-]+)\s*-->', raw, flags=re.IGNORECASE)
+    m = re.search(r'<!--\s*pair\s*:\s*([\w-]+)\s*-->', raw, flags=re.IGNORECASE | re.UNICODE)
     return m.group(1).strip() if m else None
 
 
@@ -77,7 +77,7 @@ def create_slug(filename):
 
 
 def guess_language(text):
-    sample = text.lower()
+    sample = re.sub(r'<!--.*?-->', '', text, flags=re.DOTALL).lower()
     german_indicators = ['ä', 'ö', 'ü', 'ß', ' und ', ' der ', ' die ', ' das ', ' nicht ', ' ist ', ' ich ', ' sie ', ' mit ', ' für ', 'sein ', 'sich ']
     for token in german_indicators:
         if token in sample:

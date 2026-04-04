@@ -1,4 +1,5 @@
-<!-- pair: Spiegel-Missverständnis -->
+<!-- pair: spiege-missverständnis -->
+
 # Im Spiegel des Missverständnisses
 
 Die Selbstprojizierung auf das missverstandene Subjekt verrät nur das Selbstverständnis des Betrachters. Er offenbart, worin seine Welt besteht, indem er sie dem Subjekt oktroyiert. Seine Missverständnisse sind bloßer Selbstverrat, der die Triebfeder seines Selbstverständnis entblößen. Indem er das Andere nicht als Andere gelten lässt, bedient er sich dieser heimtückischen Form der Selbstspiegelung anstelle des Denkens. Dadurch, dass er es hier nicht vermag, über such hinauszudenken, verliert er überhaupt die Kraft des Erkennens.
