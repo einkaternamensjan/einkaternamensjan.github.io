@@ -28,7 +28,7 @@ Der Vogel im Fenster lässt es nicht sein
 
 Der Vogel im Fenster hat Angst vor der Wut
 
-Der Vogel im Fenster ertrinkt in deinem Blut
+Der Vogel im Fenster ertrinkt in dem Blut
 
 Der Vogel im Fenster zapft den Strom an
 
