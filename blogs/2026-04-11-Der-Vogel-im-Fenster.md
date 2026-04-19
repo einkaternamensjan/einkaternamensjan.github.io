@@ -14,7 +14,7 @@ Der Vogel im Fenster zwitschert und singt
 
 Der Vogel im Fenster leidet und sinnt
 
-Der Vogel im Fenster such sich eine Braut
+Der Vogel im Fenster sucht sich eine Braut
 
 Dem Vogel im Fenster wurd' das nicht erlaubt
 
