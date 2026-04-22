@@ -8,7 +8,7 @@ Der Walzer, stoisch, wie immer.
 Mein Gesicht, das deine. Dein Gesicht, das meine. Weit weg, ins Auge geschaut. 
 Die Kinder dessen, was wir nicht mehr zu betrachten wagen. Ich schneide es ab, reiße es aus. 
 Inverses Funkeln, dunkle Fleckchen, Löcher in der Seele.
-Sprechen wir es ab, treffen wir uns hier. Hinter dem Vorhang, nein, der Vorwand der Feigheit.
+Sprechen wir es ab, treffen wir uns hier. Hinter dem Vorhang, nein, dem Vorwand der Feigheit.
 Dein Gesicht, das meine, erkenne ich nicht mehr, doch, was steckt dahinter? 
 Mein Gesicht, das deine, zermürbt sich. Was zu erkennen wäre, wo zu erkennen wäre.
 **Himmlisch, wie alles hier, ohne Makel, ohne Einwand**.
