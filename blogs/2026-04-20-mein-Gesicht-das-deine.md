@@ -15,7 +15,7 @@ Mein Gesicht, das deine, zermürbt sich. Was zu erkennen wäre, wo zu erkennen w
 Ich gehe wieder, weit weg, lass dich leiden, lernen auch. 
 Die Gesichter, die unseren, zerfallen, verwesen, immer so, sind sie gewesen?
 Das wahre Sich, Selbst des Einen, flattert zögernd, durch jene Nacht.
-Seit jeher ist es, finstere Männer, das Zucker des Gipfels, liquidiert. Die Birne des Kopfes, versteckt im Hirn, die Viergestirn derer, mit ihren Antlitzen im Kern.
+Seit jeher ist es, finstere Männer, der Zucker des Gipfels, liquidiert. Die Birne des Kopfes, versteckt im Hirn, die Viergestirn derer, mit ihren Antlitzen im Kern.
 Ich komme wieder, dir zuwider, abstoßend und bleich. 
 Der Gesichtspunkt des Teufels, Beelzebub. Zärtlich, gar zaghaft, das junge Selbstverständnis.
 Den Würfel werfen, aufs gute Glück hoffen. Wir sind im Würfel, Herrschaft als ob. 
