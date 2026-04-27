@@ -14,4 +14,4 @@ The eyes with which you behold the world are my prey, my unfathomable, infinite 
 
 NOW ENOUGH OF THIS DAMNED FINITUDE.
 
-Now finally **the finite** is infinite. The reach of its power, it devours the world, see how easily it does this! It has no eyes, no ears, no qualities. It is not tangible, not objectlike. No space, no time, holds it captive. Its actuality consists in its inactuality. If everything is not everything, and nothing is not nothing, are you everything and nothing at once?
+Now finally **the finite** is infinite. The reach of its power, it devours the world, see how easily it executes this! It has no eyes, no ears, no qualities. It is not tangible, not objectlike. No space, no time, holds it captive. Its actuality consists in its inactuality. If everything is not everything, and nothing is not nothing, are you everything and nothing at once?
