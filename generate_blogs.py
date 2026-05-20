@@ -78,11 +78,23 @@ def create_slug(filename):
 
 def guess_language(text):
     sample = re.sub(r'<!--.*?-->', '', text, flags=re.DOTALL).lower()
-    german_indicators = ['ä', 'ö', 'ü', 'ß', ' und ', ' der ', ' die ', ' das ', ' nicht ', ' ist ', ' ich ', ' sie ', ' mit ', ' für ', 'sein ', 'sich ']
-    for token in german_indicators:
-        if token in sample:
-            return 'de'
-    return 'en'
+    german_words = ['ä', 'ö', 'ü', 'ß', ' und ', ' der ', ' die ', ' das ', ' nicht ', ' ist ', ' ich ', ' sie ', ' mit ', ' für ', 'sein ', 'sich ']
+    english_words = [' the ', ' and ', ' is ', ' in ', ' to ', ' of ', ' that ', ' it ', ' for ', ' on ', ' with ', ' as ', ' was ', ' at ', ' be ']
+
+    german_score = 0
+    english_score = 0
+
+    # strong indicator: German special characters
+    for ch in ['ä', 'ö', 'ü', 'ß']:
+        if ch in sample:
+            german_score += 5
+
+    for w in german_words:
+        german_score += sample.count(w)
+    for w in english_words:
+        english_score += sample.count(w)
+
+    return 'de' if german_score > english_score else 'en'
 
 
 def compile_markdown(markdown: str):

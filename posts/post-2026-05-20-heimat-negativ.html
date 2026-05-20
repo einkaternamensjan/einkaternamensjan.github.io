@@ -1,0 +1,906 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Blog - einkaternamensjan</title>
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    /* Language toggle */
+    .language-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      display: flex;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.1);
+      padding: 0.5rem;
+      border-radius: 6px;
+      backdrop-filter: blur(10px);
+    }
+
+    .language-toggle button {
+      padding: 0.5rem 1rem;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 4px;
+      color: inherit;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 0.9rem;
+    }
+
+    .language-toggle button:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    .language-toggle button.active {
+      background: rgba(255,255,255,0.3);
+      border-color: rgba(255,255,255,0.4);
+      font-weight: bold;
+    }
+
+    /* Footnotes styling */
+    .footnotes {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 2px solid rgba(255,255,255,0.2);
+    }
+
+    .footnotes h4 {
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+    }
+
+    .footnotes ol {
+      padding-left: 1.5rem;
+      line-height: 1.8;
+    }
+
+    .footnotes li {
+      margin-bottom: 0.75rem;
+    }
+
+    .footnote-ref {
+      color: #64a0ff;
+      text-decoration: none;
+      font-weight: bold;
+      vertical-align: super;
+      font-size: 0.8em;
+      padding: 0 0.2em;
+    }
+
+    .footnote-ref:hover {
+      text-decoration: underline;
+    }
+
+    .footnote-backref {
+      color: #64a0ff;
+      text-decoration: none;
+      margin-left: 0.5rem;
+      font-size: 0.9em;
+    }
+
+    .footnote-backref:hover {
+      text-decoration: underline;
+    }
+
+    /* Article spacing */
+    article {
+      margin-bottom: 4rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    article:last-of-type {
+      border-bottom: none;
+    }
+
+    /* Back to top button */
+    #back-to-top {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 50%;
+      color: #e8d7bf;
+      font-size: 24px;
+      cursor: pointer;
+      display: none;
+      z-index: 1000;
+      transition: background 0.3s;
+    }
+
+    #back-to-top:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    /* Publication date */
+    .publication-date {
+      text-align: center;
+      margin: 0.5rem auto;
+      max-width: 20cm;
+      color: #c0b395;
+      font-size: 0.9rem;
+      font-style: italic;
+    }
+
+    /* Translation notice */
+    .translation-notice {
+      background: rgba(100, 150, 255, 0.15);
+      border-left: 3px solid rgba(100, 150, 255, 0.5);
+      padding: 0.75rem 1rem;
+      margin-bottom: 1rem;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+
+    .translation-error {
+      background: rgba(255, 100, 100, 0.15);
+      border-left: 3px solid rgba(255, 100, 100, 0.5);
+      padding: 0.75rem 1rem;
+      margin-bottom: 1rem;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body class="bilingual-mode">
+  <div class="language-toggle">
+    <button class="active" id="lang-en">English</button>
+    <button id="lang-de">Deutsch</button>
+  </div>
+
+  <header>
+    <h1>Blog</h1>
+    <p><a id="back-home-link" href="index.html">Back to Home</a></p>
+  </header>
+
+  <p class="publication-date">Published on 20.05.26</p>
+
+  <button id="back-to-top" title="Back to Top">↑</button>
+
+  <nav aria-label="Contents">
+    <h2>Contents</h2>
+    <a href='#post-2026-05-20-negativity-of-heimat'>- EN: On the Negativity of Heimat</a><br><a href='#post-2026-05-20-negativitaet-der-heimat'>- DE: Zur Negativität der Heimat</a>
+  </nav>
+  <main>
+    <div class='group-header'><h1 class='title-de'>Deutsch: Zur Negativität der Heimat</h1><h1 class='title-en'>English: On the Negativity of Heimat</h1></div><nav aria-label='Post languages'><span class='lang-chip'><a href='#post-2026-05-20-negativity-of-heimat'>- EN</a></span><span class='lang-chip'><a href='#post-2026-05-20-negativitaet-der-heimat'>- DE</a></span></nav><div class='bilingual-layout'><article id='post-2026-05-20-negativity-of-heimat' class='bilingual-column lang-en'><h2>English</h2><h1 class='post-title'>On the Negativity of Heimat</h1><p><!-- pair: Heimat-negativ --></p>
+<p>The following text is not finished. It will likely never be finished. I believe writing it to exhaustion would, however, defeat the purpose of the text; there should be no highest authority of interpretation. Every exposed passage of the text represents an intimation of its immanent becoming. Its weaknesses are starting points of new thinking, occasions for it. It was written with the conviction that philosophy is the most important thing there is, yet at the same time not so important.</p>
+<p><em>"Heimat, my sorrow, land in twilight's veil, Sky of blue above me, my joy, my all."</em></p>
+<p>The security of childhood, the serenity of the parental home — both fall prey to the mind's encounter with the world, inevitably torn apart by the hounds of harsh reality. The naive worldview forms within a person something they cannot do without for the rest of their lives: the Urheimat. It is a rigid, subjective conception of the world in a state of immaturity. It is doomed to fail; its fate does not lurk behind the curtains of a treacherous system, but is the very matter of reality itself. It is not possible for the Urheimat to endure. Its inescapable collapse is the starting point of adult life. The capacity to bear this death is the foundation of the capacity to imagine something new and better. The futile attempts to revive the decomposed corpse of the Urheimat lead a person only astray. The insight that it has finally perished brings one to the recognition of the true Heimat. The Urheimat is not a flower growing on the plant of Heimat; it is the subsequent fruit, which must simply die and rot so that Heimat can emerge from it. Some may try to put these flowers on display, as vain as if they need never wilt — but their blooming brilliance is as mortal as the creature that pursues their eternal preservation.</p>
+<p><em>"Gradually the sky grows darker</em> <br><em>And, lacerated, I raised this heart</em> <br><em>More tenderly. And I passed by</em> <br><em>Like snow in the fresh March air!"</em></p>
+<p>Heimat is the most important thing there can be for a person, yet it is at the same time not so important. Heimat does not arise from loving one's neighbour and lending a hand when they are in need. It does not arise through intention or striving at all. It simply arises — neither here nor there; here today, there tomorrow. Whoever has already imagined a Heimat, whoever has something in mind, has already had it slip away. _"You who will emerge from the flood / in which we have gone under / remember."_ Goodness is no longer goodness when an act is performed with the intention of goodness — it becomes perfidy, plain and simple. Heimat is no longer Heimat when it is brought about with precisely that intention — it becomes ideology, plain and simple. It has no form, no intellect, no reason. It is Heimat; everything to a person, yet at the same time nothing. It simply does not exist. <strong>It does not exist at all.</strong> No one has ever been a resident of humanity's Heimat, yet the direction of all hope is Heimat alone: _"A curse upon the false fatherland, / Where only shame and scandal flourish, / Where every flower is blighted early, / Where rot and mould delight the worm — / We weave, we weave."_ We weave Heimat, our Heimat, from the fibres of our true being. Although the land in which we live bestows on us the fruits of its labour, we do not need it. The land is dispensable, its existence irrelevant to our purposes. Heimat does not decay with the dissolution of borders or states.</p>
+<p><em>"The vine bears grapes,</em><br><em>The scapegoat bears horns."</em></p>
+<p>The flourishing botany of a field yields fruit and grain to people; rotting guilt yields death and shame. Who is to play judge of the world when the guilty have been exterminated?</p>
+<p>"<em>Doctor: Now then, no excitement. When the Jew inspection is over, everything will be as before. No Andorran has anything to fear — we have that in black and white. I remain the local doctor and the innkeeper remains the innkeeper, Andorra remains Andorran…</em><br> <em>drumming</em>"</p>
+<p>No overturning of powers permits this; the powers, as they are in and for themselves, must be dissolved. No power for anyone, all power for each and every one. Power excludes itself, cannot propagate further. When all possess the same power, no one possesses power. Furthermore, borders serve only to confuse us. The master-slave dialectic may have shown how consciousness observes itself by doing so through the eyes of the other. But what if we advance further. We renounce all borders, allow master and slave to melt into one another — where are we now? Souls transposed? The sovereign land is in and for itself, in and through the fact that it is for another in and for itself; that is, it exists only as something recognised. It cannot kill the other, cannot exterminate it, because in doing so it would exterminate itself as something recognised. The physical, tangible borders of a flesh-and-blood body do not serve here, however, to keep two bodies apart. The borders of a country, of a state, can overlap. They are permeable; the inhabitants can cross them without themselves perishing. With their abolition, both countries would indeed collapse — they would no longer exist as mutually recognising countries. The peoples, however, would continue to exist. Their existence as the human race thereby reveals itself to be independent of the formation and maintenance of any borders whatsoever. The need of a country to be recognised is superfluous to its people here. We are the people of the world; there is no other, there are no multiple peoples — there are only human beings and the earth. The manifold forms of a state are not that with which and through which a person identifies themselves and their Heimat.</p>
+<p><em>"…and not above, and not below, other peoples do we wish to be."</em></p>
+<p>How is culture to be preserved without enforced borders? The culture of a group, whether of a tribe or an entire people, requires no borders in order to propagate itself. What fixed borders separate the Bavarian from the Brandenburger? Does language not also function as the true bearer of this cultural copulation? Languages that can be learned offer permeable borders capable of preserving culture nonetheless. _"The limits of my language mean the limits of my world."_ In order to understand any given culture, one must inevitably acquire a kind of new language, which one can employ to apply one's knowledge to it, to interpret it, to make it one's own. Everything that presents itself to us as a border in this respect — this we wish to renounce. The enrichment of one's own world does not come about through the consumption and ingestion of materialistic objects; it cannot be brought about in this way. One succeeds in encountering it only through engagement with it, with our world, with nature: _"…and if an advantage is taken into account at all, it is at least not on our side. Not because we look down upon the child from the height of our strength and perfection, but because we look up from the limitation of our condition, which is inseparable from the vocation we have once attained, toward the boundless determinability in the child and its pure innocence — that is why we are moved, and our feeling in such a moment is too visibly mixed with a certain melancholy for its source to be mistaken."_ It is not about a bold mastery of the world through these thereby acquired capacities for understanding. What is at stake here is incorporating the world into ourselves, and ourselves into it. Everything unbounded, melting into itself.</p>
+<p><em>"Let him forbid what all desired,</em> <br><em>He's stirred a hornets' nest with that;</em><br><em>The realm they were supposed to guard</em> <br><em>Lies plundered now and desolate."</em></p>
+<p>A person does not feel at home in Heimat — that much is certain. A person who claims to have found their Heimat in a world that remains full of misery and suffering, exploitation and oppression, has found nothing. They have merely arranged themselves, come to terms with the pain of their fellow human beings. They are not in a state of Heimat — they are in a state of errancy. Their spirit contaminated by materialistic desires. Heimat is therefore only reachable by all or by no one. It is not to be found through the consumption of materialistic objects. The essence of Heimat does not suffer under blunt concepts and prejudices. _Constellations_ form the sky of its existence; constellations instead of blunt concepts. The elements of being that have been obliterated through the becoming of the Absolute or its idealisation — these we bring suddenly to appearance. As a bolt of lightning in the night illuminates everything around it, so do those constellations show us everything that was lost through the advent of the Absolute. Heimat is not a place; it occupies no location in the world. It is direction — but an indefinable one. Were it definable, it would long since have been dead: _"just don't jostle toward the angels."_ Heimat is resistance and submission, recovery and illness, improvement and deterioration. To précis the question directed at it is to deal it a deathblow. _"Here is a place for the gift of the poor from the abundance of his youth."_ The feeling of Heimat does not arise from what already is, but from what is not yet. Homesickness is in this way deceptive, for it bestows upon us idealised memories that are in fact images of what still _could_ be — a kind of _fore-memory_ (the concept beautifies the intuition, that which is intuited, and slightly blinds the observer here). _"…something which shines into the childhood of all and in which no one has yet been: Heimat."_ We see through these fore-memories that what does not exist can still become (it is assumed here that the word "must" may be used freely. Nothing _must_ necessarily come to pass. This delusion about the course of things only falls prey to misuse). Past and future in the same place — a synthesis of Heimat with Urheimat; but how is this even possible? From the past there remains as much for us to take as from the future. The present moment in which one finds oneself always contains the past and the future. The _Jetztzeit_ — the now-time — allows us to bring the dialectic of time in its becoming, of time altogether, to expression. The Urheimat grants us the frame that we require for the future Heimat. Its purpose, however, is not the framing of the subject, but its own disintegration. We need the frame so that we can imagine the world outside it — in order to see wherein eternal becoming consists.</p>
+<p><em>"I am sitting by the roadside.</em> <br><em>The driver changes the wheel.</em><br><em>I do not like the place I have come from.</em><br><em>I do not like the place I am going to.</em><br><em>Why do I watch the wheel-changing with impatience?"</em></p>
+<p>What Heimat is must not be spoken — it feeds on its own imponderable quality. It is absorbed and destroyed when one undertakes any measures to realise it; subsume Heimat or I'll give you a smack! What is needed instead of a Heimat that is hypostatised and reified is a Heimat that eludes its concept. In this respect it could not be hypostatised, reified — a Becoming-Heimat. Heimat not as a place that exists. Heimat as a _becoming_. An eternal project that never ceases to be in the process of becoming. Why should Heimat give precedence to anything? A Heimat that develops like a rhizome, keeps growing, without heeding the already existing structures of humanity. For why should it do that? It is, after all, not an acting being. The imponderable quality from which it feeds is therefore not imponderable quality plain and simple, but an imponderable quality that reveals itself when a person cannot manage to understand something. Heimat is therefore quite simply incomprehensible. Apart from the crude concept we have affixed to it, it is unfathomable, indeed senseless! Recognising this senselessness, this very absurdity of the fact, is the only capacity one requires in order to acknowledge Heimat for humanity — so as not to be forced to deny it to them out of sheer anxiety.</p>
+<p>The attempt to salvage its bare parts and reconstruct it is enough to drive one mad. What is hoped for cannot be manufactured; abandoning hope, however, is equally impossible. It does not consist in living in excess or deficit, since this can only lead to its destruction; it resides above all not in the lofty dreams of an erring thinker whose thoughts are great but lack in content. The society of the product seeks to abolish becoming, holds it in horror. The _vitium exitiale_ of such a society consists in its inability to recognise the process of creation as a continuous becoming. A continuous fall perhaps — but continuous nonetheless. This society of the product attempts, however futile this may be, to administer this becoming from without, indeed to manipulate it. The process of growing does not, however, come from without. Like a growing plant that expands from within outward. It takes up the material that is made available to it from outside and produces, by means of inner biological mechanisms, the abundant foliage we observe. The fruits that will later form new plants are generated through that process. Their immanence dwells within them. Heimat, on the other hand, is not immanent — it _is_ immanence. It does not arise outside our world. Each person carries the seed of this immanence within them:</p>
+<p><em>"What were a God who only outward pressed,</em> <br><em>And set the All to circle on his finger's tip?</em> <br><em>It fits him best to move the world within his breast,</em><br><em>To cherish Nature in himself, himself in Nature's grip,</em><br><em>So that what in him lives and moves and has its being</em><br><em>Is never robbed of his strength, nor of his spirit's </em>freeing."*</p>
+<p>It consists of optimism — the optimism of the self. The negativity, indeed pessimism of the matter, springs from its opposite: positivism. The capacity to express pure critique does not consist in permanently attempting to drag the world down, but quite the contrary: true optimism consists in being able to improve the world around one. The purpose of critique is pure positivity. The urge to see the world through rose-tinted spectacles is a consequence of inner darkening. Someone who must talk the world up to themselves admits in truth that they do not find it sufficient — but instead of any attempt at improvement, they deploy the talk of beautification, which is capable of deceiving no one but themselves. Within the soul that always manages to perceive the potential of a thing lies the source of all beauty, of change. The banality of a world that is, on the contrary, always beautiful enough is unbearable to the true optimist; they do not rest with the mere attempt to talk everything up, but go beyond it. This optimism of the self is what drives the wheels of movement forward. The optimism of the world, by contrast, serves only to console us when we believe ourselves unable to change our situation. _"The genuinely critical need of thought to awaken from the phantasmagoria of culture has been intercepted, channelled, fed to false consciousness."_ The need to liberate is tantamount to assigning it to the optimism of the self. _"We do not then confront the world in a doctrinaire fashion with a new principle, declaring: Here is the truth, kneel down before it! We develop new principles for the world out of the world's own principles."_ The hope for improvement seeks its home in critique, and there pursues its work.</p>
+<p>Heimat cannot be conjured — it can only be conjured negatively, through negation. What it _is_ cannot be said. But what is it that cannot be put into words? _"The hovering thing can scarcely be brought properly into words…"_ — yet through its hovering before us, it _is_! _"A woman must become-woman, but in a becoming-woman of all men. A Jew must become-Jewish, but in a becoming-Jewish of the non-Jew. […] There is no subject of becoming except as a deterritorialised variable of the majority; there is no medium of becoming except as a deterritorialised variable of a minority."_ Heimat exists neither as subject nor object; it is to be thought beyond this disjunction. The negation of its being as subject or object allows it to elude all idealisation. In negating this difference, one gives its essence free rein; like a spectre, it is finally freed from the clanking chains of the subsumption of the past — a spectre is haunting Europe, the spectre of Heimat. Without this deterritorialisation, it is however not possible to negate this disjunction entirely. What would result would still be an identity that at best conforms to the disjunctive norm — _Quamquam non cogebar, tamen nolebam_. Without the dissolution of disjunctive thinking, of the dichotomy imposed upon identity, it is impossible to bring about essential change; _"wrong life cannot be lived rightly"_ — _coactus volui_. It cannot be distinguished a priori how Heimat presents itself in contrast to a false one. We have only the concept of it — no intuition, no tangible experience. How then is one to arrive at the recognition that it exists at all? By negating it. The negation of Heimat remains the only way out of this epistemological dead end. We can only recognise what it is _not_, and through this its outlines might be glimpsed. The lightning-swift strike of our method — _negative topology_ — does not show us the desired subject, but it locates it. We can observe the territory around it and thereby place the precise site of its essence. Concepts without intuitions are empty — yet the outlines of the empty negate the non-being of the content.</p>
+<p>We do not wish to disinherit our children: I have been my father and my son. Heimat is not a place of disjunction. Either-or _is_ neither-nor; nothing is everything, but everything is much. One is not either man or woman, father/mother or son/daughter — but both and neither simultaneously. The pure concept obliterates the identifying. The identifying does not become identity — but the reverse. One loses the power of apprehension. That which does not fit into my image of _the foreign_ identity must be erased, smoothed over. _"Thinking that has gone astray with regard to identity capitulates easily before the unresolvable and fashions from the unresolvability of the object a taboo for the subject — which, whether irrationalist or scientific, should restrain itself from touching what is not like it, surrendering its weapons before the prevailing ideal of knowledge, thereby paying that ideal respect."_ Heimat is to take precedence over its concept; it is to dwell within the individual but not equally in the supra-individual such that it then synthesises the individual, through which alone that individual consequently identifies itself, thinks, and determines what it identifies with.</p>
+<p><em>"One fine day our masters will still order us</em><br><em>To conquer the ocean floor and the moon,</em><br><em>And it is already hard here, with this Russia,</em><br><em>And the enemy is strong and the way home unknown.</em><br><em>God preserve us,</em><br><em>And lead us home again,</em><br><em>Lead us home again…"</em></p>
+<p>The way home cannot be taught, and even less can it be learned. Any attempt to teach a person the "right" path, to show them where they are to go, will inevitably become the most insidious indoctrination. We cannot show our own what we see. The mountains that stand before us, the feeling of the great Other, point to the signpost. They do not, however, lead us further. What illuminates a person in the darkness of that hour belongs to them alone. Heimat is equally to be shared and not to be shared — for all and for no one. The cunning of Heimat: to elude everyone and at the same time to present itself. It channels itself through the veins of a person, flows like blood — yet is, a contrario, no elixir of life. It is not meant to let the light of heaven shine down on us.</p>
+<p><em>"The armies march,</em><br><em>The armies march,</em><br><em>Marie, do not weep.</em><br><em>When I return, I shall return under other banners,</em><br><em>Therefore do not weep."</em></p>
+<p>One exists in the suspension of one's becoming concept, regardless of whether one desires this or not. It is impossible to defend oneself against the immanent desecration. One's properties are not one's own — they belong to everyone but oneself. _De mortuis nil nisi malum._ Everyone one knows is long since dead. Becoming never tips over into being; the negation of non-being is its blossoming. Heimat lies in dying, yet it soars high above. It has not a single goal. It _becomes_.</p>
+<p><em>"Heaven shone, a blue one, peace came in to stay, Heimat, my sorrow, you, my brightness of day."</em></p>
+<p>Change presupposes that something remains by which the change can be seen.</p>
+<p><em>"Barblin: Here are his shoes. Don't touch them! When he comes back, these are his shoes."</em></p></article><article id='post-2026-05-20-negativitaet-der-heimat' class='bilingual-column lang-de'><h2>Deutsch</h2><h1 class='post-title'>Zur Negativität der Heimat</h1><p><!-- pair: Heimat-negativ --></p>
+<p>Der folgende Text ist nicht fertig. Er wird wohl nie fertig sein. Ich glaube, ihn zu Erschöpfung zu schreiben, würde den Zweck des Textes jedoch verfehlen; es soll keine höchste Instanz der Deutung geben. Eine jede exponierte Stelle des Textes stellt eine Andeutung seines immanenten Werdens dar. Seine Schwächen sind Ausgangspunkte des neuen Denkens, Anlässe seiner. Geschrieben wurde er, mit der Denkweise, dass die Philosophie das wichtigste überhaupt ist, zugleich aber nicht so wichtig ist.</p>
+<p>"Heimat meine Trauer, Land im Dämmerschein, Himmel du mein blauer, du mein Fröhlichsein".</p>
+<p>Die Geborgenheit der Kindheit, die Gelassenheit des elterlichen Zuhauses, beide fallen der geistigen Erfahrung der Welt anheim, werden zwangsläufig zerfleischt von den Hunden der harschen Realität. Das naive Weltbild bildet dem Menschen etwas, worauf er den Rest seines Lebens nicht verzichten kann; die Urheimat. Die ist eine starre, subjektive Vorstellung der Welt in Unmündigkeit. Sie ist zum Scheitern verurteilt, ihr Verhängnis lauert nicht hinter den Kulissen eines tückischen Systems, sondern ist die Materie der Realität selbst. Es ist für die Urheimat nicht möglich, auszuharren. Ihr unausweichlicher Untergang ist der Ausgangspunkt des erwachsenen Lebens. Die Fähigkeit, diesen Tod zu verschmerzen, ist die Grundlage der Fähigkeit sich etwas Neues, Besseres, vorzustellen. Die vergeblichen Versuche, die verweste Leichenahme der Urheimat wiederzubeleben, führen den Menschen einzig in die Irre. Die Einsicht, dass sie endgültig verstorben ist, bringt einen zur Erkenntnis der wahren Heimat. Die Urheimat ist keine Blume, die an der Pflanze der Heimat wächst, sie ist die folgende Frucht, die lediglich sterben und verwesen muss, sodass die Heimat aus ihr hervortreten kann. Manche mögen versuchen, diese Blumen auszustellen, so eitel, als bräuchten sie nie zu welken, aber ihre blühende Brillanz ist so sterblich, wie das Tier, das ihrer ewigen Bewahrung nachtrachtet.</p>
+<p>"Mählich wird der Himmel trüber<br>Und zerfleischt hob ich dies Herz<br>Zarter. Und ich ging vorüber<br>Wie ein Schnee im frischen März!"</p>
+<p>Die Heimat ist dem Menschen das Wichtigste, was es geben kann, zudem ist sie indes nicht so wichtig. Die Heimat entsteht nicht dadurch, das man seinen Nächsten liebt und ihm zur Hand geht, wenn er es nötig hat. Sie entsteht überhaupt nicht durch Absicht oder Streben. Sie entsteht einfach so, weder hier, noch da; heute hier, morgen dort. Wer sich eine Heimat schon vorgestellt hat, wenn wem was vorschwebt, ist sie einem schon entronnen. "Ihr, die ihr auftauchen werdet, aus der Flut, in der wir untergegangen sind; Gedenkt". Die Güte ist keine Güte mehr, wenn eine Tat mit der Absicht der Güte getan ist, sie wird zur Perfide schlechthin. Die Heimat ist keine Heimat mehr, wenn sie mit ebenjener Absicht herbeigeführt wird; sie wird zur Ideologie schlechthin. Sie hat keine Form, keinen Verstand, keine Vernunft. Sie ist Heimat; dem Menschen alles, aber zudem nichts. Sie existiert schlichtweg nicht. <strong>Sie gibt es gar nicht</strong>. Der Heimat der Menschheit war Keiner wohnhaft, doch die Richtung aller Hoffnung ist einzig Heimat: "<em>Ein Fluch dem falschen Vaterlande, Wo nur gedeihen Schmach und Schande, Wo jede Blume früh geknickt, Wo Fäulniß und Moder den Wurm erquickt –  Wir weben, Wir weben.</em>" Wir weben die Heimat, unsere Heimat, aus den Fasern unseres wahren Seins. Obzwar das Land, in dem wir wohnen, uns die Früchte seiner Arbeit beschert, brauchen wir es nicht. Das Land ist erlässlich, seine Existenz belanglos für unsere Zwecke. Die Heimat verfällt nicht mit der Auflösung von Grenzen oder Staaten.</p>
+<p>"*Reben trägt der Weinstock,<br>Hörner hat der Sündenbock"</p>
+<p>Die blühende Botanik eines Ackers beschert den Menschen Früchte und Getreide; die verfaulende Schuld beschert ihnen Tod und Schande. Wer soll Weltenrichter spielen, wenn die Schuldigen ausgemerzt worden sind?</p>
+<p>"Doktor: Nur keine Aufregung. Wenn die Judenschau vorbei ist, bleibt alles wie bisher. Kein Andorraner hat etwas zu fürchten, das habe wir schwarz auf weiß. Ich bleibe Amstarzt, und der Wirt bleibt Wirt, Andorra bleibt andorranisch...<br><em>trommeln</em>"</p>
+<p>Keine Umstülpung der Mächte lasst dies zu, die Mächte, wie sie an und für sich sind, müssen aufgelöst werden. Keine Macht für Niemanden, alle Macht für einen Jeder. Macht schließt sich aus, kann sich nicht weiter propagieren. Wenn alle dieselbe Macht besitzen, besitzt keiner Macht. Des Weiteren dienen Grenzen einzig, uns zu verwirren. Die Herr-Knecht Dialektik mag gezeigt zu haben, wie das Bewusstsein sich betrachtet, indem es sich durch die Augen des anderen dies tut. Aber was wäre, wenn wir weiter voran gelangen. Wir entsagen uns jeglicher Grenzen, lassen den Herrn und den Knecht ineinander schmelzen, wo sind wir jetzt? Seelen versetzt? Das souveräne Land ist an und für sich, indem und dadurch, dass es für ein anderes an und für sich ist; d.h. es ist nur als ein erkanntes. Es kann das andere aber nicht töten, nicht ausmerzen, weil es sonst sich selbst als anerkannte ausmerzen würde. Die physikalischen, handfesten Grenzen eines fleischlichen Körpers dienen hier aber nicht, zwei Körper auseinanderzuhalten. Die Grenzen eines Landes, eines Staates hingegen, lassen sich überschneiden. Sie sind durchlässig, die Einheimischen können sie überschreiten, ohne selbst zugrunde zu gehen. Mit deren Aufhebung, gingen zwar beide Länder zugrunde, sie existierten nicht mehr als gegenseitige, sich anerkennende Länder. Die Völker würden indessen weiterbestehen. Ihre Existenz als menschliche Rasse zeigt sich hierdurch unabhängig von der Bildung und von dem Hegen beliebiger Grenzen. Das Bedürfnis eines Landes, anerkannt zu sein, ist dem hiesigen Volk überflüssig. Wir sind das Volk der Welt, es gibt kein anderes, es gibt keine mehreren Völker, es gibt bloß die Menschen und die Erde. Die sämtlichen Formen eines Staates sind nicht das, womit und wodurch der Mensch sich und seine Heimat identifiziert.</p>
+<p><em>"...und nicht über, und nicht unter, andern Völkern wollen wir sein."</em></p>
+<p>Wie soll die Kultur sich erhalten, ohne durchgesetzte Grenzen? Die Kultur einer Gruppe, sei es eines Stammes oder eines ganzen Volkes, bedarf keine Grenzen, um sich fortzupflanzen. Welche festen Grenzen trennen den Bayer und den Brandenburger? Fungiert nicht überdies die Sprache als wahrer Erbringer dieser kulturellen Kopulation? Sprachen, die sich erlernen lassen, bieten durchlässige Grenzen an, die die Kultur weiterhin zu bewahren vermögen. "Die Grenzen meiner Sprache bedeuten die Grenzen meiner Welt". Um eine beliebige Kultur verstehen zu können, muss man sich zwangsläufig eine Art neuer Sprache aneignen, deren man sich bedienen kann, um seine Kenntnisse auf sie anzuwenden, um sie zu interpretieren, um sie sich zu eigen machen zu können. Alles was uns eine Grenze hierzu darstellt, wollen wir uns demzufolge entsagen. Die Bereicherung der eigenen Welt kommt nicht durch den Verbrauch und den Verzehr materialistischer Gegenstände zustande, man kann sie dadurch nicht herbeiführen. Es gelingt einem, sie anzutreffen, einzig durch die Auseinandersetzung mit ihr, mit unserer Welt, mit der Natur; "...und wenn ja ein Vorzug dabei in Betrachtung kommt, so ist dieser wenigstens nicht auf unserer Seite. Nicht weil wir von der Höhe unserer Kraft und Vollkommenheit auf das Kind herabsehen, sondern weil wir aus der Beschränktheit unsers Zustands, welche von der Bestimmung, die wir einmal erlangt haben, unzertrennlich ist, zu der grenzenlosen Bestimmbarkeit in dem Kinde und zu seiner reinen Unschuld hinaufsehen, gerathen wir in Rührung, und unser Gefühl in einem solchen Augenblick ist zu sichtbar mit einer gewissen Wehmuth gemischt, als daß sich diese Quelle desselben verkennen ließe." Es geht nicht um eine forsche Beherrschung der Welt durch diese dadurch erworbenen Fähigkeiten des Verständnisses. Hier geht es um der Welt uns einzuverleiben, und sie uns auch. Alles entgrenzt, in sich schmelzend.</p>
+<p>"Verbiete wer, was alle wollten,<br>Der hat ins Wespennest gestört;<br>Das Reich, das sie beschützen sollten,<br>Es liegt geplündert und verheert."</p>
+<p>Der Mensch fühlt sich bei der Heimat nicht wohl, dem ist wohl. Ein Mensch, der behauptet, seine Heimat gefunden zu haben, in einer Welt, die weiterhin voller Elend und Leid, Ausbeutung und Unterdrückung ist, hat nichts gefunden. Er hat sich bloß arrangiert, sich mit dem Schmerzen seinesgleichen abgefunden. Er ist in keinem Zustand der Heimat, er ist in einem Zustand des Sich-Irrens. Sein Geist verunreinigt durch materialistische Lüste. Die Heimat ist folglich nur für alle oder niemanden erreichbar. Sie ist nicht durch den Verbrauch materialistischer Gegenstände anzutreffen. Das Wesen der Heimat leidet nicht unter schroffen Begriffen und Vorurteilen. <em>Konstellationen</em> bilden ihm den Himmel seiner Existenz; Konstellationen statt schroffer Begriffe. Die Elemente des Seins, die durch das Werden des Absoluten oder seine Idealisierung vertilgt worden sind, bringen wir blitzartig zur Erscheinung. Wie ein Blitzschlag in der Nacht alles um sich herum zum Leuchten bringt, zeigen uns jene Konstellationen alles, was durch das Zustandekommen des Absoluten verlorengegangen ist. Die Heimat ist kein Ort, sie nimmt nirgends auf der Welt Platz ein, sie ist Richtung, aber eine undefinierbare. Wäre sie definierbar, wäre sie schon längst tot gewesen; "bloß nicht drängeln zu den Engeln". Heimat ist Widerstand und Unterwerfung, Genesung und Erkrankung, Verbesserung und Verschlechterung. Die Frage nach ihr zu präzisieren, ist ihr den Garaus zu machen. "Hier ist ein Platz für die Gabe des Armen vom Überfluss seiner Jugend.". Das Gefühl der Heimat entspringt nicht dem, was schon ist, sondern dem, was noch <em>nicht</em> ist. Das Heimweh ist auf diese Art und Weise trügerisch, denn es beschert uns idealisierte Erinnerrungen, die eigentlich Bilder dessen, was noch sein <em>könnte</em>, sind; eine Art <em>Vor-Erinnerung</em> (der Begriff verschönert die Anschauung, das Angeschaute, verblendet leicht hier den Betrachter). "... so entsteht in der Welt etwas, das allen in die Kindheit scheint und <em>worin noch niemand</em> war: Heimat.". Wir sehen durch diese Vor-Erinnerungen das, was nicht ist, kann noch werden (hier ist unterstellt, beliebig das Wort "muss" zu gebrauchen. Zwangsläufig <em>muss</em> bloß nichts zustande kommen. Diese Wahnvorstellung des Laufes der Sachen fällt nur dem Missbrauch anheim). Vergangenheit und Zukunft an derselben Stelle, eine Synthesis der Heimat mit der Urheimat, aber wie ist das überhaupt möglich? Aus der Vergangenheit bleibt für uns eben so viel zu nehmen, wie aus der Zukunft. Das jetzige Moment, in dem man sich befindet, enthält stets die Vergangenheit und die Zukunft. Die "Jetztzeit" erlaubt uns, die Dialektik der werdenden Zeit, der Zeit überhaupt, zum Ausdruck zu bringen. Die Urheimat schenkt uns den Rahmen, dessen wir für die künftige Heimat bedürfen. Sein zweck ist indes nicht die Einrahmung des Subjekts, sondern das eigene Zerfallen. Wir brauchen den Rahmen, damit wir uns die Welt außerhalb dessen vorstellen können, um zu sehen, worin das ewige Werden besteht.</p>
+<p>"Ich sitze am Straßenhang.  <br>Der Fahrer wechselt das Rad.  <br>Ich bin nicht gern, wo ich herkomme.  <br>Ich bin nicht gern, wo ich hinfahre.  <br>Warum sehe ich den Radwechsel  <br>mit Ungeduld?"</p>
+<p>Was die Heimat ist, darf nicht ausgesprochen werden, sie speist sich aus der eigenen Unwägbarkeit. Sie wird vereinnahmt und zerstört wenn man sich jegliche Maßnahmen vornimmt, um sie zu realisieren; subsumier die Heimat oder ich knall´ dir eine! Was man anstelle einer Heimat, die hypostasiert und reifiziert wird, braucht, ist eine Heimat, die sich ihrem Begriff entzieht. Insofern ließe sie sich nicht hypostasieren, reifizieren; eine Becoming-Heimat. Heimat nicht als ein Ort, der Existiert. Heimat als ein <em>Werden</em>. Ein ewiges Projekt, das nie aufhört im Begriff zu sein. Warum sollte die Heimat irgendetwas Vorrang geben? Heimat die sich wie Rhizom entwickelt, weiter wächst, ohne die bereits existierenden Gefügen der Menschheit zu beachten. Denn warum soll sie das machen? Sie ist schließlich kein handelndes Wesen. Die Unwägbarkeit, aus der sie sich speist, ist demnach nicht Unwägbarkeit schlechthin, sondern eine Unwägbarkeit, sie sich entblößt, wenn der Mensch etwas nicht zu verstehen vermag. Die Heimat ist demnach geradezu unverständlich. Außer dem derben Begriff, den wir ihr zugefügt haben, ist sie unfasslich, gar unsinnig! Diese Unsinnigkeit, gar Widersinnigkeit der Tatsache, zu erkennen, ist die einzige Fähigkeit, der man bedarf, um die Heimat den Menschen anzuerkennen, ihnen sie nicht vor lauter Angst absprechen zu müssen.</p>
+<p>Der Versuch, ihre bloßen Teile zu bergen und sie nachzukonstruieren ist zum wahnsinnig Werden. Das Erhoffte kann man nicht herstellen, die Hoffnung aufgeben wiederum auch nicht. Sie besteht nicht darin, dass man in Überfluss oder Defizit lebt, da dies nur zur Vernichtung ihrer führen kann, sie befindet sich vor allem nicht in den hehren Träumen eines sich irrenden Denkers, deren Gedanken zwar groß sind, an Inhalt jedoch mangeln. Die Gesellschaft des Produkts will das Werden abschaffen, perhorresziert es. Das <em>Vitium exitiale</em> einer solchen Gesellschaft besteht in ihrer Unfähigkeit, den Prozess des Schaffens als ein fortwährendes Werden anzuerkennen. Ein fortwährender Sturz vielleicht, aber fortwährend immerhin. Diese Produktgesellschaft versucht, wie vergeblich dies auch sein mag, dieses Werden von außen zu verwalten, gar gängeln. Der Vorgang des Wachsens kommt aber nicht von außen. Wie eine wachsende Pflanze sich von innen nach außen ausdehnt. Sie nimmt den Stoff auf, der ihr von außen zur Verfügung steht und produziert, vermöge innerer biologischen Mechanismen, das üppige Laubwerk, das wir betrachten. Die Früchte, die später die neuen Pflanzen bilden werden, sind durch jenen Prozess erzeugt. Ihre Immanenz wohnt ihnen inne. Die Heimat wiederum ist nicht immanent, Sie <em>ist</em> Immanenz. Sie entsteht nicht außerhalb unserer Welt. Jeder trägt den Keim dieser Immanenz in sich:</p>
+<p>*„Was wär ein Gott, der nur von außen stieße,  <br>Im Kreis das All am Finger laufen ließe!  <br>Ihm ziemt’s, die Welt im Innern zu bewegen,  <br>Natur in Sich, Sich in Natur zu hegen,  <br>So dass, was in Ihm lebt und webt und ist,  <br>Nie Seine Kraft, nie Seinen Geist vermisst.“*</p>
+<p>Sie besteht aus Optimismus, dem Optimismus des Selbst. Die Negativität, gar Pessimismus der Sache entspringt seinem Gegensatz, dem Positivismus. Die Fähigkeit, die reine Kritik zu äußern, besteht nicht darin, dass man permanent die Welt runterzuziehen versucht, sondern ganz im Gegenteil; Der Optimismus besteht wahrlich darin, dass man die Welt um sich herum zu verbessern vermag. Die Bestimmung der Kritik ist die reine Positivität. Der Drang, die Welt durch rosenrote Brille zu sehen, ist eine Folge der inneren Verdüsterung. Einer, der sich die Welt schönreden muss, gibt in Wahrheit zu, sie nicht zulänglich zu finden, aber anstelle jeglicher Verbesserungsversuche stellt er die Schönrederei hin, die einzig imstande ist, einen zu täuschen. Innerhalb der Seele, die immer das Potenzial einer Sache zu erkennen vermag, liegt die Quelle aller Schönheit, der Veränderung. Die Banalität einer Welt, die hingegen immer schön genug ist, ist dem wahren Optimisten nicht auszuhalten; er bleibt nicht bei dem bloßen Versuch, sich alles schönzureden, sondern geht darüber hinaus. Dieser Optimismus des Selbst ist das, was die Räder der Bewegung vorantreibt. Der Optimismus der Welt hingegen dient uns nur zu trösten, wenn wir unsere Lage nicht verändern zu können glauben. "Das genuin kritische Bedürfnis des Gedankens, aus der Phantasmagorie von Kultur zu erwachen, ist aufgefangen kanalisiert, dem falschen Bewußtsein zugeführt". Das Bedürfnis zu befreien, heißt es dem Optimismus des Selbst zuzuordnen. "Wir treten dann nicht der Welt doktrinär mit einem neuen Prinzip entgegen: Hier ist die Wahrheit, hier kniee nieder! Wir entwickeln der Welt aus den Prinzipien der Welt neue Prinzipien." Die Hoffnung auf Verbesserung sucht ihr Zuhause in der Kritik auf, frönt hier ihrem Werk.</p>
+<p>Die Heimat ist nicht zu beschwören, sie lässt sich nur negativ Heraufbeschwören, durch Negation. Was sie <em>ist</em> kann nicht gesagt werden. Was lässt sich aber nicht in Worte fassen? "Kaum ist das Schwebende recht in Worte zu bringen...", aber dadurch, dass es uns als das Schwebende vorschwebt, <em>ist</em> es! "Eine Frau muss zur Frau werden, aber in einer <em>Becoming-Frau</em> aller Männer, Ein Jude muss zum Juden werden, aber in einem <em>Becoming-Jude</em> des Nicht-Juden. [...] Es gibt kein <em>Subjekt</em> des Werdens (Becoming), außer als entterritorialisierte Variable der Mehrheit; Es gibt kein Medium des Werdens (Becoming), außer als eine entterritorialisierte Variable der Minderheit." Die Heimat existiert weder als Subjekt noch Objekt; sie ist jenseits dieser Disjunktion zu denken. Die Negation ihres Seins als Subjekt oder Objekt, erlaubt es ihr, sich jeglicher Idealisierung zu entziehen. indem man diese Differenz negiert, lässt man das Wesen ihrer freien Lauf; wie ein Gespenst wird sie endlich von den klirrenden Ketten der Subsumierung der Vergangenheit befreit; ein Gespenst geht um in Europa, das Gespenst der Heimat. Ohne diese Entterritorialisierung, ist es allerdings nicht möglich, diese Disjunktion gänzlich zu negieren. Was daraus entstünde, wäre noch eine Identität, die sich allenfalls der disjunktiven Norm fügt - <em>Quamquam non cogebar, tamen nolebam</em>. Ohne die Auflösung der disjunktiven Denkweise, der der Identität oktroyierten Dichotomie, ist es unmöglich, die wesentliche Veränderung herbeizuführen; "es gibt kein richtiges Leben im falschen" - <em>coactus volui</em>. Nicht a priori ist zu unterscheiden, wie die Heimat sich gegenüber einer falschen präsentiert. Wir haben nur den Begriff ihrer, keine Anschauung, keine handfeste Erfahrung. Wie soll man dann zu der Erkenntnis gelangen, dass sie überhaupt existiert? Indem man sie negiert. Die Negation der Heimat bleibt der einzige Ausweg dieser epistemologischen Sachgasse. Wir können nur erkennen, was sie <em>nicht</em> ist und dadurch ließen sich ihre Umrisse erblicken. Der blitzhafte Schlag unserer Methode, die <em>negative Topologie</em>, zeigt uns zwar nicht das erwünschte Subjekt, aber er macht es ausfindig. Wir können das Gebiet um es herum betrachten und hierdurch den genauen Ort seines Wesens platzieren. Begriffe ohne Anschauungen sind leer, doch die Umrisse des Leeren negieren das Nicht-sein des Inhalts.</p>
+<p>Unsere Kinder wollen wir ferner nicht enterben; Ich bin mein Vater und mein Sohn gewesen. Die Heimat ist kein Ort der Disjunktion. Entweder oder IST weder noch; nichts ist alles, aber alles ist viel. Man ist nicht entweder Mann oder Frau, Vater/Mutter oder Sohn/Tochter, sondern beides und keines von beiden zugleich. Der reine Begriff vertilgt das Identifizierende. Das Identifizierende wird nicht zur Identität, sondern umgekehrt. Man verliert die Kraft des Auffassens. Das, was nicht in meinem Bild <em>der fremden</em> Identität passt, muss ich ausradieren, glätten. "Denken, das an Identität irre ward, kapituliert leicht vor dem Unauflöslichen und bereitet aus der Unauflöslichkeit des Objekts ein Tabu fürs Subjekt, das irrationalistisch oder szientifisch sich bescheiden, nicht an das rühren soll, was ihm nicht gleicht vorm gängigen Erkenntnisideal die Waffen streckend, dem was dadurch noch Respekt bekundet". Die Heimat soll Vorrang haben vor ihrem Begriff; Sie soll im Individuum sein aber nicht ebenso dem Überindividuellen, dass sie dann das Individuum synthesiert und wodurch allein es dann folglich sich ausweist, denkt, womit es sich identifiziert.</p>
+<p>*"Eines schönen Tages befehlen uns noch unsere Obern,<br>Den Boden der Tiefsee und den Mond zu erobern,<br>Und es ist schon schwer hier, mit diesem Russland, <br>Und der Feind ist stark und der Heimweg unbekannt.<br>Gott bewahr uns, <br>Und führ uns wieder nach haus, <br>führ uns wieder nach haus..."*</p>
+<p>Der Weg nach haus ist nicht zu lehren, überdies nicht zu lernen. Jeglicher Versuch, dem Menschen den "richtigen" Weg beizubringen, zu zeigen wo er hinzugehen hat, wird zwangsläufig zur tückischsten Indoktrination. Wir können unseren eigenen nicht zeigen, was wir sehen. Die Berge die vor uns stehen, das Gefühl des großen Anderen, zeigen auf den Wegeweiser. Sie führen uns jedoch nicht weiter. Was dem Menschen einleuchtet, in der Dunkelheit jener Stunde, hat er nur für sich. Die Heimat ist gleichsam zu teilen und eben nicht, für alle und niemand. Die List der Heimat, sich allen zu entziehen, und gleichzeitig sich zu präsentieren. Sie kanalisiert sich durch die Ader des Menschen, strömt wie das Blut, ist a contrario kein Lebenselixier. Sie soll uns nicht das Licht des Himmels leuchten lassen.</p>
+<p>*"Es ziehen die Heere, <br>Es ziehen die Heere,<br>Marie weine nicht,<br>Wenn ich wiederkehre,<br>Kehre ich unter andern Fahnen wieder,<br>Also weine nicht"*</p>
+<p>Man ist in der Schwebe seines werdenden Begriffs, gleichgültig ob man dies verlangt oder nicht. Sich vor der immanenten Entweihung zu wehren ist unmöglich. Seine Beschaffenheiten, sind nicht seine, die gehören allen außer ihm. <em>De mortuis nil nisi malum.</em> Alle, wie man die kennt, sind längst tot. Das Werden schlägt nie ins Sein um; die Negation des Nicht-Seins ist seine Blühe. Die Heimat liegt im Sterben, doch sie fliegt hoch hinaus. Sie hat kein einziges Ziel. Sie <em>wird</em>.</p>
+<p>"Himmel schien, ein Blauer, Frieden kehrte ein, Heimat meine Trauer, du mein Fröhlichsein".</p>
+<p>Veränderung setzt voraus, dass etwas bleibt, an dem die Änderung zu sehen ist.</p>
+<p>"Barblin: Hier sind seine Schuh. Rührt sie nicht an! Wenn er wiederkommt, das hier sind seine Schuh."</p></article></div>
+  </main>
+
+  <script>
+    var TRANSLATIONS_KEY = 'blog_translations';
+    var CURRENT_LANG_KEY = 'blog_current_lang';
+    var FOOTNOTES_KEY = 'blog_footnotes';
+
+    var translationsCache = loadTranslationsFromStorage();
+    var footnotesStore = loadFootnotesFromStorage();
+    var currentLang = localStorage.getItem(CURRENT_LANG_KEY) || 'en';
+    var originalContent = new Map();
+    var articleLanguages = new Map(); // Track the original language of each article
+
+    function loadTranslationsFromStorage() {
+      try {
+        var stored = localStorage.getItem(TRANSLATIONS_KEY);
+        return stored ? JSON.parse(stored) : {};
+      } catch (e) {
+        console.error('Error loading translations:', e);
+        return {};
+      }
+    }
+
+    function saveTranslationsToStorage(translations) {
+      try {
+        localStorage.setItem(TRANSLATIONS_KEY, JSON.stringify(translations));
+      } catch (e) {
+        console.error('Error saving translations:', e);
+      }
+    }
+
+    function loadFootnotesFromStorage() {
+      try {
+        var stored = localStorage.getItem(FOOTNOTES_KEY);
+        return stored ? JSON.parse(stored) : {};
+      } catch (e) {
+        console.error('Error loading footnotes:', e);
+        return {};
+      }
+    }
+
+    function saveFootnotesToStorage(footnotes) {
+      try {
+        localStorage.setItem(FOOTNOTES_KEY, JSON.stringify(footnotes));
+      } catch (e) {
+        console.error('Error saving footnotes:', e);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var articles = document.querySelectorAll('main article');
+      
+      articles.forEach(function(article, index) {
+        if (!article.id) {
+          var heading = article.querySelector('h2, h3');
+          var slug = heading ? heading.textContent.toLowerCase().replace(/[^a-z0-9]+/g, '-') : 'post-' + index;
+          article.id = slug;
+        }
+        
+        // Store original content without footnotes
+        var clone = article.cloneNode(true);
+        var existingFootnotes = clone.querySelector('.footnotes');
+        if (existingFootnotes) existingFootnotes.remove();
+        originalContent.set(article.id, clone.innerHTML);
+        
+        // Detect the language of this article
+        var articleText = clone.textContent.trim();
+        var detectedLang = detectLanguage(articleText);
+        articleLanguages.set(article.id, detectedLang);
+        // language detection result: detectedLang
+        
+        if (!footnotesStore[article.id]) {
+          footnotesStore[article.id] = [];
+        }
+        
+        // Process existing footnotes from content
+        processFootnotes(article);
+        
+        // Add footnotes section
+        renderFootnotes(article.id);
+        // Attach hover handlers for interactive footnotes
+        attachFootnoteHoverHandlers(article);
+      });
+
+      var path = window.location.pathname;
+      var isHomePage = path.endsWith('/index.html') || path.endsWith('/') || path.endsWith('index.html');
+
+      if (!isHomePage) {
+        var toggle = document.querySelector('.language-toggle');
+        if (toggle) toggle.remove();
+      }
+
+      var backHomeLink = document.getElementById('back-home-link');
+      if (backHomeLink) {
+        if (path.includes('/posts/')) {
+          backHomeLink.href = '../blogs.html';
+          backHomeLink.textContent = 'Back to Blog Index';
+        } else if (path.endsWith('/blogs.html') || path.endsWith('/blogs/')) {
+          backHomeLink.href = 'index.html';
+          backHomeLink.textContent = 'Back to Home';
+        } else {
+          backHomeLink.href = 'index.html';
+          backHomeLink.textContent = 'Back to Home';
+        }
+      }
+
+      if (isHomePage) {
+        document.getElementById('lang-en').addEventListener('click', function() {
+          switchLanguage('en');
+        });
+        document.getElementById('lang-de').addEventListener('click', function() {
+          switchLanguage('de');
+        });
+
+        updateLanguageButtons();
+
+        if (currentLang === 'de') {
+          translateAllArticles('de');
+        } else if (currentLang === 'en') {
+          translateAllArticles('en');
+        }
+      } else {
+        // On non-home pages, translation is disabled and only English UI shown
+        currentLang = 'en';
+        updateLanguageButtons();
+      }
+    });
+
+    // Back to top button functionality
+    var backToTopButton = document.getElementById('back-to-top');
+    window.addEventListener('scroll', function() {
+      var header = document.querySelector('header');
+      var headerHeight = header ? header.offsetHeight : 100;
+      if (window.scrollY > headerHeight) {
+        backToTopButton.style.display = 'block';
+      } else {
+        backToTopButton.style.display = 'none';
+      }
+    });
+
+    backToTopButton.addEventListener('click', function() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    function detectLanguage(text) {
+      // Simple language detection based on common words
+      // Take a sample of the text (first 500 characters)
+      var sample = text.substring(0, 500).toLowerCase();
+      
+      // German indicators
+      var germanWords = ['und', 'der', 'die', 'das', 'ich', 'ist', 'nicht', 'sie', 'mit', 'auf', 'für', 'ein', 'eine', 'auch', 'sich', 'werden', 'aus', 'aber', 'über', 'können', 'müssen', 'sollte', 'würde', 'schon', 'mehr', 'durch', 'beim', 'zur', 'vom', 'zum'];
+      var germanChars = ['ä', 'ö', 'ü', 'ß'];
+      
+      // English indicators
+      var englishWords = ['the', 'and', 'is', 'in', 'to', 'of', 'that', 'it', 'for', 'on', 'with', 'as', 'was', 'at', 'be', 'this', 'have', 'from', 'or', 'one', 'had', 'by', 'but', 'not', 'what', 'all', 'were', 'when', 'there', 'can'];
+      
+      var germanScore = 0;
+      var englishScore = 0;
+      
+      // Check for German special characters (strong indicator)
+      germanChars.forEach(function(char) {
+        if (sample.indexOf(char) !== -1) {
+          germanScore += 5; // Strong indicator
+        }
+      });
+      
+      // Count word matches
+      germanWords.forEach(function(word) {
+        var regex = new RegExp('\\b' + word + '\\b', 'gi');
+        var matches = sample.match(regex);
+        if (matches) {
+          germanScore += matches.length;
+        }
+      });
+      
+      englishWords.forEach(function(word) {
+        var regex = new RegExp('\\b' + word + '\\b', 'gi');
+        var matches = sample.match(regex);
+        if (matches) {
+          englishScore += matches.length;
+        }
+      });
+      
+      // language detection scores computed
+      
+      // Return the language with higher score, default to English
+      return germanScore > englishScore ? 'de' : 'en';
+    }
+
+    function processFootnotes(article) {
+      var articleId = article.id;
+      var content = article.innerHTML;
+      // Normalize caret-style footnote markers [^1] -> [1]
+      content = content.replace(/\[\^(\d+)\]/g, '[$1]');
+      
+      // Look for footnote patterns like [1], [2], etc.
+      var footnotePattern = /\[(\d+)\]/g;
+      var match;
+      var footnoteRefs = [];
+      
+      while ((match = footnotePattern.exec(content)) !== null) {
+        footnoteRefs.push({
+          number: parseInt(match[1]),
+          index: match.index
+        });
+      }
+      
+      // Replace footnote markers with proper links
+      if (footnoteRefs.length > 0) {
+        var newContent = content;
+        for (var i = footnoteRefs.length - 1; i >= 0; i--) {
+          var ref = footnoteRefs[i];
+          var before = newContent.substring(0, ref.index);
+          var after = newContent.substring(ref.index + ('[' + ref.number + ']').length);
+          newContent = before + '<a href="#fn-' + articleId + '-' + ref.number + '" class="footnote-ref" id="fnref-' + articleId + '-' + ref.number + '">[' + ref.number + ']</a>' + after;
+        }
+        article.innerHTML = newContent;
+      }
+    }
+
+    function renderFootnotes(postId) {
+      var article = document.getElementById(postId);
+      if (!article) return;
+      
+      var footnotes = footnotesStore[postId] || [];
+      
+      // Remove existing footnotes section
+      var existingFootnotes = article.querySelector('.footnotes');
+      if (existingFootnotes) {
+        existingFootnotes.remove();
+      }
+      
+      if (footnotes.length === 0) return;
+      
+      var footnotesSection = document.createElement('div');
+      footnotesSection.className = 'footnotes';
+      
+      var heading = document.createElement('h4');
+      heading.textContent = 'Footnotes';
+      footnotesSection.appendChild(heading);
+      
+      var ol = document.createElement('ol');
+      footnotes.forEach(function(footnote) {
+        var li = document.createElement('li');
+        li.id = 'fn-' + postId + '-' + footnote.number;
+        li.innerHTML = sanitizeUserHtml(footnote.text) + ' <a href="#fnref-' + postId + '-' + footnote.number + '" class="footnote-backref">↩</a>';
+        ol.appendChild(li);
+      });
+      
+      footnotesSection.appendChild(ol);
+      
+      // Insert before comment section
+      var commentSection = article.querySelector('.comment-section');
+      if (commentSection) {
+        article.insertBefore(footnotesSection, commentSection);
+      } else {
+        article.appendChild(footnotesSection);
+      }
+      // Ensure hover handlers are attached to any new .footnote-ref elements
+      attachFootnoteHoverHandlers(article);
+    }
+
+    function updateLanguageButtons() {
+      document.getElementById('lang-en').classList.toggle('active', currentLang === 'en');
+      document.getElementById('lang-de').classList.toggle('active', currentLang === 'de');
+    }
+
+    function switchLanguage(lang) {
+      if (lang === currentLang) return;
+      
+      currentLang = lang;
+      localStorage.setItem(CURRENT_LANG_KEY, lang);
+      updateLanguageButtons();
+
+      // Always translate to the selected language
+      translateAllArticles(lang);
+    }
+
+    function restoreOriginalContent() {
+      var articles = document.querySelectorAll('main article');
+      articles.forEach(function(article) {
+        var original = originalContent.get(article.id);
+        if (original) {
+          var commentSection = article.querySelector('.comment-section');
+          article.innerHTML = original;
+          processFootnotes(article);
+          renderFootnotes(article.id);
+          if (commentSection) {
+            article.appendChild(commentSection);
+          }
+        }
+      });
+    }
+
+    function translateAllArticles(targetLang) {
+      if (document.body.classList.contains('bilingual-mode')) {
+        return;
+      }
+      var articles = document.querySelectorAll('main article');
+      articles.forEach(function(article) {
+        var sourceLang = articleLanguages.get(article.id) || 'en';
+        
+        // Only translate if source and target languages are different
+        if (sourceLang === targetLang) {
+          // Restore original content if already in target language
+          var original = originalContent.get(article.id);
+          if (original) {
+            var commentSection = article.querySelector('.comment-section');
+            article.innerHTML = original;
+            processFootnotes(article);
+            renderFootnotes(article.id);
+            if (commentSection) {
+              article.appendChild(commentSection);
+            }
+          }
+        } else {
+          translateArticle(article, targetLang, sourceLang);
+        }
+      });
+    }
+
+    function translateArticle(article, targetLang, sourceLang) {
+      var articleId = article.id;
+      var cacheKey = articleId + '_' + sourceLang + '_' + targetLang;
+      
+      // Check cache first
+      if (translationsCache[cacheKey]) {
+        var commentSection = article.querySelector('.comment-section');
+        article.innerHTML = translationsCache[cacheKey];
+        renderFootnotes(articleId);
+        if (commentSection) {
+          article.appendChild(commentSection);
+        }
+        return;
+      }
+
+      // Show translating notice
+      var commentSection = article.querySelector('.comment-section');
+      var original = originalContent.get(articleId);
+      if (!original) return;
+
+      article.innerHTML = original;
+      
+      var notice = document.createElement('div');
+      notice.className = 'translation-notice';
+      notice.textContent = 'Translating...';
+      article.insertBefore(notice, article.firstChild);
+
+      // Extract all text nodes that need translation
+      var textElements = [];
+      extractTextElements(article, textElements);
+      
+      // Translate each text element
+      var translatedCount = 0;
+      var totalCount = textElements.length;
+
+      if (totalCount === 0) {
+        notice.remove();
+        renderFootnotes(articleId);
+        if (commentSection) {
+          article.appendChild(commentSection);
+        }
+        return;
+      }
+
+      textElements.forEach(function(elem) {
+        var originalText = elem.textContent.trim();
+        if (originalText.length > 0) {
+          translateWithLibreTranslate(originalText, targetLang, sourceLang).then(function(translated) {
+            elem.textContent = translated || elem.textContent;
+            translatedCount++;
+            
+            if (translatedCount === totalCount) {
+              var langNames = {
+                'en': 'English',
+                'de': 'German'
+              };
+              notice.textContent = 'Translated from ' + langNames[sourceLang] + ' to ' + langNames[targetLang];
+              notice.className = 'translation-notice';
+              
+              // Cache the translation
+              var clone = article.cloneNode(true);
+              var cloneComments = clone.querySelector('.comment-section');
+              var cloneFootnotes = clone.querySelector('.footnotes');
+              if (cloneComments) cloneComments.remove();
+              if (cloneFootnotes) cloneFootnotes.remove();
+              translationsCache[cacheKey] = clone.innerHTML;
+              saveTranslationsToStorage(translationsCache);
+              
+              renderFootnotes(articleId);
+              if (commentSection) {
+                article.appendChild(commentSection);
+              }
+            }
+          }).catch(function(error) {
+            console.error('Translation failed:', error);
+            translatedCount++;
+            
+            if (translatedCount === totalCount) {
+              notice.textContent = 'Translation failed. Please try again later.';
+              notice.className = 'translation-error';
+              
+              renderFootnotes(articleId);
+              if (commentSection) {
+                article.appendChild(commentSection);
+              }
+            }
+          });
+        } else {
+          translatedCount++;
+        }
+      });
+    }
+
+    function extractTextElements(node, results) {
+      // Skip comment sections, footnotes, and code blocks
+      if (node.classList && (node.classList.contains('comment-section') || 
+          node.classList.contains('footnotes') ||
+          node.classList.contains('translation-notice') ||
+          node.classList.contains('translation-error'))) {
+        return;
+      }
+
+      if (node.tagName === 'CODE' || node.tagName === 'PRE' || 
+          node.tagName === 'SCRIPT' || node.tagName === 'STYLE' ||
+          node.tagName === 'A' || node.tagName === 'H1') {
+        return;
+      }
+
+      // If it's a text node, check if it has meaningful content
+      if (node.nodeType === Node.TEXT_NODE) {
+        var text = node.textContent.trim();
+        if (text.length > 0) {
+          results.push(node);
+        }
+      } else if (node.nodeType === Node.ELEMENT_NODE) {
+        // Recurse into child nodes
+        for (var i = 0; i < node.childNodes.length; i++) {
+          extractTextElements(node.childNodes[i], results);
+        }
+      }
+    }
+
+    function translateWithLibreTranslate(text, targetLang, sourceLang) {
+      return new Promise(function(resolve, reject) {
+        // Split long texts
+        if (text.length > 500) {
+          var sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
+          var promises = sentences.map(function(sentence) {
+            return translateSingleText(sentence.trim(), targetLang, sourceLang);
+          });
+          
+          Promise.all(promises).then(function(results) {
+            resolve(results.join(' '));
+          }).catch(reject);
+        } else {
+          translateSingleText(text, targetLang, sourceLang).then(resolve).catch(reject);
+        }
+      });
+    }
+    
+    function translateSingleText(text, targetLang, sourceLang) {
+      return new Promise(function(resolve, reject) {
+        // Use Google Translate's unofficial API via translate.googleapis.com
+        var url = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=' + sourceLang + '&tl=' + targetLang + '&dt=t&q=' + encodeURIComponent(text);
+        
+        fetch(url)
+          .then(function(response) {
+            if (!response.ok) {
+              throw new Error('Translation API error: ' + response.status);
+            }
+            return response.json();
+          })
+          .then(function(data) {
+            // Google Translate API returns nested arrays
+            // Format: [[[translated_text, original_text, null, null, score]]]
+            if (data && data[0] && data[0][0] && data[0][0][0]) {
+              var translated = '';
+              for (var i = 0; i < data[0].length; i++) {
+                if (data[0][i][0]) {
+                  translated += data[0][i][0];
+                }
+              }
+              resolve(translated || text);
+            } else {
+              console.warn('Unexpected translation response format');
+              resolve(text);
+            }
+          })
+          .catch(function(error) {
+            console.error('Translation error:', error);
+            resolve(text); // Fallback to original text
+          });
+      });
+    }
+
+    // Sanitize user-supplied content but allow <em> and <strong> (no attributes).
+    // Also convert simple markdown *italics* and **bold** into those tags.
+    function sanitizeUserHtml(input) {
+      if (!input) return '';
+      // Convert **bold** then *italics* (simple, non-nested handling)
+      var text = input.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+      text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
+
+      // Parse and rebuild allowing only EM and STRONG tags, stripping attributes
+      var container = document.createElement('div');
+      container.innerHTML = text;
+
+      function sanitizeNode(node) {
+        if (node.nodeType === Node.TEXT_NODE) {
+          var d = document.createElement('div');
+          d.textContent = node.textContent;
+          return d.innerHTML;
+        } else if (node.nodeType === Node.ELEMENT_NODE) {
+          var tag = node.tagName.toLowerCase();
+          if (tag === 'em' || tag === 'strong') {
+            var inner = '';
+            for (var i = 0; i < node.childNodes.length; i++) {
+              inner += sanitizeNode(node.childNodes[i]);
+            }
+            return '<' + tag + '>' + inner + '</' + tag + '>';
+          } else {
+            // For any other tag, omit the tag but sanitize children
+            var inner = '';
+            for (var i = 0; i < node.childNodes.length; i++) {
+              inner += sanitizeNode(node.childNodes[i]);
+            }
+            return inner;
+          }
+        } else {
+          return '';
+        }
+      }
+
+      var out = '';
+      for (var i = 0; i < container.childNodes.length; i++) {
+        out += sanitizeNode(container.childNodes[i]);
+      }
+      return out;
+    }
+
+    // Interactive footnote bubble helpers
+    var _currentFootnoteBubble = null;
+
+    function mmToPx(mm) {
+      var el = document.createElement('div');
+      el.style.position = 'absolute';
+      el.style.left = '-9999px';
+      el.style.width = mm + 'mm';
+      document.body.appendChild(el);
+      var px = el.getBoundingClientRect().width;
+      document.body.removeChild(el);
+      return px;
+    }
+
+    function attachFootnoteHoverHandlers(article) {
+      try {
+        var refs = article.querySelectorAll('.footnote-ref');
+        refs.forEach(function(ref) {
+          ref.addEventListener('mouseenter', onFootnoteRefEnter);
+          ref.addEventListener('mouseleave', onFootnoteRefLeave);
+          ref.addEventListener('focus', onFootnoteRefEnter);
+          ref.addEventListener('blur', onFootnoteRefLeave);
+        });
+      } catch (e) {
+        console.error('attachFootnoteHoverHandlers error', e);
+      }
+    }
+
+    function onFootnoteRefEnter(e) {
+      showFootnoteBubble(e.currentTarget);
+    }
+
+    function onFootnoteRefLeave(/* e */) {
+      hideFootnoteBubble();
+    }
+
+    function showFootnoteBubble(ref) {
+      hideFootnoteBubble();
+      if (!ref || !ref.id) return;
+      var m = ref.id.match(/^fnref-(.+)-(\d+)$/);
+      if (!m) return;
+      var postId = m[1];
+      var num = parseInt(m[2], 10);
+      var content = getFootnoteContent(postId, num);
+      if (!content) return;
+
+      var bubble = document.createElement('div');
+      bubble.className = 'footnote-bubble';
+      bubble.innerHTML = content;
+      document.body.appendChild(bubble);
+
+      // Position bubble 10mm to the right of the main column when possible
+      var rect = ref.getBoundingClientRect();
+      bubble.style.position = 'absolute';
+      bubble.style.zIndex = 99999;
+      bubble.style.pointerEvents = 'auto';
+      bubble.style.opacity = 0;
+      bubble.style.transition = 'opacity 0.12s ease';
+
+      requestAnimationFrame(function() {
+        var left = rect.right + 8 + window.scrollX;
+        try {
+          var main = document.querySelector('main');
+          if (main) {
+            var mainRect = main.getBoundingClientRect();
+            var tenMm = mmToPx(10);
+            left = mainRect.right + tenMm + window.scrollX;
+          }
+        } catch (e) {
+          // fallback to reference-right behavior
+        }
+        var top = rect.top + window.scrollY;
+        // prevent overflow to the right
+        if (left + bubble.offsetWidth + 10 > window.innerWidth + window.scrollX) {
+          left = rect.left - bubble.offsetWidth - 8 + window.scrollX;
+        }
+        // keep bubble within viewport vertically
+        if (top + bubble.offsetHeight > window.scrollY + window.innerHeight) {
+          top = Math.max(window.scrollY + 8, window.scrollY + window.innerHeight - bubble.offsetHeight - 8);
+        }
+        bubble.style.left = left + 'px';
+        bubble.style.top = top + 'px';
+        bubble.style.opacity = 1;
+      });
+
+      _currentFootnoteBubble = bubble;
+    }
+
+    function hideFootnoteBubble() {
+      if (_currentFootnoteBubble) {
+        _currentFootnoteBubble.remove();
+        _currentFootnoteBubble = null;
+      }
+    }
+
+    function getFootnoteContent(postId, number) {
+      // Prefer the rendered footnote <li> if present
+      var el = document.getElementById('fn-' + postId + '-' + number);
+      if (el) return el.innerHTML;
+      // Fallback to stored data
+      var arr = footnotesStore[postId] || [];
+      var f = arr.find(function(x) { return x.number === number; });
+      return f ? sanitizeUserHtml(f.text) : null;
+    }
+
+    // Add footnote functionality
+    window.addFootnote = function(postId, number, text) {
+      if (!footnotesStore[postId]) {
+        footnotesStore[postId] = [];
+      }
+      
+      // Check if footnote already exists
+      var existing = footnotesStore[postId].find(function(fn) {
+        return fn.number === number;
+      });
+      
+      if (existing) {
+        existing.text = text;
+      } else {
+        footnotesStore[postId].push({
+          number: number,
+          text: text
+        });
+      }
+      
+      // Sort by number
+      footnotesStore[postId].sort(function(a, b) {
+        return a.number - b.number;
+      });
+      
+      saveFootnotesToStorage(footnotesStore);
+      renderFootnotes(postId);
+      // After rendering, attach hover handlers for this article so bubbles work immediately
+      var article = document.getElementById(postId);
+      if (article) attachFootnoteHoverHandlers(article);
+    };
+  </script>
+</body>
+</html>
