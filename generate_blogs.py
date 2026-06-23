@@ -76,6 +76,28 @@ def create_slug(filename):
     return slug
 
 
+def parse_date_from_filename(filename):
+    match = re.match(r'^(\d{4}-\d{2}-\d{2})-', filename)
+    if match:
+        return match.group(1)
+    match = re.match(r'^(\d{2}-\d{2}-\d{4})-', filename)
+    if match:
+        day, month, year = match.group(1).split('-')
+        return f"{year}-{month}-{day}"
+    return None
+
+
+def format_date(date):
+    if not date:
+        return 'undated'
+    parts = date.split('-')
+    if len(parts) == 3:
+        year, month, day = parts
+        if len(year) == 4 and len(month) == 2 and len(day) == 2:
+            return f"{day}.{month}.{year[2:]}"
+    return date
+
+
 def guess_language(text):
     sample = re.sub(r'<!--.*?-->', '', text, flags=re.DOTALL).lower()
     german_words = ['ä', 'ö', 'ü', 'ß', ' und ', ' der ', ' die ', ' das ', ' nicht ', ' ist ', ' ich ', ' sie ', ' mit ', ' für ', 'sein ', 'sich ']
@@ -144,8 +166,7 @@ for blog_path in blog_paths:
 
     markdown_body = strip_first_markdown_title(raw_without_footnotes)
 
-    date_match = re.match(r'^(\d{4}-\d{2}-\d{2})-', blog_path)
-    date = date_match.group(1) if date_match else 'undated'
+    date = parse_date_from_filename(blog_path) or 'undated'
 
     lang = guess_language(raw_without_footnotes)
     pair_id = pair_id_from_markdown(raw_without_footnotes)
@@ -226,9 +247,7 @@ for group_id, entries in posts_by_group.items():
     else:
         title_html = f"<h1>{first_entry['title']}</h1>"
 
-    # Format date as DD.MM.YY
-    date_parts = date.split('-')
-    formatted_date = f"{date_parts[2]}.{date_parts[1]}.{date_parts[0][2:]}"
+    formatted_date = format_date(date)
 
     group_content = (
         f"<div class='group-header'>{title_html}</div>"
@@ -264,9 +283,7 @@ for group_id, entries in posts_by_group.items():
 
     composed_title = ' / '.join(title_parts)
 
-    # Format date as DD.MM.YY using this entry's own date
-    date_parts = first_entry['date'].split('-')
-    formatted_date = f"{date_parts[2]}.{date_parts[1]}.{date_parts[0][2:]}"
+    formatted_date = format_date(first_entry['date'])
 
     index_items.append(f"<li><a href='posts/{group_slug}.html'>{composed_title} ({lang_labels}) - {formatted_date}</a></li>")
 
