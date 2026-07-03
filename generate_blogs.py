@@ -78,7 +78,7 @@ def load_markdown_entries(source_dir):
         for p in source_dir.iterdir()
         if p.suffix == ".md" and not p.name.startswith("_")
     ]
-    markdown_paths = list(reversed(markdown_paths))
+    markdown_paths.sort(key=lambda name: (parse_date_from_filename(name) or '', name), reverse=True)
 
     entries = []
     for filename in markdown_paths:
