@@ -119,6 +119,10 @@ def parse_date_from_filename(filename):
     match = re.match(r'^(\d{4}-\d{2}-\d{2})-', filename)
     if match:
         return match.group(1)
+    match = re.match(r'^(\d{2})-(\d{2})-(\d{2})-', filename)
+    if match:
+        year, month, day = match.groups()
+        return f"20{year}-{month}-{day}"
     match = re.match(r'^(\d{2}-\d{2}-\d{4})-', filename)
     if match:
         day, month, year = match.group(1).split('-')
