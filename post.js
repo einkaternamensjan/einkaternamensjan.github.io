@@ -1,4 +1,4 @@
-/* einkaternamensjan site files — set 2 (blog_template.html, generate_blogs.py, styles.css, post.js gehören zusammen) */
+/* einkaternamensjan site files — set 6 (blog_template.html, generate_blogs.py, styles.css, post.js gehören zusammen) */
 /* einkaternamensjan — shared behaviour for blog and bibliography pages.
    Everything here degrades gracefully: with JavaScript off the page still
    shows both languages, linked footnotes and a full footnote apparatus. */
@@ -9,6 +9,53 @@
   var VIEW_KEY = 'ekj-view-mode';
   var VIEWS = ['parallel', 'de', 'en'];
   var NARROW = 860;
+  var EXPECTED_STYLESHEET_VERSION = '6';
+
+  /* --- stylesheet check -------------------------------------------------- */
+  /* The switch only changes a class on <body>; hiding the other column is the
+     stylesheet's job. If an old styles.css is being served, clicking appears
+     to do nothing at all — so say so plainly instead of failing silently. */
+
+  function checkStylesheet() {
+    var found = getComputedStyle(document.documentElement)
+      .getPropertyValue('--stylesheet-version').trim();
+
+    if (found === EXPECTED_STYLESHEET_VERSION) return;
+
+    console.warn(
+      'einkaternamensjan: styles.css ist Version "' + (found || 'unbekannt') +
+      '", post.js erwartet "' + EXPECTED_STYLESHEET_VERSION + '".\n' +
+      'Der Sprachumschalter setzt die Klasse, aber das Stylesheet reagiert nicht darauf.\n' +
+      'Entweder liegt noch die alte styles.css im Repo, oder der Browser liefert eine ' +
+      'zwischengespeicherte Fassung aus (Strg+F5 bzw. Cmd+Shift+R).'
+    );
+  }
+
+  /* --- theme ------------------------------------------------------------ */
+  /* The initial class is set by an inline script in the template so there is no
+     flash on load; this only handles the toggle afterwards. */
+
+  function initTheme() {
+    var button = document.getElementById('theme-toggle');
+    if (!button) return;
+
+    var root = document.documentElement;
+
+    var label = function () {
+      var dark = root.classList.contains('theme-dark');
+      button.setAttribute('aria-pressed', String(dark));
+      button.title = dark ? 'Heller Modus' : 'Dunkler Modus';
+    };
+
+    label();
+
+    button.addEventListener('click', function () {
+      var next = root.classList.contains('theme-dark') ? 'light' : 'dark';
+      root.className = 'theme-' + next;
+      try { localStorage.setItem('ekj-theme', next); } catch (e) { /* private mode */ }
+      label();
+    });
+  }
 
   /* --- view mode ------------------------------------------------------- */
 
@@ -202,6 +249,8 @@
   /* --- boot -------------------------------------------------------------- */
 
   function init() {
+    checkStylesheet();
+    initTheme();
     initView();
     initPairHighlight();
     initFootnotes();
