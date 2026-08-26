@@ -7,45 +7,49 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header>
-    <h1 class="translatable" data-en="Hello World" data-de="Hallo Welt">Hello world</h1>
-    <p>
+  <header class="site-header">
+    <h1 class="site-title translatable" data-en="Hello World" data-de="Hallo Welt">Hello World</h1>
+    <p class="site-nav">
       <a class="translatable" data-en="Read all posts" data-de="Alle Beiträge lesen" href="blogs.html">Read all posts</a>
       <a class="translatable" data-en="Bibliography" data-de="Bibliographie" href="bibliography.html">Bibliography</a>
     </p>
   </header>
 
   <main>
-    <p class="translatable" data-en= "The best thing you can know, you still cannot tell the boys" data-de="Das beste was du wissen kannst, kannst du den Buben doch nicht sagen."></p>
+    <p class="para translatable"
+       data-en="The best thing you can know, you still cannot tell the boys"
+       data-de="Das beste was du wissen kannst, kannst du den Buben doch nicht sagen."></p>
   </main>
 
-  <!-- language switcher -->
-  <div class="lang-switch" aria-hidden="false">
+  <div class="lang-switch">
     <button id="btn-en" aria-pressed="true">English</button>
     <button id="btn-de" aria-pressed="false">Deutsch</button>
   </div>
 
   <script>
     (function () {
-      const applyTranslations = (lang) => {
-        document.querySelectorAll('.translatable').forEach(el => {
-          const text = el.getAttribute('data-' + lang);
+      var applyTranslations = function (lang) {
+        document.querySelectorAll('.translatable').forEach(function (el) {
+          var text = el.getAttribute('data-' + lang);
           if (text !== null) el.textContent = text;
         });
       };
 
-      const setLang = (lang) => {
+      var setLang = function (lang) {
         document.documentElement.lang = (lang === 'de') ? 'de' : 'en';
         applyTranslations(lang);
         document.getElementById('btn-en').setAttribute('aria-pressed', lang === 'en');
         document.getElementById('btn-de').setAttribute('aria-pressed', lang === 'de');
+        try { localStorage.setItem('ekj-home-lang', lang); } catch (e) { /* ignore */ }
       };
 
-      document.getElementById('btn-en').addEventListener('click', () => setLang('en'));
-      document.getElementById('btn-de').addEventListener('click', () => setLang('de'));
+      document.getElementById('btn-en').addEventListener('click', function () { setLang('en'); });
+      document.getElementById('btn-de').addEventListener('click', function () { setLang('de'); });
 
-      const browserLang = navigator.language && navigator.language.startsWith('de') ? 'de' : 'en';
-      setLang(browserLang);
+      var stored = null;
+      try { stored = localStorage.getItem('ekj-home-lang'); } catch (e) { /* ignore */ }
+      var browserLang = (navigator.language || 'en').toLowerCase().indexOf('de') === 0 ? 'de' : 'en';
+      setLang(stored === 'de' || stored === 'en' ? stored : browserLang);
     })();
   </script>
 </body>

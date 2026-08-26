@@ -1,398 +1,523 @@
-/* === Global layout === */
-html, body {
-  margin: 0;
-  min-height: 100vh;
-  background: #1f2b21;  /* Darker earthy green */
-  color: #e8d7bf;       /* Sandy beige */
-  font-family: "Times New Roman", Times, serif;
-  text-align: center;
+/* ==========================================================================
+   einkaternamensjan site files — set 2 (blog_template.html, generate_blogs.py, styles.css, post.js gehören zusammen)
+   einkaternamensjan — stylesheet
+   Sections: tokens · base · header · contents · post layout ·
+             parallel grid · footnotes · controls · index · responsive
+   ========================================================================== */
+
+/* === Tokens ============================================================== */
+
+:root {
+  /* Palette — deep forest ground, sanded beige ink, one warm gold accent */
+  --bg:          #1b241d;
+  --panel:       #202b23;
+  --ink:         #e8d7bf;
+  --ink-soft:    #bdae96;
+  --ink-quiet:   #8d8570;
+  --rule:        rgba(232, 215, 191, 0.16);
+  --rule-strong: rgba(232, 215, 191, 0.32);
+  --gold:        #d6b070;
+  --gold-bright: #ecc98c;
+  --tint:        rgba(214, 176, 112, 0.10);
+
+  /* Type — Georgia-class serifs read far better on screen than Times.
+     Set --font-body to "Times New Roman", Times, serif to restore the old face. */
+  --font-body: Charter, "Bitstream Charter", "Iowan Old Style", Georgia, "Times New Roman", serif;
+  --font-ui:   ui-sans-serif, system-ui, "Segoe UI", Helvetica, Arial, sans-serif;
+
+  --size-body: 1.075rem;
+  --leading:   1.72;
+
+  /* Measure — the single most important reading setting.
+     Single language ≈ 66 characters, each parallel column ≈ 52. */
+  --measure:      38rem;
+  --wrap-single:  min(100% - 2.5rem, 42rem);
+  --wrap-parallel: min(100% - 3rem, 72rem);
+
+  --gap-column: clamp(1.75rem, 4vw, 3.5rem);
+  --radius: 8px;
 }
 
-/* === Header === */
-header {
-  padding: 1rem;
-  position: relative;
-  z-index: 1;
+/* === Base =============================================================== */
 
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--size-body);
+  line-height: var(--leading);
+  text-align: left;
+  text-rendering: optimizeLegibility;
+}
+
+a, a:visited { color: var(--ink); }
+a:hover, a:focus-visible { color: var(--gold-bright); }
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  padding: 0.6rem 1rem;
+  background: var(--panel);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  z-index: 1200;
+}
+.skip-link:focus { left: 1rem; top: 1rem; }
+
+/* === Site header ======================================================== */
+
+.site-header {
+  width: var(--wrap-single);
+  margin: 0 auto;
+  padding: 1.6rem 0 1.1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  flex-wrap: nowrap;
-  width: 100%;
-  max-width: 20cm;
-  margin: 0 auto;
-  background: rgba(31, 43, 33, 0.95);
-  border-bottom: 1px solid rgba(255,255,255,0.12);
-}
-
-header p a {
-  padding: 0.3rem 0.7rem;
-  border: 1px solid rgba(255,255,255,0.25);
-  border-radius: 4px;
-  background: rgba(255,255,255,0.08);
-  color: #f0e8d6;
-}
-
-header p a:hover {
-  background: rgba(255,255,255,0.15);
-}
-header h1 {
-  margin: 0;
-  font-size: 1.8rem;
-  color: #e8d7bf;  /* Sandy beige */
-  text-shadow: 0 2px 4px rgba(0,0,0,0.7);
-}
-
-header p {
-  margin: 0;
-  padding: 0;
-}
-
-header p a {
-  display: inline-block;
-  vertical-align: middle;
-  margin: 0;
-}
-
-/* === Navigation (Contents list) === */
-nav {
-  margin: 2rem auto;
-  max-width: 20cm;  /* Limited to 20cm */
+  gap: 0.75rem;
+  border-bottom: 1px solid var(--rule);
   text-align: center;
 }
 
-nav h2 {
-  font-size: 1.3rem;
-  margin-bottom: 0.5rem;
-}
+body.view-parallel .site-header { width: var(--wrap-parallel); }
 
-/* === Main blog post area === */
-main {
-  width: 100%;
-  max-width: 25cm;
-  margin: 1.5rem auto 2rem;
-  padding: 2rem;
-  box-sizing: border-box;
-  text-align: left;
-  font-size: 18px;
-  line-height: 1.7;
-  background: rgba(14, 26, 20, 0.85);
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 10px;
-  box-shadow: 0 12px 24px rgba(0,0,0,0.45);
-}
-
-body.bilingual-mode main {
-  max-width: 30cm;
-  padding: 1.5rem;
-  background: rgba(16, 28, 24, 0.9);
-}
-
-article {
-  background: rgba(20, 32, 24, 0.75);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 8px;
-  padding: 1rem;
-  margin-bottom: 1.25rem;
-}
-
-article h1.post-title,
-article h2 {
-  color: #f5e8d8;
-}
-
-article p.post-date {
-  color: #c0b395;
-  font-size: 0.95rem;
-  text-align: center;
-  margin-top: 0.2rem;
-  margin-bottom: 1rem;
-}
-
-article br {
-  content: "";
-  margin-bottom: 0.75rem;
-}
-
-article a {
-  color: #9fc8ff;
-}
-
-article a:hover {
-  color: #c7dbff;
-}
-
-
-/* Post title styling */
-.post-title {
-  font-family: inherit;
-  font-weight: bold;
-  text-decoration: underline;
-  margin-bottom: 0.5rem;
-  text-align: center;
-}
-
-/* Optional: make top-level headings centered in the post */
-main h1, main h2 {
-  text-align: center;
-}
-
-/* === List-style index page layout === */
-.post-index {
-  list-style: none;
-  padding: 0;
+.site-title {
   margin: 0;
-  display: grid;
-  gap: 0.8rem;
-  justify-content: center;
+  font-size: 1.55rem;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
 }
 
-.post-index li {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.14);
-  border-radius: 8px;
-  padding: 0.85rem 1rem;
-  transition: transform 0.15s ease, background 0.15s ease;
-}
+.site-nav { margin: 0; }
 
-.post-index li:hover {
-  transform: translateY(-2px);
-  background: rgba(255,255,255,0.08);
-}
-
-.post-index li a {
-  color: #e8d7bf;
+.site-nav a {
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
   text-decoration: none;
-  font-weight: bold;
+  padding: 0.35rem 0.8rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
 }
+.site-nav a:hover { border-color: var(--rule-strong); }
 
-.post-index li a:hover {
-  color: #fff;
-  text-decoration: underline;
-}
-
-/* language toggle shared style */
-.lang-switch,
-.language-toggle {
-  display: flex;
-  gap: 0.5rem;
-  background: rgba(0,0,0,0.25);
-  padding: 0.5rem;
-  border-radius: 8px;
-  border: 1px solid rgba(255,255,255,0.2);
-  margin: 1rem auto;
-  width: fit-content;
-}
-
-.lang-switch button,
-.language-toggle button {
-  padding: 0.4rem 0.85rem;
-  background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 6px;
-  color: #e8d7bf;
-  cursor: pointer;
-  font-size: 0.85rem;
-}
-
-.lang-switch button:hover,
-.language-toggle button:hover {
-  background: rgba(255,255,255,0.2);
-}
-
-.lang-switch button[aria-pressed='true'],
-.language-toggle button.active {
-  background: rgba(255,255,255,0.35);
-  border-color: rgba(255,255,255,0.4);
-}
-
-.bilingual-layout {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: center;
-  margin-top: 1rem;
-}
-
-.bilingual-column {
-  flex: 1 1 48%;
-  min-width: 18rem;
-  max-width: 600px;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.15);
-  border-radius: 8px;
-  padding: 1rem;
-  box-sizing: border-box;
-}
-
-.bilingual-column h2 {
-  margin-top: 0;
-  margin-bottom: 0.5rem;
-}
-
-@media (max-width: 1024px) {
-  .bilingual-column {
-    max-width: 100%;
-    flex: 1 1 100%;
-  }
-}
-
-/* Cross-browser fallback for Android and older mobile browsers */
-@supports not (flex: 1 1 48%) {
-  .bilingual-layout {
-    display: block;
-  }
-  .bilingual-column {
-    width: 100%;
-    margin-bottom: 1rem;
-    max-width: none;
-  }
-}
-
-/* Images inside posts should scale properly */
-main img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-  margin: 1rem auto;
-}
-
-/* Links */
-a, a:visited {
-  color: #e8d7bf;  /* Sandy beige - same as text */
-}
-a:hover, a:focus {
-  color: #f5e6d3;  /* Slightly lighter beige on hover */
-  text-decoration: underline;
-}
-
-/* === Language switcher (top-right corner) === */
-.lang-switch,
-.language-toggle {
-  display: flex;
-  gap: 0.5rem;
-  background: rgba(255,255,255,0.1);
-  padding: 0.5rem;
-  border-radius: 6px;
-  backdrop-filter: blur(10px);
-  margin: 1rem auto;
-  width: fit-content;
-}
-
-.language-toggle button,
-.lang-switch button {
-  padding: 0.5rem 1rem;
-  background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 4px;
-  color: inherit;
-  cursor: pointer;
-  transition: all 0.2s;
-  font-size: 0.9rem;
-}
-
-.language-toggle button:hover,
-.lang-switch button:hover {
-  background: rgba(255,255,255,0.2);
-}
-
-.language-toggle button.active,
-.lang-switch button[aria-pressed='true'] {
-  background: rgba(255,255,255,0.3);
-  border-color: rgba(255,255,255,0.4);
-  font-weight: bold;
-}
-
-/* Footnote bubble (interactive hover) */
-.footnote-bubble {
-  background: rgba(24,24,24,0.95);
-  color: #f5f1e6;
-  padding: 0.6rem 0.8rem;
-  border-radius: 8px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.6);
-  max-width: 36ch;
-  font-size: 0.92rem;
-  line-height: 1.4;
-  pointer-events: auto;
-}
-
-.footnote-bubble a {
-  color: #9fc8ff;
-}
-
-.footnote-ref {
-  cursor: pointer;
-}
-.bilingual-layout {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: center;
-  margin-top: 1.5rem;
-}
-
-.bilingual-column {
-  flex: 1 1 300px;
-  min-width: 280px;
-  max-width: 45%;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
-  padding: 1rem;
-  box-sizing: border-box;
-}
-
-.bilingual-column h2 {
-  margin-top: 0;
-  margin-bottom: 0.5rem;
-  font-size: 1.2rem;
+.meta-line {
+  width: var(--wrap-single);
+  margin: 1.1rem auto 0;
+  color: var(--ink-quiet);
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
   text-align: center;
 }
+body.view-parallel .meta-line { width: var(--wrap-parallel); }
+
+.meta-line span + span::before {
+  content: "·";
+  margin: 0 0.6em;
+  color: var(--rule-strong);
+}
+
+/* === Contents nav ======================================================= */
+
+.contents {
+  width: var(--wrap-single);
+  margin: 1.5rem auto 0;
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  text-align: center;
+}
+body.view-parallel .contents { width: var(--wrap-parallel); }
+.contents:empty { display: none; }
+
+.contents a + a::before {
+  content: "·";
+  margin: 0 0.6em;
+  color: var(--rule-strong);
+}
+
+.contents a {
+  text-decoration: none;
+  color: var(--ink-soft);
+  border-bottom: 1px solid transparent;
+}
+.contents a:hover { color: var(--ink); border-bottom-color: var(--rule-strong); }
+
+/* === Post layout ======================================================== */
+
+main {
+  width: var(--wrap-single);
+  margin: 2.25rem auto 5rem;
+}
+body.view-parallel main { width: var(--wrap-parallel); }
 
 .group-header {
-  border-bottom: 2px solid rgba(255,255,255,0.2);
-  margin-bottom: 1rem;
-  padding-bottom: 1rem;
-}
-
-.group-subtitle {
-  margin-top: 0.5rem;
-  opacity: 0.8;
-  font-style: italic;
+  margin: 0 0 1.75rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--rule);
   text-align: center;
 }
 
-.lang-chip {
-  display: inline-block;
-  margin: 0 0.25rem 0.5rem;
-  padding: 0.2rem 0.5rem;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.1);
-  font-size: 0.85rem;
+.group-header h1 {
+  margin: 0.25rem 0;
+  font-size: 1.35rem;
+  font-weight: 400;
+  line-height: 1.35;
 }
 
-.post-date {
-  text-align: center;
-  opacity: 0.8;
-  margin-top: 0;
-  margin-bottom: 1rem;
+/* In single-language view only the matching title is shown. */
+body.view-de .title-en,
+body.view-en .title-de { display: none; }
+
+.post-title {
+  margin: 0 0 0.4rem;
+  font-size: 1.25rem;
+  font-weight: 400;
+  text-decoration: none;
+  text-align: left;
+}
+
+.column-label {
+  margin: 0 0 1.4rem;
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-quiet);
+  font-weight: 400;
+  text-align: left;
+}
+
+.bilingual-column {
+  min-width: 0;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+
+.para {
+  margin: 0 0 1.5rem;
+  overflow-wrap: break-word;
+  position: relative;
+  padding-left: 2.4rem;
+}
+
+/* Paragraph number in the gutter — the unit you actually cite when
+   comparing two versions of the same text. */
+.para[data-p]::before {
+  content: attr(data-p);
+  position: absolute;
+  left: 0;
+  top: 0.15em;
+  width: 1.6rem;
+  text-align: right;
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
+  line-height: inherit;
+  color: var(--ink-quiet);
+  opacity: 0.55;
+  user-select: none;
+}
+
+.para em { font-style: italic; }
+.para strong { font-weight: 700; }
+
+.bilingual-column h3,
+.bilingual-column h4 {
+  margin: 2.25rem 0 0.75rem;
+  padding-left: 2.4rem;
+  font-weight: 400;
+  font-size: 1.1rem;
+}
+
+.bilingual-column pre {
+  padding-left: 2.4rem;
+  overflow-x: auto;
   font-size: 0.9rem;
 }
 
-@media (max-width: 1024px) {
-  .bilingual-column {
-    max-width: 100%;
+/* === Parallel grid ====================================================== */
+/* Each paragraph pair shares one grid row, so DE §7 always sits beside EN §7
+   no matter how much longer the German runs. */
+
+.bilingual-layout { display: block; }
+
+body.view-parallel .bilingual-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: var(--gap-column);
+  background-image: linear-gradient(
+    to right,
+    transparent calc(50% - 0.5px),
+    var(--rule) calc(50% - 0.5px),
+    var(--rule) calc(50% + 0.5px),
+    transparent calc(50% + 0.5px)
+  );
+}
+
+body.view-parallel .bilingual-layout.is-aligned .bilingual-column { display: contents; }
+body.view-parallel .bilingual-layout.is-aligned .lang-de > * { grid-column: 1; }
+body.view-parallel .bilingual-layout.is-aligned .lang-en > * { grid-column: 2; }
+
+/* Single-language views */
+body.view-de .lang-en,
+body.view-en .lang-de { display: none; }
+
+body.view-de .bilingual-layout,
+body.view-en .bilingual-layout { background-image: none; }
+
+/* Hovering one paragraph lifts its counterpart in the other column. */
+.para.pair-active {
+  background: var(--tint);
+  box-shadow: 0 0 0 0.55rem var(--tint);
+  border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .para { transition: background 0.18s ease, box-shadow 0.18s ease; }
+}
+
+/* === Footnotes ========================================================== */
+
+.footnote-ref {
+  color: var(--gold);
+  text-decoration: none;
+  font-family: var(--font-ui);
+  font-size: 0.7em;
+  vertical-align: super;
+  padding: 0 0.15em;
+  cursor: pointer;
+}
+.footnote-ref:hover,
+.footnote-ref:focus-visible { color: var(--gold-bright); text-decoration: underline; }
+
+.footnotes {
+  margin-top: 3rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--rule);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+.footnotes h2 {
+  margin: 0 0 0.9rem;
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: var(--ink-quiet);
+}
+
+.footnotes ol { margin: 0; padding-left: 1.4rem; }
+.footnotes li { margin-bottom: 0.6rem; }
+.footnotes li:target { background: var(--tint); border-radius: 2px; }
+
+.footnote-backref {
+  color: var(--gold);
+  text-decoration: none;
+  margin-left: 0.4rem;
+}
+
+.footnote-bubble {
+  position: absolute;
+  z-index: 1100;
+  max-width: 34ch;
+  padding: 0.7rem 0.9rem;
+  background: var(--panel);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
+  color: var(--ink);
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+/* === Controls =========================================================== */
+
+.view-switch {
+  display: flex;
+  gap: 0.35rem;
+  padding: 0.25rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+}
+
+.view-switch button {
+  padding: 0.35rem 0.85rem;
+  background: transparent;
+  border: 0;
+  border-radius: 5px;
+  color: var(--ink-soft);
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+}
+.view-switch button:hover { color: var(--ink); }
+.view-switch button[aria-pressed="true"] {
+  background: var(--tint);
+  color: var(--gold-bright);
+}
+
+.reading-progress {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 2px;
+  z-index: 1150;
+  pointer-events: none;
+}
+.reading-progress span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--gold);
+  opacity: 0.7;
+}
+
+#back-to-top {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  width: 2.75rem;
+  height: 2.75rem;
+  background: var(--panel);
+  border: 1px solid var(--rule-strong);
+  border-radius: 50%;
+  color: var(--ink);
+  font-size: 1.1rem;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 1000;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+#back-to-top.is-visible { opacity: 1; visibility: visible; }
+#back-to-top:hover { border-color: var(--gold); color: var(--gold-bright); }
+
+/* === Blog index ========================================================= */
+
+.post-index {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.post-index li { border-bottom: 1px solid var(--rule); }
+.post-index li:first-child { border-top: 1px solid var(--rule); }
+
+.post-index a {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.5rem 1.5rem;
+  align-items: baseline;
+  padding: 1rem 0.25rem;
+  text-decoration: none;
+  line-height: 1.45;
+}
+.post-index a:hover { background: var(--tint); }
+
+.post-index .entry-title { color: var(--ink); }
+.post-index a:hover .entry-title { color: var(--gold-bright); }
+
+.post-index .entry-meta {
+  font-family: var(--font-ui);
+  font-size: 0.74rem;
+  letter-spacing: 0.05em;
+  color: var(--ink-quiet);
+  white-space: nowrap;
+}
+
+.year-heading {
+  margin: 2.5rem 0 0.6rem;
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  color: var(--ink-quiet);
+  font-weight: 400;
+}
+.year-heading:first-child { margin-top: 0; }
+
+/* Home page language switch (index.html keeps its own markup) */
+.lang-switch {
+  display: flex;
+  gap: 0.35rem;
+  width: fit-content;
+  margin: 1.5rem auto;
+  padding: 0.25rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+}
+.lang-switch button {
+  padding: 0.35rem 0.85rem;
+  background: transparent;
+  border: 0;
+  border-radius: 5px;
+  color: var(--ink-soft);
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+.lang-switch button[aria-pressed="true"] { background: var(--tint); color: var(--gold-bright); }
+
+main img { max-width: 100%; height: auto; display: block; margin: 1.5rem auto; }
+
+/* === Responsive ========================================================= */
+
+@media (max-width: 860px) {
+  :root { --size-body: 1.02rem; }
+
+  /* Two columns never fit a phone. Fall back to one language stacked;
+     post.js also flips the switch so the control matches what is shown. */
+  body.view-parallel .bilingual-layout {
+    display: block;
+    background-image: none;
+  }
+  body.view-parallel .bilingual-layout.is-aligned .bilingual-column { display: block; }
+
+  .bilingual-column + .bilingual-column {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--rule);
   }
 }
-@media (max-width: 640px) {
-  .footnote-bubble {
-    max-width: 80vw;
-    left: 8px !important;
-    right: 8px !important;
-    position: fixed !important;
-    top: auto !important;
-    bottom: 8px !important;
+
+@media (max-width: 560px) {
+  .para, .bilingual-column h3, .bilingual-column h4, .bilingual-column pre {
+    padding-left: 0;
   }
+  .para[data-p]::before { display: none; }
+
+  .footnote-bubble {
+    position: fixed;
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: 0.75rem;
+    top: auto;
+    max-width: none;
+  }
+
+  .post-index a { grid-template-columns: 1fr; }
+}
+
+@media print {
+  body { background: #fff; color: #000; }
+  .reading-progress, #back-to-top, .view-switch, .site-nav, .skip-link { display: none; }
+  .bilingual-layout { background-image: none; }
+  a { color: #000; text-decoration: none; }
 }
