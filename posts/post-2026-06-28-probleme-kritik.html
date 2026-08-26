@@ -1,18 +1,22 @@
 <!doctype html>
-<!-- template-version: 7 -->
+<!-- template-version: 8 -->
 <html lang="de" class="theme-light">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Inhaltsverzeichnis - einkaternamensjan</title>
+  <title>Index - einkaternamensjan</title>
   <meta name="color-scheme" content="light dark">
-  <link rel="stylesheet" href="../styles.css?v=7">
+  <link rel="stylesheet" href="../styles.css?v=8">
   <script>
-    /* Set the theme before first paint, otherwise a dark-mode reader gets a
-       white flash on every page load. Must stay inline and un-deferred. */
+    /* Thema vor dem ersten Zeichnen setzen, sonst blitzt Weiß auf.
+       Liest localStorage und, falls der gesperrt ist, den Cookie. */
     (function () {
-      var t;
+      var t = null;
       try { t = localStorage.getItem('ekj-theme'); } catch (e) {}
+      if (t === null) {
+        var m = document.cookie.match('(?:^|; )ekj-theme=([^;]*)');
+        if (m) t = decodeURIComponent(m[1]);
+      }
       if (t !== 'light' && t !== 'dark') {
         t = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
           ? 'dark' : 'light';
@@ -28,7 +32,7 @@
 
   <div class="band">
     <header class="site-header">
-      <p class="site-nav"><a href='../blogs.html'>Inhaltsverzeichnis</a><a href='../index.html'>Startseite</a></p>
+      <p class="site-nav"><a href='../blogs.html'>Index</a><a href='../autor.html'>Über den Autor</a><a href='../index.html'>Startseite</a></p>
       <div class="controls"><div class='view-switch' role='group' aria-label='Ansicht / View'><button type='button' data-view='parallel' aria-pressed='true'>Parallel</button><button type='button' data-view='de' aria-pressed='false'>Deutsch</button><button type='button' data-view='en' aria-pressed='false'>English</button></div></div>
     </header>
     <div class='band-title'><h1 class='title-de' lang='de'>Probleme der Kritik - Eine Art Phänomenologie</h1><h1 class='title-en' lang='en'>Problems of Critique - A Sort of Phenomenology</h1><p class='meta-line'><span>Veröffentlicht 28.06.26</span><span>33 Min. DE</span><span>36 min EN</span></p></div>
@@ -47,6 +51,6 @@
             title="Nach oben / Back to top" aria-label="Nach oben / Back to top">↑</button>
   </div>
 
-  <script src="../post.js?v=7" defer></script>
+  <script src="../post.js?v=8" defer></script>
 </body>
 </html>
