@@ -1,4 +1,4 @@
-/* einkaternamensjan site files — set 8 (blog_template.html, generate_blogs.py, styles.css, post.js gehören zusammen) */
+/* einkaternamensjan site files — set 9 (blog_template.html, generate_blogs.py, styles.css, post.js gehören zusammen) */
 /* einkaternamensjan — shared behaviour for blog and bibliography pages.
    Everything here degrades gracefully: with JavaScript off the page still
    shows both languages, linked footnotes and a full footnote apparatus. */
@@ -33,7 +33,7 @@
   var VIEW_KEY = 'ekj-view-mode';
   var VIEWS = ['parallel', 'de', 'en'];
   var NARROW = 860;
-  var EXPECTED_STYLESHEET_VERSION = '8';
+  var EXPECTED_STYLESHEET_VERSION = '9';
 
   /* --- stylesheet check -------------------------------------------------- */
   /* The switch only changes a class on <body>; hiding the other column is the

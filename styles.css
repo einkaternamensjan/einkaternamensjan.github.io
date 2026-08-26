@@ -1,25 +1,42 @@
 /* ==========================================================================
-   einkaternamensjan site files — set 8
+   einkaternamensjan site files — set 9
    (blog_template.html, generate_blogs.py, styles.css, post.js gehören zusammen)
 
-   Richtung "Edition": ein flaches Farbfeld trägt Kopf und Titel, der Text steht
-   darunter auf ruhigem Grund. Die Feldfarbe kommt pro Beitrag aus dem Generator
-   als --accent. Hell und dunkel teilen sich dieselbe Palette; im Dunkelmodus
-   wird das Feld abgetieft statt ausgetauscht.
+   Grundgedanke: eine Serifenschrift für den Text, eine Schreibmaschinenschrift
+   für alles, was *über* den Text spricht — Spaltenmarken, Datumszeile,
+   §-Absatzmarken, Fußnotenziffern — und ein einziges Metall, das nur dem
+   Apparat gehört. Die Haarlinien sind kein Grau, sondern das Metall bei
+   niedriger Deckkraft; daher die Wärme, ohne dass eine warme Fläche vorkäme.
+
+   Jeder Beitrag bringt ein Paar mit: --ground (tiefer Grund) und --metal.
+   Der Generator rechnet daraus alles Weitere aus.
 
    Abschnitte: tokens · themes · base · band · contents · post · parallel grid ·
-               footnotes · controls · index · responsive
+               footnotes · controls · index · autorenseite · responsive
    ========================================================================== */
 
 :root {
-  /* Must match ASSET_VERSION in generate_blogs.py */
-  --stylesheet-version: 8;
+  /* Muss zu ASSET_VERSION in generate_blogs.py passen */
+  --stylesheet-version: 9;
 
-  /* Fallback, falls ein Beitrag keine Farbe mitbringt */
-  --accent: #2F4A38;
+  /* Rückfall, falls eine Seite kein Paar mitbringt */
+  --ground:  #0A1322;
+  --metal:   #D6B46E;
+  --page-d:  #05090F;
+  --dim-d:   #7C8698;
+  --metal-l: #6E5527;
+  --metal-d: #D6B46E;
 
-  --font-body: Charter, "Bitstream Charter", "Iowan Old Style", Georgia, "Times New Roman", serif;
-  --font-ui:   ui-sans-serif, system-ui, "Segoe UI", Helvetica, Arial, sans-serif;
+  --bone: #ECE4D3;
+
+  /* Systemschriften — nichts wird nachgeladen, nichts verlässt den Rechner
+     des Lesers. Serife und Antiqua sind bewusst verschieden. */
+  --font-display: "Hoefler Text", "Palatino Linotype", Palatino, "Book Antiqua",
+                  Georgia, "Times New Roman", serif;
+  --font-body:    Charter, "Bitstream Charter", "Iowan Old Style", Georgia,
+                  "Times New Roman", serif;
+  --font-mono:    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+                  "Liberation Mono", monospace;
 
   --size-body: 1.06rem;
   --leading:   1.68;
@@ -30,55 +47,36 @@
 }
 
 /* === Themes ============================================================== */
-/* Kühl gehaltene Neutraltöne: das Papier zieht ins Blaugraue, nicht ins Creme. */
 
 .theme-light {
-  --paper:      #F3F4EE;
-  --sheet:      #FBFCF7;
-  --ink:        #171A15;
-  --ink-soft:   #464E54;
-  --ink-quiet:  #737C83;
-  --rule:       rgba(20, 24, 27, 0.16);
-  --rule-soft:  rgba(20, 24, 27, 0.09);
-  --tint:       rgba(20, 24, 27, 0.05);
-
-  --band:       var(--accent);
-  --band-ink:   var(--band-fg, #FFFFFF);
-  --band-quiet: color-mix(in srgb, var(--band-fg, #FFFFFF) 74%, transparent);
-  --band-rule:  color-mix(in srgb, var(--band-fg, #FFFFFF) 32%, transparent);
-
-  --accent-ink: var(--accent-ink-l, var(--accent));
-  --accent-tint: color-mix(in srgb, var(--accent) 9%, transparent);
+  --page:      #F4F3ED;
+  --panel:     #FBFAF5;
+  --ink:       #16181C;
+  --ink-soft:  #4B515A;
+  --ink-quiet: #767D86;
+  --accent:    var(--metal-l);
+  --rule:      color-mix(in srgb, var(--metal-l) 34%, transparent);
+  --rule-soft: color-mix(in srgb, var(--metal-l) 18%, transparent);
+  --tint:      color-mix(in srgb, var(--metal-l) 10%, transparent);
 }
 
 .theme-dark {
-  --paper:      #12160F;
-  --sheet:      #1A1F17;
-  --ink:        #E0E3D9;
-  --ink-soft:   #A5ADB3;
-  --ink-quiet:  #7A838B;
-  --rule:       rgba(219, 224, 224, 0.16);
-  --rule-soft:  rgba(219, 224, 224, 0.09);
-  --tint:       rgba(219, 224, 224, 0.06);
-
-  /* Das Feld bleibt dieselbe Farbe, nur abgetieft — der Beitrag behält
-     seine Identität, ohne nachts zu leuchten. */
-  /* Im Dunkelmodus wird das Feld abgetieft; die Schrift ist dort immer hell,
-     unabhängig davon, welche Schrift der helle Modus gewählt hätte. */
-  --band:       color-mix(in srgb, var(--accent) 46%, #070A06);
-  --band-ink:   #E9ECE3;
-  --band-quiet: rgba(233, 236, 227, 0.64);
-  --band-rule:  rgba(233, 236, 227, 0.24);
-
-  --accent-ink: var(--accent-ink-d, #B9C6AE);
-  --accent-tint: color-mix(in srgb, var(--accent) 22%, transparent);
+  --page:      var(--page-d);
+  --panel:     var(--ground);
+  --ink:       var(--bone);
+  --ink-soft:  color-mix(in srgb, var(--bone) 74%, var(--page-d));
+  --ink-quiet: var(--dim-d);
+  --accent:    var(--metal-d);
+  --rule:      color-mix(in srgb, var(--metal) 26%, transparent);
+  --rule-soft: color-mix(in srgb, var(--metal) 14%, transparent);
+  --tint:      color-mix(in srgb, var(--metal) 12%, transparent);
 }
 
-/* Browser ohne color-mix bekommen brauchbare Näherungen */
 @supports not (color: color-mix(in srgb, red 50%, blue)) {
-  .theme-dark { --band: #1B2318; --accent-ink: #B9C6AE; --accent-tint: rgba(185, 198, 174, 0.14); }
-  .theme-light { --band-ink: #FFFFFF; --band-quiet: rgba(255,255,255,.74);
-                 --band-rule: rgba(255,255,255,.32); --accent-tint: rgba(20, 24, 27, 0.06); }
+  .theme-light { --rule: rgba(110, 85, 39, .34); --rule-soft: rgba(110, 85, 39, .18);
+                 --tint: rgba(110, 85, 39, .1); }
+  .theme-dark  { --ink-soft: #C3BCAC; --rule: rgba(214, 180, 110, .26);
+                 --rule-soft: rgba(214, 180, 110, .14); --tint: rgba(214, 180, 110, .12); }
 }
 
 /* === Base ================================================================ */
@@ -89,7 +87,7 @@ html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
   min-height: 100vh;
-  background: var(--paper);
+  background: var(--page);
   color: var(--ink);
   font-family: var(--font-body);
   font-size: var(--size-body);
@@ -99,81 +97,86 @@ body {
 }
 
 a, a:visited { color: var(--ink); }
-a:hover, a:focus-visible { color: var(--accent-ink); }
+a:hover, a:focus-visible { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
-:focus-visible { outline: 2px solid var(--accent-ink); outline-offset: 3px; }
+/* Alles, was über den Text spricht, trägt Schreibmaschinenschrift. */
+.column-label, .meta-line, .contents, .entry-meta, .year-heading,
+.footnotes h2, .footnote-ref, .view-switch button, .site-nav a,
+.lang-switch button, .para[data-p]::before {
+  font-family: var(--font-mono);
+}
 
 .skip-link {
   position: absolute; left: -9999px; top: 0; z-index: 1200;
-  padding: 0.6rem 1rem; background: var(--sheet); color: var(--ink);
-  border: 1px solid var(--rule); font-family: var(--font-ui); font-size: 0.85rem;
+  padding: 0.6rem 1rem; background: var(--panel); color: var(--ink);
+  border: 1px solid var(--rule); font-family: var(--font-mono); font-size: 0.8rem;
 }
 .skip-link:focus { left: 1rem; top: 1rem; }
 
 /* === Band ================================================================ */
-/* Das Farbfeld: volle Breite, flach, ohne Verlauf oder Schatten. */
+/* Das Farbfeld ist in beiden Modi derselbe tiefe Grund. Im hellen Modus liegt
+   es als dunkle Fläche auf dem Papier, im dunklen geht es in die Seite über. */
 
 .band {
-  background: var(--band);
-  color: var(--band-ink);
+  background: var(--ground);
+  color: var(--bone);
   padding-bottom: 2.75rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--metal) 22%, transparent);
 }
 
 .site-header {
   width: var(--wrap-parallel);
   margin: 0 auto;
   padding: 1.1rem 0 2.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  flex-wrap: wrap;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem; flex-wrap: wrap;
 }
 
-.site-nav { margin: 0; display: flex; gap: 0.4rem; }
+.site-nav { margin: 0; display: flex; gap: 0.4rem; flex-wrap: wrap; }
 
 .site-nav a {
-  color: var(--band-ink);
-  font-family: var(--font-ui);
-  font-size: 0.74rem;
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
-  text-decoration: none;
-  padding: 0.4rem 0.75rem;
-  border: 1px solid var(--band-rule);
+  color: var(--bone);
+  font-size: 0.7rem; letter-spacing: 0.11em; text-transform: uppercase;
+  text-decoration: none; padding: 0.42rem 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--metal) 30%, transparent);
 }
-.site-nav a:hover { color: var(--band-ink); background: rgba(255, 255, 255, 0.12); }
+.site-nav a:hover {
+  color: var(--metal);
+  border-color: color-mix(in srgb, var(--metal) 62%, transparent);
+}
 
 .controls { display: flex; align-items: center; gap: 0.5rem; }
 
 .band-title { width: var(--wrap-parallel); margin: 0 auto; }
 
 .band-title h1 {
+  font-family: var(--font-display);
   margin: 0 0 0.3rem;
   font-weight: 400;
-  font-size: clamp(1.9rem, 4.4vw, 2.9rem);
+  font-size: clamp(1.95rem, 4.6vw, 3rem);
   line-height: 1.1;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.012em;
   max-width: 24ch;
 }
 .band-title h1 + h1 {
-  font-size: clamp(1.15rem, 2.2vw, 1.45rem);
-  color: var(--band-quiet);
+  font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+  color: color-mix(in srgb, var(--bone) 62%, var(--ground));
+  font-style: italic;
   letter-spacing: 0;
   margin-top: 0.7rem;
 }
 
 .meta-line {
   margin: 1.6rem 0 0;
-  color: var(--band-quiet);
-  font-family: var(--font-ui);
-  font-size: 0.72rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+  color: var(--metal);
+  font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
 }
-.meta-line span + span::before { content: "·"; margin: 0 0.6em; }
+.meta-line span + span::before {
+  content: "·"; margin: 0 0.6em;
+  color: color-mix(in srgb, var(--metal) 45%, transparent);
+}
 
-/* Einsprachige Ansicht blendet den jeweils anderen Titel aus */
 body.view-de .band-title .title-en,
 body.view-en .band-title .title-de { display: none; }
 
@@ -182,51 +185,40 @@ body.view-en .band-title .title-de { display: none; }
 .contents {
   width: var(--wrap-parallel);
   margin: 1.6rem auto 0;
-  font-family: var(--font-ui);
-  font-size: 0.76rem;
-  letter-spacing: 0.06em;
+  font-size: 0.72rem; letter-spacing: 0.05em;
   color: var(--ink-quiet);
 }
 .contents:empty { display: none; }
 .contents a { color: var(--ink-soft); text-decoration: none; }
-.contents a:hover { color: var(--accent-ink); }
+.contents a:hover { color: var(--accent); }
 .contents a + a::before { content: "·"; margin: 0 0.6em; color: var(--ink-quiet); }
 
 /* === Post layout ========================================================= */
 
-main {
-  width: var(--wrap-single);
-  margin: 2.75rem auto 6rem;
-}
+main { width: var(--wrap-single); margin: 2.75rem auto 6rem; }
 body.view-parallel main { width: var(--wrap-parallel); }
 
-/* Gruppenkopf innerhalb der Seite (Bibliographie zeigt mehrere Gruppen) */
 .group-header {
-  margin: 0 0 2rem;
-  padding-bottom: 1rem;
-  border-bottom: 2px solid var(--ink);
+  margin: 0 0 2rem; padding-bottom: 1rem;
+  border-bottom: 1px solid var(--rule);
 }
-.group-header h1 { margin: 0.2rem 0; font-weight: 400; font-size: 1.3rem; line-height: 1.25; }
+.group-header h1 {
+  font-family: var(--font-display);
+  margin: 0.2rem 0; font-weight: 400; font-size: 1.35rem; line-height: 1.25;
+}
 body.view-de .group-header .title-en,
 body.view-en .group-header .title-de { display: none; }
 
 .post-title {
-  margin: 0 0 0.5rem;
-  font-size: 1.15rem;
-  font-weight: 400;
-  text-align: left;
+  font-family: var(--font-display);
+  margin: 0 0 0.5rem; font-size: 1.15rem; font-weight: 400; text-align: left;
 }
-/* Auf Beitragsseiten trägt das Farbfeld den Titel schon */
 body.single-post .post-title { display: none; }
 
 .column-label {
   margin: 0 0 1.5rem;
-  font-family: var(--font-ui);
-  font-size: 0.63rem;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: var(--accent-ink);
-  font-weight: 700;
+  font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--accent); font-weight: 400;
 }
 
 .bilingual-column { min-width: 0; hyphens: auto; -webkit-hyphens: auto; }
@@ -242,17 +234,17 @@ body.single-post .post-title { display: none; }
   content: "\0000A7" attr(data-p);
   position: absolute; left: 0; top: 0.18em;
   width: 2.35rem; text-align: right;
-  letter-spacing: 0.02em;
-  font-family: var(--font-ui); font-size: 0.82rem; line-height: 1;
-  color: var(--ink-soft);
+  font-size: 0.78rem; line-height: 1; letter-spacing: 0.02em;
+  color: var(--ink-quiet);
   user-select: none;
 }
 
 .bilingual-column h3, .bilingual-column h4 {
+  font-family: var(--font-display);
   margin: 2.4rem 0 0.8rem; padding-left: 3.1rem;
-  font-weight: 400; font-size: 1.08rem;
+  font-weight: 400; font-size: 1.1rem;
 }
-.bilingual-column pre { padding-left: 3.1rem; overflow-x: auto; font-size: 0.9rem; }
+.bilingual-column pre { padding-left: 3.1rem; overflow-x: auto; font-size: 0.88rem; }
 
 /* === Parallel grid ======================================================= */
 
@@ -276,85 +268,91 @@ body.view-de .lang-en, body.view-en .lang-de { display: none; }
 body.view-de .bilingual-layout, body.view-en .bilingual-layout { background-image: none; }
 
 .para.pair-active {
-  background: var(--accent-tint);
-  box-shadow: 0 0 0 0.5rem var(--accent-tint);
+  background: var(--tint);
+  box-shadow: 0 0 0 0.5rem var(--tint);
 }
 @media (prefers-reduced-motion: no-preference) {
   .para { transition: background 0.18s ease, box-shadow 0.18s ease; }
 }
 
 /* === Footnotes =========================================================== */
+/* Die Ziffer sitzt als kleine gerahmte Marke im Text — sie soll sich vom
+   Fließtext abheben, ohne ihn zu unterbrechen. */
 
 .footnote-ref {
-  color: var(--accent-ink);
-  font-family: var(--font-ui); font-size: 0.66em; font-weight: 700;
-  vertical-align: super; text-decoration: none; padding: 0 0.15em;
-  cursor: pointer;
+  color: var(--accent);
+  font-size: 0.64em; font-weight: 400;
+  vertical-align: 0.35em; text-decoration: none;
+  padding: 0.1em 0.32em; margin-left: 0.14em;
+  border: 1px solid var(--rule);
+  white-space: nowrap;
 }
-.footnote-ref:hover, .footnote-ref:focus-visible { text-decoration: underline; }
+.footnote-ref:hover, .footnote-ref:focus-visible {
+  background: var(--tint); border-color: var(--accent);
+}
 
 .footnotes {
   margin-top: 3.25rem; padding-top: 1.1rem;
-  border-top: 2px solid var(--ink);
-  font-size: 0.88rem; line-height: 1.55; color: var(--ink-soft);
+  border-top: 1px solid var(--rule);
+  font-size: 0.87rem; line-height: 1.6; color: var(--ink-soft);
 }
 .footnotes h2 {
   margin: 0 0 0.9rem;
-  font-family: var(--font-ui); font-size: 0.63rem; letter-spacing: 0.24em;
-  text-transform: uppercase; font-weight: 700; color: var(--accent-ink);
+  font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase;
+  font-weight: 400; color: var(--accent);
 }
-.footnotes ol { margin: 0; padding-left: 1.5rem; }
+.footnotes ol { margin: 0; padding-left: 1.6rem; }
 .footnotes li { margin-bottom: 0.55rem; }
-.footnotes li:target { background: var(--accent-tint); }
-.footnote-backref { color: var(--accent-ink); text-decoration: none; margin-left: 0.4rem; }
+.footnotes li::marker { color: var(--accent); font-family: var(--font-mono); font-size: 0.8em; }
+.footnotes li:target { background: var(--tint); }
+.footnote-backref { color: var(--accent); text-decoration: none; margin-left: 0.4rem; }
 
 .footnote-bubble {
   position: absolute; z-index: 1100; max-width: 34ch;
   padding: 0.7rem 0.9rem;
-  background: var(--sheet); color: var(--ink);
+  background: var(--panel); color: var(--ink);
   border: 1px solid var(--rule);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.28);
-  font-size: 0.85rem; line-height: 1.5;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.42);
+  font-size: 0.84rem; line-height: 1.5;
 }
 
 /* === Controls ============================================================ */
 
-.view-switch { display: flex; gap: 0; border: 1px solid var(--band-rule); }
-
-.view-switch button {
-  padding: 0.4rem 0.8rem;
-  background: transparent; border: 0;
-  color: var(--band-quiet);
-  font-family: var(--font-ui); font-size: 0.72rem; letter-spacing: 0.1em;
-  text-transform: uppercase; cursor: pointer;
+.view-switch {
+  display: flex;
+  border: 1px solid color-mix(in srgb, var(--metal) 30%, transparent);
 }
-.view-switch button + button { border-left: 1px solid var(--band-rule); }
-.view-switch button:hover { color: var(--band-ink); }
-.view-switch button[aria-pressed="true"] { background: var(--band-ink); color: var(--band); }
+.view-switch button {
+  padding: 0.42rem 0.8rem;
+  background: transparent; border: 0;
+  color: color-mix(in srgb, var(--bone) 66%, var(--ground));
+  font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+  cursor: pointer;
+}
+.view-switch button + button {
+  border-left: 1px solid color-mix(in srgb, var(--metal) 30%, transparent);
+}
+.view-switch button:hover { color: var(--bone); }
+.view-switch button[aria-pressed="true"] { background: var(--metal); color: var(--ground); }
 
-/* Mitlaufende Bedienleiste: bleibt beim Lesen erreichbar, statt mit dem
-   Farbfeld nach oben zu verschwinden. */
 .floating-controls {
-  position: fixed;
-  right: 1.1rem; bottom: 1.1rem;
-  z-index: 1000;
+  position: fixed; right: 1.1rem; bottom: 1.1rem; z-index: 1000;
   display: flex; flex-direction: column; gap: 0.4rem;
 }
-
 .fc-button {
   width: 2.5rem; height: 2.5rem; padding: 0; line-height: 1;
   display: grid; place-items: center;
-  background: var(--sheet);
+  background: var(--panel);
   border: 1px solid var(--rule);
   color: var(--ink-soft);
   font-size: 0.95rem; cursor: pointer;
 }
-.fc-button:hover { color: var(--accent-ink); border-color: var(--accent-ink); }
+.fc-button:hover { color: var(--accent); border-color: var(--accent); }
 
 .reading-progress {
   position: fixed; inset: 0 0 auto 0; height: 2px; z-index: 1150; pointer-events: none;
 }
-.reading-progress span { display: block; height: 100%; width: 0; background: var(--ink); opacity: 0.55; }
+.reading-progress span { display: block; height: 100%; width: 0; background: var(--accent); }
 
 #back-to-top {
   opacity: 0; visibility: hidden; pointer-events: none;
@@ -363,7 +361,6 @@ body.view-de .bilingual-layout, body.view-en .bilingual-layout { background-imag
 #back-to-top.is-visible { opacity: 1; visibility: visible; pointer-events: auto; }
 
 /* === Index =============================================================== */
-/* Das Verzeichnis als Regal: jeder Beitrag zeigt seine Feldfarbe als Rücken. */
 
 .post-index { list-style: none; margin: 0 0 2rem; padding: 0; }
 
@@ -379,71 +376,66 @@ body.view-de .bilingual-layout, body.view-en .bilingual-layout { background-imag
 }
 .post-index a::before {
   content: ""; display: block; align-self: stretch;
-  background: var(--entry, var(--accent));
+  background: var(--entry, var(--metal));
 }
 .post-index a:hover { background: var(--tint); }
-.post-index a:hover .entry-title { color: var(--entry, var(--accent-ink)); }
+.post-index a:hover .entry-title { color: var(--entry, var(--accent)); }
 
-.entry-title { color: var(--ink); }
+.entry-title { color: var(--ink); font-family: var(--font-display); }
 .entry-meta {
-  font-family: var(--font-ui); font-size: 0.71rem; letter-spacing: 0.08em;
-  text-transform: uppercase; color: var(--ink-quiet); white-space: nowrap;
+  font-size: 0.68rem; letter-spacing: 0.07em; text-transform: uppercase;
+  color: var(--ink-quiet); white-space: nowrap;
 }
 
 .year-heading {
   margin: 2.75rem 0 0.5rem;
-  font-family: var(--font-ui); font-size: 0.68rem; letter-spacing: 0.26em;
-  color: var(--ink-quiet); font-weight: 400;
+  font-size: 0.66rem; letter-spacing: 0.24em;
+  color: var(--accent); font-weight: 400;
 }
 .year-heading:first-child { margin-top: 0; }
 
 /* === Startseite ========================================================== */
 
 .lang-switch {
-  display: flex; gap: 0; width: fit-content;
-  border: 1px solid var(--band-rule);
+  display: flex; width: fit-content;
+  border: 1px solid color-mix(in srgb, var(--metal) 30%, transparent);
 }
 .lang-switch button {
-  padding: 0.4rem 0.8rem; background: transparent; border: 0;
-  color: var(--band-quiet); font-family: var(--font-ui); font-size: 0.72rem;
-  letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer;
+  padding: 0.42rem 0.8rem; background: transparent; border: 0;
+  color: color-mix(in srgb, var(--bone) 66%, var(--ground));
+  font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer;
 }
-.lang-switch button + button { border-left: 1px solid var(--band-rule); }
-.lang-switch button:hover { color: var(--band-ink); }
-.lang-switch button[aria-pressed="true"] { background: var(--band-ink); color: var(--band); }
+.lang-switch button + button {
+  border-left: 1px solid color-mix(in srgb, var(--metal) 30%, transparent);
+}
+.lang-switch button:hover { color: var(--bone); }
+.lang-switch button[aria-pressed="true"] { background: var(--metal); color: var(--ground); }
 
-/* Die Startseite trägt nur einen Satz — er darf Raum bekommen. */
 body.home main { margin-top: 5rem; }
 
 .epigraph {
+  font-family: var(--font-display);
   margin: 0;
-  font-size: clamp(1.15rem, 2.6vw, 1.5rem);
+  font-size: clamp(1.2rem, 2.7vw, 1.55rem);
   line-height: 1.5;
   text-wrap: balance;
   color: var(--ink);
 }
 .epigraph::before {
-  content: "";
-  display: block;
-  width: 2.5rem;
-  border-top: 2px solid var(--accent-ink);
-  margin-bottom: 1.5rem;
+  content: ""; display: block; width: 2.5rem;
+  border-top: 2px solid var(--accent); margin-bottom: 1.5rem;
 }
 
-main img { max-width: 100%; height: auto; display: block; margin: 1.5rem auto; }
-
 /* === Autorenseite ======================================================== */
-/* Nur ein Bild, deshalb bekommt es die volle Aufmerksamkeit. */
 
 .portrait { margin: 0; }
-
 .portrait img {
-  width: 100%;
-  max-width: 34rem;
-  margin: 0 auto;
+  width: 100%; max-width: 34rem; margin: 0 auto;
   border: 1px solid var(--rule);
   background: #000;
 }
+
+main img { max-width: 100%; height: auto; display: block; margin: 1.5rem auto; }
 
 /* === Responsive ========================================================== */
 
@@ -465,7 +457,7 @@ main img { max-width: 100%; height: auto; display: block; margin: 1.5rem auto; }
   .para, .bilingual-column h3, .bilingual-column h4, .bilingual-column pre { padding-left: 0; }
   .para[data-p]::before {
     position: static; display: inline; width: auto;
-    margin-right: 0.5em; font-size: 0.85rem;
+    margin-right: 0.5em; font-size: 0.8rem;
   }
   .site-header { flex-direction: column; align-items: flex-start; }
   .footnote-bubble {
@@ -476,8 +468,9 @@ main img { max-width: 100%; height: auto; display: block; margin: 1.5rem auto; }
 }
 
 @media print {
-  .band { background: #fff; color: #000; }
   body { background: #fff; color: #000; }
+  .band { background: #fff; color: #000; border-bottom: 1px solid #000; }
+  .band-title h1, .meta-line { color: #000; }
   .reading-progress, .floating-controls, .view-switch, .site-nav, .skip-link { display: none; }
   .bilingual-layout { background-image: none; }
   a { color: #000; text-decoration: none; }

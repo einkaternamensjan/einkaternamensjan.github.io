@@ -1,4 +1,4 @@
-﻿# einkaternamensjan site files — set 8 (blog_template.html, generate_blogs.py, styles.css, post.js gehören zusammen)
+﻿# einkaternamensjan site files — set 9 (blog_template.html, generate_blogs.py, styles.css, post.js gehören zusammen)
 import re
 import html
 from pathlib import Path
@@ -14,11 +14,11 @@ BIBLIO_POSTS_DIR = ROOT / "bibliography_posts"
 
 # Template and generator are coupled through the ###...### placeholder names.
 # Bump both together; the build refuses to run on a mismatch.
-TEMPLATE_VERSION = 8
+TEMPLATE_VERSION = 9
 
 # Appended to styles.css and post.js as ?v=N so browsers fetch the new files
 # instead of serving a cached copy. Bump when you change either.
-ASSET_VERSION = 8
+ASSET_VERSION = 9
 
 WORDS_PER_MINUTE = 200
 
@@ -26,26 +26,25 @@ WORDS_PER_MINUTE = 200
 # bekommt eine feste Farbe, abgeleitet aus seiner group_id — sie bleibt also
 # gleich, auch wenn neue Beiträge dazukommen. Reihenfolge und Werte darfst du
 # frei ändern; mehr oder weniger als sechs geht ebenso.
+# Jeder Beitrag bekommt eine Variante desselben Prinzips: ein tiefer Grund und
+# ein Metall. Das erste Paar ist zugleich der Grundton der Seite. Neue Paare darfst
+# du frei ergaenzen — Schriftfarben und Kontraste rechnen sich selbst aus. Ein
+# Grund muss dunkel genug fuer knochenfarbene Schrift sein.
 PALETTE = [
-    '#2F4A38',  # Tanne
-    '#1F5651',  # Petrol
-    '#26418F',  # Ultramarin
-    '#356E92',  # Azur
-    '#3A5560',  # Schiefer
-    '#54467E',  # Veilchen
-    '#8A4630',  # Terra
-    '#7E8C4A',  # Wiesengruen
-    '#8FB4CE',  # Taubenblau
-    '#A9C0A2',  # Salbei
-    '#C9A227',  # Ocker
-    '#D08C5E',  # Ziegel
+    ('#0A1322', '#D6B46E'),  # Nacht      / Messing  — zugleich der Seitenton
+    ('#0C1B14', '#C98A5E'),  # Tanne      / Kupfer
+    ('#08191C', '#6FB6A6'),  # Petrol     / Gruenspan
+    ('#160E1C', '#C48CA8'),  # Aubergine  / Altrosa
+    ('#17120A', '#D9A441'),  # Umbra      / Bernstein
+    ('#111A1F', '#A9B7C0'),  # Schiefer   / Silber
+    ('#0C1226', '#9DA8DA'),  # Indigo     / Lavendel
+    ('#1A0E11', '#C9614F'),  # Weinnacht  / Krapprot
 ]
 
-# Papier- und Schriftton, gegen die gerechnet wird
-PAPER_LIGHT = '#F3F4EE'
-PAPER_DARK = '#12160F'
-INK_ON_LIGHT_BAND = '#15190F'
-INK_ON_DARK_BAND = '#FFFFFF'
+SITE_PAIR = PALETTE[0]
+
+BONE = '#ECE4D3'          # Schrift auf dem Farbfeld
+PAPER_LIGHT = '#F4F3ED'   # Papier im hellen Modus
 
 
 def _channels(hex_colour):
@@ -66,48 +65,25 @@ def contrast(a, b):
     return (max(la, lb) + 0.05) / (min(la, lb) + 0.05)
 
 
-def _mix(hex_colour, towards, amount):
+def mix(hex_colour, towards, amount):
     a, b = _channels(hex_colour), _channels(towards)
-    out = tuple(round(x + (y - x) * amount) for x, y in zip(a, b))
-    return '#%02X%02X%02X' % out
+    return '#%02X%02X%02X' % tuple(
+        round(x * (1 - amount) + y * amount) for x, y in zip(a, b))
 
 
-def band_ink(accent):
-    """Schrift auf dem Farbfeld: helle Felder bekommen dunkle Schrift."""
-    dark = contrast(accent, INK_ON_LIGHT_BAND)
-    light = contrast(accent, INK_ON_DARK_BAND)
-    return INK_ON_LIGHT_BAND if dark > light else INK_ON_DARK_BAND
+def readable_on(colour, background, target=4.5):
+    """Farbe ab- oder aufhellen, bis sie auf dem Grund lesbar ist.
 
-
-def readable_on(accent, background, target=4.5):
-    """Akzentfarbe so weit abdunkeln oder aufhellen, bis sie auf dem Grund lesbar ist.
-
-    Betrifft Fußnotenziffern, Spaltenmarken und Verweise — die stehen klein auf
-    Papier und brauchen denselben Kontrast wie Fließtext."""
+    Betrifft Fussnotenziffern, Spaltenmarken und §-Marken: kleine Schrift, die
+    denselben Kontrast braucht wie Fliesstext."""
     towards = '#000000' if _luminance(background) > 0.4 else '#FFFFFF'
-    colour = accent
     for step in range(21):
-        if contrast(colour, background) >= target:
-            return colour
-        colour = _mix(accent, towards, step * 0.05)
+        candidate = mix(colour, towards, step * 0.05)
+        if contrast(candidate, background) >= target:
+            return candidate
     return colour
 
-
-def accent_for(group_id):
-    total = sum(ord(ch) for ch in group_id)
-    return PALETTE[total % len(PALETTE)]
-
-
-def accent_vars(accent):
-    """Alle vom Feldton abgeleiteten Werte, fertig als style-Attribut."""
-    return (
-        f"--accent:{accent};"
-        f"--band-fg:{band_ink(accent)};"
-        f"--accent-ink-l:{readable_on(accent, PAPER_LIGHT)};"
-        f"--accent-ink-d:{readable_on(accent, PAPER_DARK)}"
-    )
-
-# Language shown in the left column of the parallel view.
+# Sprache in der linken Spalte der Parallelansicht.
 PRIMARY_LANG = 'de'
 
 LABELS = {
@@ -122,6 +98,30 @@ if not BLOGS_DIR.exists():
 BIBLIO_DIR.mkdir(parents=True, exist_ok=True)
 POSTS_DIR.mkdir(parents=True, exist_ok=True)
 BIBLIO_POSTS_DIR.mkdir(parents=True, exist_ok=True)
+
+
+def accent_for(group_id):
+    total = sum(ord(ch) for ch in group_id)
+    return PALETTE[total % len(PALETTE)]
+
+
+def accent_vars(pair):
+    """Alle vom Paar abgeleiteten Werte, fertig als style-Attribut.
+
+    --ground   Farbfeld, in beiden Modi dasselbe
+    --page-d   Seitengrund im dunklen Modus, aus dem Feld abgetieft
+    --metal-l  Metall, auf dem hellen Papier lesbar gemacht
+    --metal-d  Metall, auf dem dunklen Grund lesbar gemacht"""
+    ground, metal = pair
+    page_dark = mix(ground, '#000000', 0.55)
+    return (
+        f"--ground:{ground};"
+        f"--metal:{metal};"
+        f"--page-d:{page_dark};"
+        f"--dim-d:{mix(BONE, page_dark, 0.45)};"
+        f"--metal-l:{readable_on(metal, PAPER_LIGHT)};"
+        f"--metal-d:{readable_on(metal, page_dark)}"
+    )
 
 
 # --------------------------------------------------------------------------
@@ -532,7 +532,7 @@ def render_index(posts_by_group, folder_name):
 
         chunks.append(
             f"<li><a href='{folder_name}/{group_slug}.html' "
-            f"style='--entry:{accent_for(group_id)}'>"
+            f"style='--entry:{accent_for(group_id)[1]}'>"
             f"<span class='entry-title'>{titles}</span>"
             f"<span class='entry-meta'>{format_date(first_entry['date'])} · "
             f"{languages} · {minutes} min</span></a></li>"
@@ -611,7 +611,7 @@ def generate_collection(entries, output_file, page_title, post_folder,
             'PAGE-TITLE': page_title,
             'HTML-LANG': PRIMARY_LANG,
             'BODY-CLASS': 'view-parallel',
-            'ACCENT-STYLE': '',
+            'ACCENT-STYLE': f" style=\"{accent_vars(SITE_PAIR)}\"",
             'BAND-TITLE': f"<div class='band-title'><h1>{esc(index_heading or page_title)}</h1></div>",
             'STYLESHEET': asset(root_stylesheet),
             'SCRIPT': asset(root_script),
