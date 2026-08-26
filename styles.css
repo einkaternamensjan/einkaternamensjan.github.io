@@ -1,5 +1,5 @@
 /* ==========================================================================
-   einkaternamensjan site files — set 6
+   einkaternamensjan site files — set 8
    (blog_template.html, generate_blogs.py, styles.css, post.js gehören zusammen)
 
    Richtung "Edition": ein flaches Farbfeld trägt Kopf und Titel, der Text steht
@@ -13,7 +13,7 @@
 
 :root {
   /* Must match ASSET_VERSION in generate_blogs.py */
-  --stylesheet-version: 6;
+  --stylesheet-version: 8;
 
   /* Fallback, falls ein Beitrag keine Farbe mitbringt */
   --accent: #2F4A38;
@@ -397,20 +397,53 @@ body.view-de .bilingual-layout, body.view-en .bilingual-layout { background-imag
 }
 .year-heading:first-child { margin-top: 0; }
 
-/* Startseite */
+/* === Startseite ========================================================== */
+
 .lang-switch {
-  display: flex; gap: 0; width: fit-content; margin: 2rem auto;
-  border: 1px solid var(--rule);
+  display: flex; gap: 0; width: fit-content;
+  border: 1px solid var(--band-rule);
 }
 .lang-switch button {
-  padding: 0.4rem 0.9rem; background: transparent; border: 0;
-  color: var(--ink-soft); font-family: var(--font-ui); font-size: 0.72rem;
+  padding: 0.4rem 0.8rem; background: transparent; border: 0;
+  color: var(--band-quiet); font-family: var(--font-ui); font-size: 0.72rem;
   letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer;
 }
-.lang-switch button + button { border-left: 1px solid var(--rule); }
-.lang-switch button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+.lang-switch button + button { border-left: 1px solid var(--band-rule); }
+.lang-switch button:hover { color: var(--band-ink); }
+.lang-switch button[aria-pressed="true"] { background: var(--band-ink); color: var(--band); }
+
+/* Die Startseite trägt nur einen Satz — er darf Raum bekommen. */
+body.home main { margin-top: 5rem; }
+
+.epigraph {
+  margin: 0;
+  font-size: clamp(1.15rem, 2.6vw, 1.5rem);
+  line-height: 1.5;
+  text-wrap: balance;
+  color: var(--ink);
+}
+.epigraph::before {
+  content: "";
+  display: block;
+  width: 2.5rem;
+  border-top: 2px solid var(--accent-ink);
+  margin-bottom: 1.5rem;
+}
 
 main img { max-width: 100%; height: auto; display: block; margin: 1.5rem auto; }
+
+/* === Autorenseite ======================================================== */
+/* Nur ein Bild, deshalb bekommt es die volle Aufmerksamkeit. */
+
+.portrait { margin: 0; }
+
+.portrait img {
+  width: 100%;
+  max-width: 34rem;
+  margin: 0 auto;
+  border: 1px solid var(--rule);
+  background: #000;
+}
 
 /* === Responsive ========================================================== */
 

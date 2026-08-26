@@ -1,4 +1,4 @@
-﻿# einkaternamensjan site files — set 6 (blog_template.html, generate_blogs.py, styles.css, post.js gehören zusammen)
+﻿# einkaternamensjan site files — set 8 (blog_template.html, generate_blogs.py, styles.css, post.js gehören zusammen)
 import re
 import html
 from pathlib import Path
@@ -14,11 +14,11 @@ BIBLIO_POSTS_DIR = ROOT / "bibliography_posts"
 
 # Template and generator are coupled through the ###...### placeholder names.
 # Bump both together; the build refuses to run on a mismatch.
-TEMPLATE_VERSION = 6
+TEMPLATE_VERSION = 8
 
 # Appended to styles.css and post.js as ?v=N so browsers fetch the new files
 # instead of serving a cached copy. Bump when you change either.
-ASSET_VERSION = 6
+ASSET_VERSION = 8
 
 WORDS_PER_MINUTE = 200
 
@@ -583,6 +583,7 @@ def generate_collection(entries, output_file, page_title, post_folder,
                 'SCRIPT': asset(group_script),
                 'NAV-LINKS': nav_links([
                     (collection_label, collection_index_href),
+                    ('Über den Autor', group_back_href.replace('index.html', 'autor.html')),
                     ('Startseite', group_back_href),
                 ]),
                 'VIEW-SWITCH': VIEW_SWITCH,
@@ -614,7 +615,10 @@ def generate_collection(entries, output_file, page_title, post_folder,
             'BAND-TITLE': f"<div class='band-title'><h1>{esc(index_heading or page_title)}</h1></div>",
             'STYLESHEET': asset(root_stylesheet),
             'SCRIPT': asset(root_script),
-            'NAV-LINKS': nav_links([('Startseite', root_back_href)]),
+            'NAV-LINKS': nav_links([
+                ('Über den Autor', root_back_href.replace('index.html', 'autor.html')),
+                ('Startseite', root_back_href),
+            ]),
             'VIEW-SWITCH': view_switch,
             'BLOG-CONTENTS': '',
             'BLOGS': index_content,
@@ -650,12 +654,12 @@ if found_version != TEMPLATE_VERSION:
 
 # index_heading = Überschrift auf der Verzeichnisseite,
 # collection_label = Beschriftung des Rücklinks in jedem Beitrag.
-generate_collection(blogs_data, OUT_FILE, 'Inhaltsverzeichnis', POSTS_DIR,
+generate_collection(blogs_data, OUT_FILE, 'Index', POSTS_DIR,
                     'styles.css', '../styles.css',
                     'post.js', '../post.js',
                     'index.html', '../index.html',
-                    'Inhaltsverzeichnis', '../blogs.html',
-                    index_heading='Inhaltsverzeichnis')
+                    'Index', '../blogs.html',
+                    index_heading='Index')
 
 generate_collection(bibliography_data, BIBLIO_OUT_FILE, 'Bibliographie', BIBLIO_POSTS_DIR,
                     'styles.css', '../styles.css',

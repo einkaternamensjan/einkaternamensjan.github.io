@@ -1,4 +1,4 @@
-/* einkaternamensjan site files — set 6 (blog_template.html, generate_blogs.py, styles.css, post.js gehören zusammen) */
+/* einkaternamensjan site files — set 8 (blog_template.html, generate_blogs.py, styles.css, post.js gehören zusammen) */
 /* einkaternamensjan — shared behaviour for blog and bibliography pages.
    Everything here degrades gracefully: with JavaScript off the page still
    shows both languages, linked footnotes and a full footnote apparatus. */
@@ -6,10 +6,34 @@
 (function () {
   'use strict';
 
+  /* --- Speicher -------------------------------------------------------- */
+  /* localStorage ist nicht überall verfügbar: über file:// sperrt Chrome ihn,
+     ebenso manche Datenschutzeinstellungen. Dann fiele jede Seite wieder auf die
+     Systemeinstellung zurück und das Thema wechselte beim Blättern. Ein Cookie
+     mit path=/ gilt für die ganze Seite und springt in dem Fall ein. */
+
+  var store = {
+    get: function (key) {
+      try {
+        var value = localStorage.getItem(key);
+        if (value !== null) return value;
+      } catch (e) { /* gesperrt */ }
+      var match = document.cookie.match('(?:^|; )' + key + '=([^;]*)');
+      return match ? decodeURIComponent(match[1]) : null;
+    },
+    set: function (key, value) {
+      try { localStorage.setItem(key, value); } catch (e) { /* gesperrt */ }
+      try {
+        document.cookie = key + '=' + encodeURIComponent(value) +
+          ';path=/;max-age=31536000;samesite=lax';
+      } catch (e) { /* auch das kann fehlschlagen */ }
+    }
+  };
+
   var VIEW_KEY = 'ekj-view-mode';
   var VIEWS = ['parallel', 'de', 'en'];
   var NARROW = 860;
-  var EXPECTED_STYLESHEET_VERSION = '6';
+  var EXPECTED_STYLESHEET_VERSION = '8';
 
   /* --- stylesheet check -------------------------------------------------- */
   /* The switch only changes a class on <body>; hiding the other column is the
@@ -52,7 +76,7 @@
     button.addEventListener('click', function () {
       var next = root.classList.contains('theme-dark') ? 'light' : 'dark';
       root.className = 'theme-' + next;
-      try { localStorage.setItem('ekj-theme', next); } catch (e) { /* private mode */ }
+      store.set('ekj-theme', next);
       label();
     });
   }
@@ -84,15 +108,12 @@
 
   function setView(view, remember) {
     applyView(view);
-    if (remember) {
-      try { localStorage.setItem(VIEW_KEY, view); } catch (e) { /* private mode */ }
-    }
+    if (remember) store.set(VIEW_KEY, view);
   }
 
   function initView() {
     var views = availableViews();
-    var stored = null;
-    try { stored = localStorage.getItem(VIEW_KEY); } catch (e) { /* ignore */ }
+    var stored = store.get(VIEW_KEY);
 
     var view = views.indexOf(stored) !== -1 ? stored : views[0];
 

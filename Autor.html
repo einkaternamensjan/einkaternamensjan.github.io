@@ -1,12 +1,13 @@
 <!doctype html>
-<!-- template-version: 8 -->
-<html lang="###HTML-LANG###" class="theme-light">
+<!-- Handgeschrieben, nicht vom Generator erzeugt. Bei Änderungen an styles.css
+     oder post.js hier die ?v=-Nummern mitziehen (siehe ASSET_VERSION). -->
+<html lang="de" class="theme-light">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>###PAGE-TITLE### - einkaternamensjan</title>
+  <title>Über den Autor - einkaternamensjan</title>
   <meta name="color-scheme" content="light dark">
-  <link rel="stylesheet" href="###STYLESHEET###">
+  <link rel="stylesheet" href="styles.css?v=8">
   <script>
     /* Thema vor dem ersten Zeichnen setzen, sonst blitzt Weiß auf.
        Liest localStorage und, falls der gesperrt ist, den Cookie. */
@@ -25,32 +26,36 @@
     })();
   </script>
 </head>
-<body class="###BODY-CLASS###"###ACCENT-STYLE###>
-  <div class="reading-progress" aria-hidden="true"><span></span></div>
+<body class="view-parallel" style="--accent:#3A5560;--band-fg:#FFFFFF;--accent-ink-l:#3A5560;--accent-ink-d:#758890">
 
   <a class="skip-link" href="#content">Zum Inhalt springen / Skip to content</a>
 
   <div class="band">
     <header class="site-header">
-      <p class="site-nav">###NAV-LINKS###</p>
-      <div class="controls">###VIEW-SWITCH###</div>
+      <p class="site-nav">
+        <a href="index.html">Startseite</a>
+        <a href="blogs.html">Index</a>
+        <a href="bibliography.html">Bibliographie</a>
+      </p>
     </header>
-    ###BAND-TITLE###
+    <div class="band-title">
+      <h1>Über den Autor</h1>
+    </div>
   </div>
 
-  <nav class="contents" aria-label="Contents">###BLOG-CONTENTS###</nav>
-
   <main id="content">
-    ###BLOGS###
+    <figure class="portrait">
+      <img src="bilder/schaedel.jpg" width="945" height="888"
+           alt="Seitliche Röntgen-Übersichtsaufnahme eines menschlichen Schädels."
+           loading="lazy" decoding="async">
+    </figure>
   </main>
 
   <div class="floating-controls">
     <button id="theme-toggle" type="button" class="fc-button"
             aria-label="Hell oder dunkel umschalten"><span aria-hidden="true">◐</span></button>
-    <button id="back-to-top" type="button" class="fc-button"
-            title="Nach oben / Back to top" aria-label="Nach oben / Back to top">↑</button>
   </div>
 
-  <script src="###SCRIPT###" defer></script>
+  <script src="post.js?v=8" defer></script>
 </body>
 </html>

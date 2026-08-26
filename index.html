@@ -1,34 +1,72 @@
 <!doctype html>
-<html lang="en">
+<!-- Handgeschrieben, nicht vom Generator erzeugt. Bei Änderungen an styles.css
+     oder post.js hier die ?v=-Nummern mitziehen (siehe ASSET_VERSION). -->
+<html lang="de" class="theme-light">
 <head>
   <meta charset="utf-8" />
-  <title>einkaternamensjan</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <link rel="stylesheet" href="styles.css">
+  <title>einkaternamensjan</title>
+  <meta name="color-scheme" content="light dark">
+  <link rel="stylesheet" href="styles.css?v=8">
+  <script>
+    /* Thema vor dem ersten Zeichnen setzen, sonst blitzt Weiß auf.
+       Liest localStorage und, falls der gesperrt ist, den Cookie. */
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem('ekj-theme'); } catch (e) {}
+      if (t === null) {
+        var m = document.cookie.match('(?:^|; )ekj-theme=([^;]*)');
+        if (m) t = decodeURIComponent(m[1]);
+      }
+      if (t !== 'light' && t !== 'dark') {
+        t = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+          ? 'dark' : 'light';
+      }
+      document.documentElement.className = 'theme-' + t;
+    })();
+  </script>
 </head>
-<body>
-  <header class="site-header">
-    <h1 class="site-title translatable" data-en="Hello World" data-de="Hallo Welt">Hello World</h1>
-    <p class="site-nav">
-      <a class="translatable" data-en="Read all posts" data-de="Alle Beiträge lesen" href="blogs.html">Read all posts</a>
-      <a class="translatable" data-en="Bibliography" data-de="Bibliographie" href="bibliography.html">Bibliography</a>
-    </p>
-  </header>
+<body class="view-parallel home" style="--accent:#2F4A38;--band-fg:#FFFFFF;--accent-ink-l:#2F4A38;--accent-ink-d:#78897E">
 
-  <main>
-    <p class="para translatable"
-       data-en="The best thing you can know, you still cannot tell the boys"
-       data-de="Das beste was du wissen kannst, kannst du den Buben doch nicht sagen."></p>
-  </main>
+  <a class="skip-link" href="#content">Zum Inhalt springen / Skip to content</a>
 
-  <div class="lang-switch">
-    <button id="btn-en" aria-pressed="true">English</button>
-    <button id="btn-de" aria-pressed="false">Deutsch</button>
+  <div class="band">
+    <header class="site-header">
+      <p class="site-nav">
+        <a class="translatable" data-en="Index" data-de="Index" href="blogs.html">Index</a>
+        <a class="translatable" data-en="Bibliography" data-de="Bibliographie" href="bibliography.html">Bibliographie</a>
+        <a class="translatable" data-en="About the author" data-de="Über den Autor" href="autor.html">Über den Autor</a>
+      </p>
+      <div class="controls">
+        <div class="lang-switch" role="group" aria-label="Sprache / Language">
+          <button id="btn-de" type="button" aria-pressed="true">Deutsch</button>
+          <button id="btn-en" type="button" aria-pressed="false">English</button>
+        </div>
+      </div>
+    </header>
+    <div class="band-title">
+      <h1>einkaternamensjan</h1>
+      <p class="meta-line translatable"
+         data-de="Tagebuch im Exil"
+         data-en="A diary in exile">Tagebuch im Exil</p>
+    </div>
   </div>
 
+  <main id="content">
+    <p class="epigraph translatable"
+       data-de="Das Beste, was du wissen kannst, kannst du den Buben doch nicht sagen."
+       data-en="The best of what you know, you cannot tell to boys."></p>
+  </main>
+
+  <div class="floating-controls">
+    <button id="theme-toggle" type="button" class="fc-button"
+            aria-label="Hell oder dunkel umschalten"><span aria-hidden="true">◐</span></button>
+  </div>
+
+  <script src="post.js?v=8" defer></script>
   <script>
     (function () {
-      var applyTranslations = function (lang) {
+      var apply = function (lang) {
         document.querySelectorAll('.translatable').forEach(function (el) {
           var text = el.getAttribute('data-' + lang);
           if (text !== null) el.textContent = text;
@@ -37,19 +75,19 @@
 
       var setLang = function (lang) {
         document.documentElement.lang = (lang === 'de') ? 'de' : 'en';
-        applyTranslations(lang);
-        document.getElementById('btn-en').setAttribute('aria-pressed', lang === 'en');
-        document.getElementById('btn-de').setAttribute('aria-pressed', lang === 'de');
+        apply(lang);
+        document.getElementById('btn-de').setAttribute('aria-pressed', String(lang === 'de'));
+        document.getElementById('btn-en').setAttribute('aria-pressed', String(lang === 'en'));
         try { localStorage.setItem('ekj-home-lang', lang); } catch (e) { /* ignore */ }
       };
 
-      document.getElementById('btn-en').addEventListener('click', function () { setLang('en'); });
       document.getElementById('btn-de').addEventListener('click', function () { setLang('de'); });
+      document.getElementById('btn-en').addEventListener('click', function () { setLang('en'); });
 
       var stored = null;
       try { stored = localStorage.getItem('ekj-home-lang'); } catch (e) { /* ignore */ }
-      var browserLang = (navigator.language || 'en').toLowerCase().indexOf('de') === 0 ? 'de' : 'en';
-      setLang(stored === 'de' || stored === 'en' ? stored : browserLang);
+      var browser = (navigator.language || 'de').toLowerCase().indexOf('de') === 0 ? 'de' : 'en';
+      setLang(stored === 'de' || stored === 'en' ? stored : browser);
     })();
   </script>
 </body>
