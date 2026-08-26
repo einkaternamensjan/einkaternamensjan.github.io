@@ -1,24 +1,38 @@
 <!doctype html>
-<!-- template-version: 2 -->
-<html lang="###HTML-LANG###">
+<!-- template-version: 6 -->
+<html lang="###HTML-LANG###" class="theme-light">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>###PAGE-TITLE### - einkaternamensjan</title>
+  <meta name="color-scheme" content="light dark">
   <link rel="stylesheet" href="###STYLESHEET###">
+  <script>
+    /* Set the theme before first paint, otherwise a dark-mode reader gets a
+       white flash on every page load. Must stay inline and un-deferred. */
+    (function () {
+      var t;
+      try { t = localStorage.getItem('ekj-theme'); } catch (e) {}
+      if (t !== 'light' && t !== 'dark') {
+        t = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+          ? 'dark' : 'light';
+      }
+      document.documentElement.className = 'theme-' + t;
+    })();
+  </script>
 </head>
-<body class="###BODY-CLASS###">
+<body class="###BODY-CLASS###"###ACCENT-STYLE###>
   <div class="reading-progress" aria-hidden="true"><span></span></div>
 
   <a class="skip-link" href="#content">Zum Inhalt springen / Skip to content</a>
 
-  <header class="site-header">
-    <h1 class="site-title">###PAGE-TITLE###</h1>
-    <p class="site-nav">###NAV-LINKS###</p>
-    ###VIEW-SWITCH###
-  </header>
-
-  ###META-LINE###
+  <div class="band">
+    <header class="site-header">
+      <p class="site-nav">###NAV-LINKS###</p>
+      <div class="controls">###VIEW-SWITCH###</div>
+    </header>
+    ###BAND-TITLE###
+  </div>
 
   <nav class="contents" aria-label="Contents">###BLOG-CONTENTS###</nav>
 
@@ -26,7 +40,12 @@
     ###BLOGS###
   </main>
 
-  <button id="back-to-top" type="button" title="Nach oben / Back to top" aria-label="Nach oben / Back to top">↑</button>
+  <div class="floating-controls">
+    <button id="theme-toggle" type="button" class="fc-button"
+            aria-label="Hell oder dunkel umschalten"><span aria-hidden="true">◐</span></button>
+    <button id="back-to-top" type="button" class="fc-button"
+            title="Nach oben / Back to top" aria-label="Nach oben / Back to top">↑</button>
+  </div>
 
   <script src="###SCRIPT###" defer></script>
 </body>

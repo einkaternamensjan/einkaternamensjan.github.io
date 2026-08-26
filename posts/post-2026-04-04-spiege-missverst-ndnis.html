@@ -1,33 +1,52 @@
 <!doctype html>
-<!-- template-version: 2 -->
-<html lang="de">
+<!-- template-version: 6 -->
+<html lang="de" class="theme-light">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Blog - einkaternamensjan</title>
-  <link rel="stylesheet" href="../styles.css">
+  <title>Inhaltsverzeichnis - einkaternamensjan</title>
+  <meta name="color-scheme" content="light dark">
+  <link rel="stylesheet" href="../styles.css?v=6">
+  <script>
+    /* Set the theme before first paint, otherwise a dark-mode reader gets a
+       white flash on every page load. Must stay inline and un-deferred. */
+    (function () {
+      var t;
+      try { t = localStorage.getItem('ekj-theme'); } catch (e) {}
+      if (t !== 'light' && t !== 'dark') {
+        t = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+          ? 'dark' : 'light';
+      }
+      document.documentElement.className = 'theme-' + t;
+    })();
+  </script>
 </head>
-<body class="view-parallel">
+<body class="view-parallel single-post" style="--accent:#7E8C4A;--band-fg:#15190F;--accent-ink-l:#65703B;--accent-ink-d:#7E8C4A">
   <div class="reading-progress" aria-hidden="true"><span></span></div>
 
   <a class="skip-link" href="#content">Zum Inhalt springen / Skip to content</a>
 
-  <header class="site-header">
-    <h1 class="site-title">Blog</h1>
-    <p class="site-nav"><a href='../blogs.html'>Alle Beiträge</a><a href='../index.html'>Startseite</a></p>
-    <div class='view-switch' role='group' aria-label='Ansicht / View'><button type='button' data-view='parallel' aria-pressed='true'>Parallel</button><button type='button' data-view='de' aria-pressed='false'>Deutsch</button><button type='button' data-view='en' aria-pressed='false'>English</button></div>
-  </header>
-
-  <p class='meta-line'><span>Veröffentlicht 04.04.26</span><span>1 Min. DE</span><span>1 min EN</span></p>
+  <div class="band">
+    <header class="site-header">
+      <p class="site-nav"><a href='../blogs.html'>Inhaltsverzeichnis</a><a href='../index.html'>Startseite</a></p>
+      <div class="controls"><div class='view-switch' role='group' aria-label='Ansicht / View'><button type='button' data-view='parallel' aria-pressed='true'>Parallel</button><button type='button' data-view='de' aria-pressed='false'>Deutsch</button><button type='button' data-view='en' aria-pressed='false'>English</button></div></div>
+    </header>
+    <div class='band-title'><h1 class='title-de' lang='de'>Im Spiegel des Missverständnisses</h1><h1 class='title-en' lang='en'>In the Mirror of Misunderstanding</h1><p class='meta-line'><span>Veröffentlicht 04.04.26</span><span>1 Min. DE</span><span>1 min EN</span></p></div>
+  </div>
 
   <nav class="contents" aria-label="Contents"><a href='#post-2026-04-04-der-spiegel-des-missverst-ndnisses'>DE: Im Spiegel des Missverständnisses</a><a href='#post-2026-04-04-in-the-mirror-of-misunderstanding'>EN: In the Mirror of Misunderstanding</a></nav>
 
   <main id="content">
-    <div class='group-header'><h1 class='title-de' lang='de'>Im Spiegel des Missverständnisses</h1><h1 class='title-en' lang='en'>In the Mirror of Misunderstanding</h1></div><div class='bilingual-layout'><article id='post-2026-04-04-der-spiegel-des-missverst-ndnisses' class='bilingual-column lang-de' lang='de'><p class='column-label'>Deutsch</p><h2 class='post-title'>Im Spiegel des Missverständnisses</h2><p class='para' data-p='1' id='p-post-2026-04-04-der-spiegel-des-missverst-ndnisses-1'>Die Selbstprojizierung auf das missverstandene Subjekt verrät nur das Selbstverständnis des Betrachters. Er offenbart, worin seine Welt besteht, indem er sie dem Subjekt oktroyiert. Seine Missverständnisse sind bloßer Selbstverrat, der die Triebfeder seines Selbstverständnisses entblößt. Indem er das Andere nicht als Andere gelten lässt, bedient er sich dieser heimtückischen Form der Selbstspiegelung anstelle des Denkens und dadurch, dass er es nicht vermag, über such hinauszudenken, verliert er überhaupt die Kraft des Erkennens.</p><p class='para' data-p='2' id='p-post-2026-04-04-der-spiegel-des-missverst-ndnisses-2'>"Der unnaive Gedanke weiß, wie wenig er ans Gedachte heranreicht, und muß doch immer so reden als hätte er es ganz."<a class='footnote-ref' id='fnref-post-2026-04-04-der-spiegel-des-missverst-ndnisses-1' href='#fn-post-2026-04-04-der-spiegel-des-missverst-ndnisses-1'>1</a> Der naive Gedanke hingegen bewährt sich nur, indem er alle anderen unter sich subsumiert. Das Absolute kann nichts anderes als er sein und er nichts anderes als das Absolute. Jene Absolutheit indessen besteht nicht darin, dass er die Grenzen seines Wissens annimmt und sich aufhebt, sondern darin, dass er tyrannisch die Welt um ihn herum beherrscht. Nicht die Verständnisse des Menschen, sondern seine Missverständnisse, lassen uns ihn in seiner allmächtigen Hässlichkeit erblicken.</p><div class='footnotes'><h2>Anmerkungen</h2><ol><li id='fn-post-2026-04-04-der-spiegel-des-missverst-ndnisses-1'>T.W. Adorno, Negative Dialektik, Suhrkamp Verlag, 2003, S. 26 <a class='footnote-backref' href='#fnref-post-2026-04-04-der-spiegel-des-missverst-ndnisses-1' aria-label='zurück zum Text'>&#8617;</a></li></ol></div></article><article id='post-2026-04-04-in-the-mirror-of-misunderstanding' class='bilingual-column lang-en' lang='en'><p class='column-label'>English</p><h2 class='post-title'>In the Mirror of Misunderstanding</h2><p class='para' data-p='1' id='p-post-2026-04-04-in-the-mirror-of-misunderstanding-1'>The self-projection onto the misunderstood subject betrays only the self-understanding of the observer. He reveals the world he inhabits by imposing it upon the subject. His misunderstandings are mere self-betrayal, laying bare the driving force of his self-understanding. In refusing to let the Other count as Other, he avails himself of this insidious form of self-mirroring in place of thought.<br> "The unnaive thought knows how little it reaches the thing thought, and must yet always speak as though it had it entire."¹ The naive thought, by contrast, proves itself only by subsuming all others beneath it. The Absolute can be nothing other than he, and he nothing other than the Absolute. That absoluteness, however, consists not in his accepting the limits of his knowledge and sublating of himself, but in his tyrannical dominion over the world around him. Not the understandings of man, but his misunderstandings, allow us to behold him in his almighty ugliness.</p><div class='footnotes'><h2>Notes</h2><ol><li id='fn-post-2026-04-04-in-the-mirror-of-misunderstanding-1'>T.W. Adorno, Negative Dialektik, Suhrkamp Verlag, 2003, S. 26 <a class='footnote-backref' href='#fnref-post-2026-04-04-in-the-mirror-of-misunderstanding-1' aria-label='zurück zum Text'>&#8617;</a></li></ol></div></article></div>
+    <div class='bilingual-layout'><article id='post-2026-04-04-der-spiegel-des-missverst-ndnisses' class='bilingual-column lang-de' lang='de'><p class='column-label'>Deutsch</p><h2 class='post-title'>Im Spiegel des Missverständnisses</h2><p class='para' data-p='1' id='p-post-2026-04-04-der-spiegel-des-missverst-ndnisses-1'>Die Selbstprojizierung auf das missverstandene Subjekt verrät nur das Selbstverständnis des Betrachters. Er offenbart, worin seine Welt besteht, indem er sie dem Subjekt oktroyiert. Seine Missverständnisse sind bloßer Selbstverrat, der die Triebfeder seines Selbstverständnisses entblößt. Indem er das Andere nicht als Andere gelten lässt, bedient er sich dieser heimtückischen Form der Selbstspiegelung anstelle des Denkens und dadurch, dass er es nicht vermag, über such hinauszudenken, verliert er überhaupt die Kraft des Erkennens.</p><p class='para' data-p='2' id='p-post-2026-04-04-der-spiegel-des-missverst-ndnisses-2'>"Der unnaive Gedanke weiß, wie wenig er ans Gedachte heranreicht, und muß doch immer so reden als hätte er es ganz."<a class='footnote-ref' id='fnref-post-2026-04-04-der-spiegel-des-missverst-ndnisses-1' href='#fn-post-2026-04-04-der-spiegel-des-missverst-ndnisses-1'>1</a> Der naive Gedanke hingegen bewährt sich nur, indem er alle anderen unter sich subsumiert. Das Absolute kann nichts anderes als er sein und er nichts anderes als das Absolute. Jene Absolutheit indessen besteht nicht darin, dass er die Grenzen seines Wissens annimmt und sich aufhebt, sondern darin, dass er tyrannisch die Welt um ihn herum beherrscht. Nicht die Verständnisse des Menschen, sondern seine Missverständnisse, lassen uns ihn in seiner allmächtigen Hässlichkeit erblicken.</p><div class='footnotes'><h2>Anmerkungen</h2><ol><li id='fn-post-2026-04-04-der-spiegel-des-missverst-ndnisses-1'>T.W. Adorno, Negative Dialektik, Suhrkamp Verlag, 2003, S. 26 <a class='footnote-backref' href='#fnref-post-2026-04-04-der-spiegel-des-missverst-ndnisses-1' aria-label='zurück zum Text'>&#8617;</a></li></ol></div></article><article id='post-2026-04-04-in-the-mirror-of-misunderstanding' class='bilingual-column lang-en' lang='en'><p class='column-label'>English</p><h2 class='post-title'>In the Mirror of Misunderstanding</h2><p class='para' data-p='1' id='p-post-2026-04-04-in-the-mirror-of-misunderstanding-1'>The self-projection onto the misunderstood subject betrays only the self-understanding of the observer. He reveals the world he inhabits by imposing it upon the subject. His misunderstandings are mere self-betrayal, laying bare the driving force of his self-understanding. In refusing to let the Other count as Other, he avails himself of this insidious form of self-mirroring in place of thought.<br> "The unnaive thought knows how little it reaches the thing thought, and must yet always speak as though it had it entire."¹ The naive thought, by contrast, proves itself only by subsuming all others beneath it. The Absolute can be nothing other than he, and he nothing other than the Absolute. That absoluteness, however, consists not in his accepting the limits of his knowledge and sublating of himself, but in his tyrannical dominion over the world around him. Not the understandings of man, but his misunderstandings, allow us to behold him in his almighty ugliness.</p><div class='footnotes'><h2>Notes</h2><ol><li id='fn-post-2026-04-04-in-the-mirror-of-misunderstanding-1'>T.W. Adorno, Negative Dialektik, Suhrkamp Verlag, 2003, S. 26 <a class='footnote-backref' href='#fnref-post-2026-04-04-in-the-mirror-of-misunderstanding-1' aria-label='zurück zum Text'>&#8617;</a></li></ol></div></article></div>
   </main>
 
-  <button id="back-to-top" type="button" title="Nach oben / Back to top" aria-label="Nach oben / Back to top">↑</button>
+  <div class="floating-controls">
+    <button id="theme-toggle" type="button" class="fc-button"
+            aria-label="Hell oder dunkel umschalten"><span aria-hidden="true">◐</span></button>
+    <button id="back-to-top" type="button" class="fc-button"
+            title="Nach oben / Back to top" aria-label="Nach oben / Back to top">↑</button>
+  </div>
 
-  <script src="../post.js" defer></script>
+  <script src="../post.js?v=6" defer></script>
 </body>
 </html>

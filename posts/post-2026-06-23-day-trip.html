@@ -1,33 +1,52 @@
 <!doctype html>
-<!-- template-version: 2 -->
-<html lang="de">
+<!-- template-version: 6 -->
+<html lang="de" class="theme-light">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Blog - einkaternamensjan</title>
-  <link rel="stylesheet" href="../styles.css">
+  <title>Inhaltsverzeichnis - einkaternamensjan</title>
+  <meta name="color-scheme" content="light dark">
+  <link rel="stylesheet" href="../styles.css?v=6">
+  <script>
+    /* Set the theme before first paint, otherwise a dark-mode reader gets a
+       white flash on every page load. Must stay inline and un-deferred. */
+    (function () {
+      var t;
+      try { t = localStorage.getItem('ekj-theme'); } catch (e) {}
+      if (t !== 'light' && t !== 'dark') {
+        t = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+          ? 'dark' : 'light';
+      }
+      document.documentElement.className = 'theme-' + t;
+    })();
+  </script>
 </head>
-<body class="view-parallel">
+<body class="view-parallel single-post" style="--accent:#8A4630;--band-fg:#FFFFFF;--accent-ink-l:#8A4630;--accent-ink-d:#A77464">
   <div class="reading-progress" aria-hidden="true"><span></span></div>
 
   <a class="skip-link" href="#content">Zum Inhalt springen / Skip to content</a>
 
-  <header class="site-header">
-    <h1 class="site-title">Blog</h1>
-    <p class="site-nav"><a href='../blogs.html'>Alle Beiträge</a><a href='../index.html'>Startseite</a></p>
-    <div class='view-switch' role='group' aria-label='Ansicht / View'><button type='button' data-view='parallel' aria-pressed='true'>Parallel</button><button type='button' data-view='de' aria-pressed='false'>Deutsch</button><button type='button' data-view='en' aria-pressed='false'>English</button></div>
-  </header>
-
-  <p class='meta-line'><span>Veröffentlicht 23.06.26</span><span>1 Min. DE</span><span>1 min EN</span></p>
+  <div class="band">
+    <header class="site-header">
+      <p class="site-nav"><a href='../blogs.html'>Inhaltsverzeichnis</a><a href='../index.html'>Startseite</a></p>
+      <div class="controls"><div class='view-switch' role='group' aria-label='Ansicht / View'><button type='button' data-view='parallel' aria-pressed='true'>Parallel</button><button type='button' data-view='de' aria-pressed='false'>Deutsch</button><button type='button' data-view='en' aria-pressed='false'>English</button></div></div>
+    </header>
+    <div class='band-title'><h1 class='title-de' lang='de'>Tagesausflug</h1><h1 class='title-en' lang='en'>Daytrip</h1><p class='meta-line'><span>Veröffentlicht 23.06.26</span><span>1 Min. DE</span><span>1 min EN</span></p></div>
+  </div>
 
   <nav class="contents" aria-label="Contents"><a href='#post-23-06-2026-tagesausflug'>DE: Tagesausflug</a><a href='#post-23-06-2026-daytrip'>EN: Daytrip</a></nav>
 
   <main id="content">
-    <div class='group-header'><h1 class='title-de' lang='de'>Tagesausflug</h1><h1 class='title-en' lang='en'>Daytrip</h1></div><div class='bilingual-layout is-aligned'><article id='post-23-06-2026-tagesausflug' class='bilingual-column lang-de' lang='de'><p class='column-label' style='grid-row:1'>Deutsch</p><h2 class='post-title' style='grid-row:2'>Tagesausflug</h2><p class='para' data-p='1' id='p-post-23-06-2026-tagesausflug-1' style='grid-row:3'>Orte der einstigen Quälerei, beispielsweise Bergwerke oder stillgelegte Fabriken, sind mittlerweile zu Schauplätzen geworden, überaus geeignet für Belustigungszwecke ohne Ende, einzig um der Verhehlung der modernen Traktierung des Menschen Willen. Irgendwann wird das Büro auch so missbraucht.</p></article><article id='post-23-06-2026-daytrip' class='bilingual-column lang-en' lang='en'><p class='column-label' style='grid-row:1'>English</p><h2 class='post-title' style='grid-row:2'>Daytrip</h2><p class='para' data-p='1' id='p-post-23-06-2026-daytrip-1' style='grid-row:3'>Places of former torment — mines or disused factories, for instance — have meanwhile become venues, especially suited for the purpose of endless amusement, solely for the sake of concealing the modern mistreatment of man. Eventually the office will be abused in this way too.</p></article></div>
+    <div class='bilingual-layout is-aligned'><article id='post-23-06-2026-tagesausflug' class='bilingual-column lang-de' lang='de'><p class='column-label' style='grid-row:1'>Deutsch</p><h2 class='post-title' style='grid-row:2'>Tagesausflug</h2><p class='para' data-p='1' id='p-post-23-06-2026-tagesausflug-1' style='grid-row:3'>Orte der einstigen Quälerei, beispielsweise Bergwerke oder stillgelegte Fabriken, sind mittlerweile zu Schauplätzen geworden, überaus geeignet für Belustigungszwecke ohne Ende, einzig um der Verhehlung der modernen Traktierung des Menschen Willen. Irgendwann wird das Büro auch so missbraucht.</p></article><article id='post-23-06-2026-daytrip' class='bilingual-column lang-en' lang='en'><p class='column-label' style='grid-row:1'>English</p><h2 class='post-title' style='grid-row:2'>Daytrip</h2><p class='para' data-p='1' id='p-post-23-06-2026-daytrip-1' style='grid-row:3'>Places of former torment — mines or disused factories, for instance — have meanwhile become venues, especially suited for the purpose of endless amusement, solely for the sake of concealing the modern mistreatment of man. Eventually the office will be abused in this way too.</p></article></div>
   </main>
 
-  <button id="back-to-top" type="button" title="Nach oben / Back to top" aria-label="Nach oben / Back to top">↑</button>
+  <div class="floating-controls">
+    <button id="theme-toggle" type="button" class="fc-button"
+            aria-label="Hell oder dunkel umschalten"><span aria-hidden="true">◐</span></button>
+    <button id="back-to-top" type="button" class="fc-button"
+            title="Nach oben / Back to top" aria-label="Nach oben / Back to top">↑</button>
+  </div>
 
-  <script src="../post.js" defer></script>
+  <script src="../post.js?v=6" defer></script>
 </body>
 </html>

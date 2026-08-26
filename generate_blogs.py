@@ -1,4 +1,4 @@
-﻿# einkaternamensjan site files — set 2 (blog_template.html, generate_blogs.py, styles.css, post.js gehören zusammen)
+﻿# einkaternamensjan site files — set 6 (blog_template.html, generate_blogs.py, styles.css, post.js gehören zusammen)
 import re
 import html
 from pathlib import Path
@@ -14,9 +14,98 @@ BIBLIO_POSTS_DIR = ROOT / "bibliography_posts"
 
 # Template and generator are coupled through the ###...### placeholder names.
 # Bump both together; the build refuses to run on a mismatch.
-TEMPLATE_VERSION = 2
+TEMPLATE_VERSION = 6
+
+# Appended to styles.css and post.js as ?v=N so browsers fetch the new files
+# instead of serving a cached copy. Bump when you change either.
+ASSET_VERSION = 6
 
 WORDS_PER_MINUTE = 200
+
+# Feldfarben nach Art der edition suhrkamp, ins Kühle gezogen. Jeder Beitrag
+# bekommt eine feste Farbe, abgeleitet aus seiner group_id — sie bleibt also
+# gleich, auch wenn neue Beiträge dazukommen. Reihenfolge und Werte darfst du
+# frei ändern; mehr oder weniger als sechs geht ebenso.
+PALETTE = [
+    '#2F4A38',  # Tanne
+    '#1F5651',  # Petrol
+    '#26418F',  # Ultramarin
+    '#356E92',  # Azur
+    '#3A5560',  # Schiefer
+    '#54467E',  # Veilchen
+    '#8A4630',  # Terra
+    '#7E8C4A',  # Wiesengruen
+    '#8FB4CE',  # Taubenblau
+    '#A9C0A2',  # Salbei
+    '#C9A227',  # Ocker
+    '#D08C5E',  # Ziegel
+]
+
+# Papier- und Schriftton, gegen die gerechnet wird
+PAPER_LIGHT = '#F3F4EE'
+PAPER_DARK = '#12160F'
+INK_ON_LIGHT_BAND = '#15190F'
+INK_ON_DARK_BAND = '#FFFFFF'
+
+
+def _channels(hex_colour):
+    h = hex_colour.lstrip('#')
+    return tuple(int(h[i:i + 2], 16) for i in (0, 2, 4))
+
+
+def _luminance(hex_colour):
+    def channel(value):
+        value /= 255
+        return value / 12.92 if value <= 0.03928 else ((value + 0.055) / 1.055) ** 2.4
+    r, g, b = (channel(c) for c in _channels(hex_colour))
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b
+
+
+def contrast(a, b):
+    la, lb = _luminance(a), _luminance(b)
+    return (max(la, lb) + 0.05) / (min(la, lb) + 0.05)
+
+
+def _mix(hex_colour, towards, amount):
+    a, b = _channels(hex_colour), _channels(towards)
+    out = tuple(round(x + (y - x) * amount) for x, y in zip(a, b))
+    return '#%02X%02X%02X' % out
+
+
+def band_ink(accent):
+    """Schrift auf dem Farbfeld: helle Felder bekommen dunkle Schrift."""
+    dark = contrast(accent, INK_ON_LIGHT_BAND)
+    light = contrast(accent, INK_ON_DARK_BAND)
+    return INK_ON_LIGHT_BAND if dark > light else INK_ON_DARK_BAND
+
+
+def readable_on(accent, background, target=4.5):
+    """Akzentfarbe so weit abdunkeln oder aufhellen, bis sie auf dem Grund lesbar ist.
+
+    Betrifft Fußnotenziffern, Spaltenmarken und Verweise — die stehen klein auf
+    Papier und brauchen denselben Kontrast wie Fließtext."""
+    towards = '#000000' if _luminance(background) > 0.4 else '#FFFFFF'
+    colour = accent
+    for step in range(21):
+        if contrast(colour, background) >= target:
+            return colour
+        colour = _mix(accent, towards, step * 0.05)
+    return colour
+
+
+def accent_for(group_id):
+    total = sum(ord(ch) for ch in group_id)
+    return PALETTE[total % len(PALETTE)]
+
+
+def accent_vars(accent):
+    """Alle vom Feldton abgeleiteten Werte, fertig als style-Attribut."""
+    return (
+        f"--accent:{accent};"
+        f"--band-fg:{band_ink(accent)};"
+        f"--accent-ink-l:{readable_on(accent, PAPER_LIGHT)};"
+        f"--accent-ink-d:{readable_on(accent, PAPER_DARK)}"
+    )
 
 # Language shown in the left column of the parallel view.
 PRIMARY_LANG = 'de'
@@ -269,6 +358,23 @@ def load_markdown_entries(source_dir):
 # Rendering
 # --------------------------------------------------------------------------
 
+UNALIGNED = []
+
+
+def report_unaligned():
+    if not UNALIGNED:
+        return
+    print("\n" + "-" * 68)
+    print("Absatzkopplung AUS bei folgenden Beiträgen (ungleiche Absatzzahl):")
+    for group_id, counts in UNALIGNED:
+        detail = ', '.join(f"{lang.upper()} {n}" for lang, n in counts)
+        print(f"  {group_id}: {detail}")
+    print("Die Spalten stehen nebeneinander, aber Absatz 7 links entspricht nicht")
+    print("Absatz 7 rechts. Ursache sind meist Leerzeilen, die nur in einer der")
+    print("beiden Markdown-Dateien stehen. Gleicht sich das an, koppelt es von selbst.")
+    print("-" * 68 + "\n")
+
+
 def sort_group(group_entries):
     """Primary language first, so the parallel view has a stable left column."""
     return sorted(group_entries, key=lambda e: 0 if e['lang'] == PRIMARY_LANG else 1)
@@ -311,7 +417,7 @@ def render_article(entry, rows_aligned, footnote_row):
             f"lang='{entry['lang']}'>{''.join(pieces)}</article>")
 
 
-def render_group(group_entries):
+def render_group(group_entries, with_header=True):
     group_entries = sort_group(group_entries)
 
     de_entry = next((e for e in group_entries if e['lang'] == 'de'), None)
@@ -324,8 +430,10 @@ def render_group(group_entries):
     footnote_row = (max(block_counts) + 4) if block_counts else 4
 
     if len(group_entries) == 2 and not rows_aligned:
-        print(f"  note: {group_entries[0]['group_id']} has unequal block counts "
-              f"{sorted(len(e['blocks']) for e in group_entries)} — columns not aligned.")
+        UNALIGNED.append((
+            group_entries[0]['group_id'],
+            [(e['lang'], len(e['blocks'])) for e in group_entries],
+        ))
 
     articles = ''.join(render_article(e, rows_aligned, footnote_row) for e in group_entries)
 
@@ -338,9 +446,27 @@ def render_group(group_entries):
         titles.append(f"<h1>{esc(group_entries[0]['title'])}</h1>")
 
     layout_class = 'bilingual-layout is-aligned' if rows_aligned else 'bilingual-layout'
+    header = f"<div class='group-header'>{''.join(titles)}</div>" if with_header else ''
 
-    return (f"<div class='group-header'>{''.join(titles)}</div>"
-            f"<div class='{layout_class}'>{articles}</div>")
+    return f"{header}<div class='{layout_class}'>{articles}</div>"
+
+
+def render_band_title(group_entries, formatted_date):
+    """Post titles and metadata, set inside the coloured field."""
+    group_entries = sort_group(group_entries)
+    de_entry = next((e for e in group_entries if e['lang'] == 'de'), None)
+    en_entry = next((e for e in group_entries if e['lang'] == 'en'), None)
+
+    titles = []
+    if de_entry:
+        titles.append(f"<h1 class='title-de' lang='de'>{esc(de_entry['title'])}</h1>")
+    if en_entry:
+        titles.append(f"<h1 class='title-en' lang='en'>{esc(en_entry['title'])}</h1>")
+    if not titles:
+        titles.append(f"<h1>{esc(group_entries[0]['title'])}</h1>")
+
+    meta = render_meta_line(group_entries, formatted_date)
+    return f"<div class='band-title'>{''.join(titles)}{meta}</div>"
 
 
 def render_meta_line(group_entries, formatted_date):
@@ -362,6 +488,10 @@ VIEW_SWITCH = (
     "<button type='button' data-view='en' aria-pressed='false'>English</button>"
     "</div>"
 )
+
+
+def asset(path):
+    return f"{path}?v={ASSET_VERSION}"
 
 
 def fill_template(template_text, target, **values):
@@ -401,7 +531,8 @@ def render_index(posts_by_group, folder_name):
         minutes = max(e['minutes'] for e in group_entries)
 
         chunks.append(
-            f"<li><a href='{folder_name}/{group_slug}.html'>"
+            f"<li><a href='{folder_name}/{group_slug}.html' "
+            f"style='--entry:{accent_for(group_id)}'>"
             f"<span class='entry-title'>{titles}</span>"
             f"<span class='entry-meta'>{format_date(first_entry['date'])} · "
             f"{languages} · {minutes} min</span></a></li>"
@@ -417,6 +548,7 @@ def generate_collection(entries, output_file, page_title, post_folder,
                         root_stylesheet, group_stylesheet, root_script, group_script,
                         root_back_href, group_back_href,
                         collection_label, collection_index_href,
+                        index_heading=None,
                         render_single_page=False):
     posts_by_group = {}
     for entry in entries:
@@ -428,7 +560,8 @@ def generate_collection(entries, output_file, page_title, post_folder,
         group_entries = sort_group(group_entries)
         group_slug = create_slug(group_id)
         formatted_date = format_date(group_entries[0]['date'])
-        group_content = render_group(group_entries)
+        accent = accent_for(group_id)
+        group_content = render_group(group_entries, with_header=render_single_page)
 
         if render_single_page:
             groups_html.append(group_content)
@@ -443,15 +576,16 @@ def generate_collection(entries, output_file, page_title, post_folder,
             **{
                 'PAGE-TITLE': page_title,
                 'HTML-LANG': PRIMARY_LANG,
-                'BODY-CLASS': 'view-parallel',
-                'STYLESHEET': group_stylesheet,
-                'SCRIPT': group_script,
+                'BODY-CLASS': 'view-parallel single-post',
+                'ACCENT-STYLE': f" style=\"{accent_vars(accent)}\"",
+                'BAND-TITLE': render_band_title(group_entries, formatted_date),
+                'STYLESHEET': asset(group_stylesheet),
+                'SCRIPT': asset(group_script),
                 'NAV-LINKS': nav_links([
                     (collection_label, collection_index_href),
                     ('Startseite', group_back_href),
                 ]),
                 'VIEW-SWITCH': VIEW_SWITCH,
-                'META-LINE': render_meta_line(group_entries, formatted_date),
                 'BLOG-CONTENTS': contents_links,
                 'BLOGS': group_content,
             },
@@ -476,11 +610,12 @@ def generate_collection(entries, output_file, page_title, post_folder,
             'PAGE-TITLE': page_title,
             'HTML-LANG': PRIMARY_LANG,
             'BODY-CLASS': 'view-parallel',
-            'STYLESHEET': root_stylesheet,
-            'SCRIPT': root_script,
+            'ACCENT-STYLE': '',
+            'BAND-TITLE': f"<div class='band-title'><h1>{esc(index_heading or page_title)}</h1></div>",
+            'STYLESHEET': asset(root_stylesheet),
+            'SCRIPT': asset(root_script),
             'NAV-LINKS': nav_links([('Startseite', root_back_href)]),
             'VIEW-SWITCH': view_switch,
-            'META-LINE': '',
             'BLOG-CONTENTS': '',
             'BLOGS': index_content,
         },
@@ -513,15 +648,21 @@ if found_version != TEMPLATE_VERSION:
     )
 
 
-generate_collection(blogs_data, OUT_FILE, 'Blog', POSTS_DIR,
+# index_heading = Überschrift auf der Verzeichnisseite,
+# collection_label = Beschriftung des Rücklinks in jedem Beitrag.
+generate_collection(blogs_data, OUT_FILE, 'Inhaltsverzeichnis', POSTS_DIR,
                     'styles.css', '../styles.css',
                     'post.js', '../post.js',
                     'index.html', '../index.html',
-                    'Alle Beiträge', '../blogs.html')
+                    'Inhaltsverzeichnis', '../blogs.html',
+                    index_heading='Inhaltsverzeichnis')
 
-generate_collection(bibliography_data, BIBLIO_OUT_FILE, 'Bibliography', BIBLIO_POSTS_DIR,
+generate_collection(bibliography_data, BIBLIO_OUT_FILE, 'Bibliographie', BIBLIO_POSTS_DIR,
                     'styles.css', '../styles.css',
                     'post.js', '../post.js',
                     'index.html', '../index.html',
                     'Bibliographie', '../bibliography.html',
+                    index_heading='Bibliographie',
                     render_single_page=True)
+
+report_unaligned()

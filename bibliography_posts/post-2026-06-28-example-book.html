@@ -1,24 +1,38 @@
 <!doctype html>
-<!-- template-version: 2 -->
-<html lang="de">
+<!-- template-version: 6 -->
+<html lang="de" class="theme-light">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Bibliography - einkaternamensjan</title>
-  <link rel="stylesheet" href="../styles.css">
+  <title>Bibliographie - einkaternamensjan</title>
+  <meta name="color-scheme" content="light dark">
+  <link rel="stylesheet" href="../styles.css?v=6">
+  <script>
+    /* Set the theme before first paint, otherwise a dark-mode reader gets a
+       white flash on every page load. Must stay inline and un-deferred. */
+    (function () {
+      var t;
+      try { t = localStorage.getItem('ekj-theme'); } catch (e) {}
+      if (t !== 'light' && t !== 'dark') {
+        t = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+          ? 'dark' : 'light';
+      }
+      document.documentElement.className = 'theme-' + t;
+    })();
+  </script>
 </head>
-<body class="view-parallel">
+<body class="view-parallel single-post" style="--accent:#1F5651;--band-fg:#FFFFFF;--accent-ink-l:#1F5651;--accent-ink-d:#628985">
   <div class="reading-progress" aria-hidden="true"><span></span></div>
 
   <a class="skip-link" href="#content">Zum Inhalt springen / Skip to content</a>
 
-  <header class="site-header">
-    <h1 class="site-title">Bibliography</h1>
-    <p class="site-nav"><a href='../bibliography.html'>Bibliographie</a><a href='../index.html'>Startseite</a></p>
-    <div class='view-switch' role='group' aria-label='Ansicht / View'><button type='button' data-view='parallel' aria-pressed='true'>Parallel</button><button type='button' data-view='de' aria-pressed='false'>Deutsch</button><button type='button' data-view='en' aria-pressed='false'>English</button></div>
-  </header>
-
-  <p class='meta-line'><span>Veröffentlicht 28.06.26</span><span>1 Min. DE</span><span>1 min EN</span></p>
+  <div class="band">
+    <header class="site-header">
+      <p class="site-nav"><a href='../bibliography.html'>Bibliographie</a><a href='../index.html'>Startseite</a></p>
+      <div class="controls"><div class='view-switch' role='group' aria-label='Ansicht / View'><button type='button' data-view='parallel' aria-pressed='true'>Parallel</button><button type='button' data-view='de' aria-pressed='false'>Deutsch</button><button type='button' data-view='en' aria-pressed='false'>English</button></div></div>
+    </header>
+    <div class='band-title'><h1 class='title-de' lang='de'>Beispiel Buchbesprechung</h1><h1 class='title-en' lang='en'>Example Book Review</h1><p class='meta-line'><span>Veröffentlicht 28.06.26</span><span>1 Min. DE</span><span>1 min EN</span></p></div>
+  </div>
 
   <nav class="contents" aria-label="Contents"><a href='#post-2026-06-28-beispiel-buchbesprechung-de'>DE: Beispiel Buchbesprechung</a><a href='#post-2026-06-28-example-book-review-en'>EN: Example Book Review</a></nav>
 
@@ -26,8 +40,13 @@
     <div class='group-header'><h1 class='title-de' lang='de'>Beispiel Buchbesprechung</h1><h1 class='title-en' lang='en'>Example Book Review</h1></div><div class='bilingual-layout is-aligned'><article id='post-2026-06-28-beispiel-buchbesprechung-de' class='bilingual-column lang-de' lang='de'><p class='column-label' style='grid-row:1'>Deutsch</p><h2 class='post-title' style='grid-row:2'>Beispiel Buchbesprechung</h2><p class='para' data-p='1' id='p-post-2026-06-28-beispiel-buchbesprechung-de-1' style='grid-row:3'>Dies ist ein deutsches Beispiel für einen Bibliographieeintrag. Er verwendet dieselbe Markdown-Struktur wie ein Blog-Beitrag und wird mit der englischen Version gruppiert.</p><p class='para' data-p='2' id='p-post-2026-06-28-beispiel-buchbesprechung-de-2' style='grid-row:4'>- Autor: Beispielautor<br>- Jahr: 2026</p><p class='para' data-p='3' id='p-post-2026-06-28-beispiel-buchbesprechung-de-3' style='grid-row:5'>Hier können Sie weitere Notizen zum Buch oder Quellen eintragen.</p></article><article id='post-2026-06-28-example-book-review-en' class='bilingual-column lang-en' lang='en'><p class='column-label' style='grid-row:1'>English</p><h2 class='post-title' style='grid-row:2'>Example Book Review</h2><p class='para' data-p='1' id='p-post-2026-06-28-example-book-review-en-1' style='grid-row:3'>This is an English sample entry for the bibliography. It uses the same markdown structure as a blog post and will be grouped with its German counterpart.</p><p class='para' data-p='2' id='p-post-2026-06-28-example-book-review-en-2' style='grid-row:4'>- Author: Example Author<br>- Year: 2026</p><p class='para' data-p='3' id='p-post-2026-06-28-example-book-review-en-3' style='grid-row:5'>You can add more detailed review notes or references here.</p></article></div>
   </main>
 
-  <button id="back-to-top" type="button" title="Nach oben / Back to top" aria-label="Nach oben / Back to top">↑</button>
+  <div class="floating-controls">
+    <button id="theme-toggle" type="button" class="fc-button"
+            aria-label="Hell oder dunkel umschalten"><span aria-hidden="true">◐</span></button>
+    <button id="back-to-top" type="button" class="fc-button"
+            title="Nach oben / Back to top" aria-label="Nach oben / Back to top">↑</button>
+  </div>
 
-  <script src="../post.js" defer></script>
+  <script src="../post.js?v=6" defer></script>
 </body>
 </html>
