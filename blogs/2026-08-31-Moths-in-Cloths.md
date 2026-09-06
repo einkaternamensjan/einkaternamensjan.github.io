@@ -1,4 +1,4 @@
-<!-- pair: Tempel-Monolog -->
+<!-- pair: Motten-Klammotten -->
 
 # Moths in Cloths
 
