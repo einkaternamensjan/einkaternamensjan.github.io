@@ -1,0 +1,56 @@
+<!doctype html>
+<!-- template-version: 9 -->
+<html lang="de" class="theme-light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Index - einkaternamensjan</title>
+  <meta name="color-scheme" content="light dark">
+  <link rel="stylesheet" href="../styles.css?v=9">
+  <script>
+    /* Thema vor dem ersten Zeichnen setzen, sonst blitzt Weiß auf.
+       Liest localStorage und, falls der gesperrt ist, den Cookie. */
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem('ekj-theme'); } catch (e) {}
+      if (t === null) {
+        var m = document.cookie.match('(?:^|; )ekj-theme=([^;]*)');
+        if (m) t = decodeURIComponent(m[1]);
+      }
+      if (t !== 'light' && t !== 'dark') {
+        t = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+          ? 'dark' : 'light';
+      }
+      document.documentElement.className = 'theme-' + t;
+    })();
+  </script>
+</head>
+<body class="view-parallel single-post" style="--ground:#0C1226;--metal:#9DA8DA;--page-d:#050811;--dim-d:#84817C;--metal-l:#666D8E;--metal-d:#9DA8DA">
+  <div class="reading-progress" aria-hidden="true"><span></span></div>
+
+  <a class="skip-link" href="#content">Zum Inhalt springen / Skip to content</a>
+
+  <div class="band">
+    <header class="site-header">
+      <p class="site-nav"><a href='../blogs.html'>Index</a><a href='../autor.html'>Über den Autor</a><a href='../index.html'>Startseite</a></p>
+      <div class="controls"><div class='view-switch' role='group' aria-label='Ansicht / View'><button type='button' data-view='parallel' aria-pressed='true'>Parallel</button><button type='button' data-view='de' aria-pressed='false'>Deutsch</button><button type='button' data-view='en' aria-pressed='false'>English</button></div></div>
+    </header>
+    <div class='band-title'><h1 class='title-de' lang='de'>Der Teich</h1><p class='meta-line'><span>Veröffentlicht 15.11.26</span><span>1 Min. DE</span></p></div>
+  </div>
+
+  <nav class="contents" aria-label="Contents"><a href='#post-2026-11-15-der-teich'>DE: Der Teich</a></nav>
+
+  <main id="content">
+    <div class='bilingual-layout'><article id='post-2026-11-15-der-teich' class='bilingual-column lang-de' lang='de'><p class='column-label'>Deutsch</p><h2 class='post-title'>Der Teich</h2><p class='para' data-p='1' id='p-post-2026-11-15-der-teich-1'>Das brennende Licht des Horizontes,<br>Stürzt sich mir ins Auge ein,<br>Ein Mensch der sich unglaublich wurde,<br>Verschmäht die Sonne, O Sonne mein'</p><p class='para' data-p='2' id='p-post-2026-11-15-der-teich-2'>Am Horizont die graue Kugel,<br>Birgt Himmel und Hölle in ihrem Leib,<br>Bürgt man für einen solchen Hügel,<br>So ist der Horizont entzweit</p><p class='para' data-p='3' id='p-post-2026-11-15-der-teich-3'>Das Kämmerlein mit zweien Körpern,<br>Voll' Liebe und voll' Zärtlichkeit,<br>Im Wasser brennt die Kerze wieder,<br>Wo Herz hier herrlich allein gedeiht</p><p class='para' data-p='4' id='p-post-2026-11-15-der-teich-4'>Der Ausgang bleibt ein steinernes Tor,<br>Trotz guter Miene und bösem Spiel, <br>So fallen sie nun die himmlischen Lieder,<br>Der Regen bleibt ihr Seligkeit</p><p class='para' data-p='5' id='p-post-2026-11-15-der-teich-5'>Weißer Schädel und schwarzer Teich,<br>Er hat sich ihrer nie befreit,<br>Das Seine ist ihr einverleibt,<br>Bleibt er im Kämmerlein zu zweit</p></article></div>
+  </main>
+
+  <div class="floating-controls">
+    <button id="theme-toggle" type="button" class="fc-button"
+            aria-label="Hell oder dunkel umschalten"><span aria-hidden="true">◐</span></button>
+    <button id="back-to-top" type="button" class="fc-button"
+            title="Nach oben / Back to top" aria-label="Nach oben / Back to top">↑</button>
+  </div>
+
+  <script src="../post.js?v=9" defer></script>
+</body>
+</html>

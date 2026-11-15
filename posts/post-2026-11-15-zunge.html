@@ -1,0 +1,56 @@
+<!doctype html>
+<!-- template-version: 9 -->
+<html lang="de" class="theme-light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Index - einkaternamensjan</title>
+  <meta name="color-scheme" content="light dark">
+  <link rel="stylesheet" href="../styles.css?v=9">
+  <script>
+    /* Thema vor dem ersten Zeichnen setzen, sonst blitzt Weiß auf.
+       Liest localStorage und, falls der gesperrt ist, den Cookie. */
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem('ekj-theme'); } catch (e) {}
+      if (t === null) {
+        var m = document.cookie.match('(?:^|; )ekj-theme=([^;]*)');
+        if (m) t = decodeURIComponent(m[1]);
+      }
+      if (t !== 'light' && t !== 'dark') {
+        t = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+          ? 'dark' : 'light';
+      }
+      document.documentElement.className = 'theme-' + t;
+    })();
+  </script>
+</head>
+<body class="view-parallel single-post" style="--ground:#08191C;--metal:#6FB6A6;--page-d:#040B0D;--dim-d:#84827A;--metal-l:#48766C;--metal-d:#6FB6A6">
+  <div class="reading-progress" aria-hidden="true"><span></span></div>
+
+  <a class="skip-link" href="#content">Zum Inhalt springen / Skip to content</a>
+
+  <div class="band">
+    <header class="site-header">
+      <p class="site-nav"><a href='../blogs.html'>Index</a><a href='../autor.html'>Über den Autor</a><a href='../index.html'>Startseite</a></p>
+      <div class="controls"><div class='view-switch' role='group' aria-label='Ansicht / View'><button type='button' data-view='parallel' aria-pressed='true'>Parallel</button><button type='button' data-view='de' aria-pressed='false'>Deutsch</button><button type='button' data-view='en' aria-pressed='false'>English</button></div></div>
+    </header>
+    <div class='band-title'><h1 class='title-en' lang='en'>The Lake</h1><p class='meta-line'><span>Veröffentlicht 15.11.26</span><span>1 min EN</span></p></div>
+  </div>
+
+  <nav class="contents" aria-label="Contents"><a href='#post-2026-11-15-the-lake'>EN: The Lake</a></nav>
+
+  <main id="content">
+    <div class='bilingual-layout'><article id='post-2026-11-15-the-lake' class='bilingual-column lang-en' lang='en'><p class='column-label'>English</p><h2 class='post-title'>The Lake</h2><p class='para' data-p='1' id='p-post-2026-11-15-the-lake-1'>The burning light upon the horizon,<br>Throws itself into this eye of mine,<br>A man who became himself unbelievable,<br>Spurns the sun, O sun of mine</p><p class='para' data-p='2' id='p-post-2026-11-15-the-lake-2'>Upon the horizon the grey ball,<br>Hides heaven and hell within its chest,<br>As guarantor for such a mound,<br>remains the horizon asunder and astound'</p><p class='para' data-p='3' id='p-post-2026-11-15-the-lake-3'>The tiny chamber with two bodies,<br>Full of love and full of tenderness,<br>In water the candle burns once more,<br>where the heart alone here splendidly blooms</p><p class='para' data-p='4' id='p-post-2026-11-15-the-lake-4'>The exit remains a stony gate,<br>Despite the face in moments of wrath,<br>They fall again the heavenly songs,<br>The rain remains their only bliss</p><p class='para' data-p='5' id='p-post-2026-11-15-the-lake-5'>White skull and black lake,<br>Never freed him from her gentle grace,<br>That which he is remains in her,<br>Alone and together in his chamber</p></article></div>
+  </main>
+
+  <div class="floating-controls">
+    <button id="theme-toggle" type="button" class="fc-button"
+            aria-label="Hell oder dunkel umschalten"><span aria-hidden="true">◐</span></button>
+    <button id="back-to-top" type="button" class="fc-button"
+            title="Nach oben / Back to top" aria-label="Nach oben / Back to top">↑</button>
+  </div>
+
+  <script src="../post.js?v=9" defer></script>
+</body>
+</html>
